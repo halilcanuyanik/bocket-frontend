@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+} */
+
+/* html {
+  box-sizing: border-box;
+} */
+
+body {
+  font-family: "Hanuman", sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@theme {
+  --color-deep-blue: #2c3186;
+  --color-electric-blue: #b33ce0;
+  --color-purple: #6f3fe0;
+  --color-bright-plato: #b33ce0;
+  --color-alive-pink: #e03c9e;
+  --color-flame-red: #e04b57;
+  --color-bright-orange: #fa743e;
+  --color-neon-yellowish-orange: #ffc966;
+}
