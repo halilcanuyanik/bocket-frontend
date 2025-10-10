@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-export default function SearchBox() {
+function SearchBox() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -32,19 +32,19 @@ export default function SearchBox() {
     <div className="relative w-64">
       <div className="p-[2px] rounded-md bg-gradient-to-r from-electric-blue to-bright-orange">
         <div className="flex items-center gap-2 w-full h-12 px-3 bg-black/80 rounded-md">
-          <FaSearch className="text-gray-100 text-lg" />
+          <FaSearch className="text-electric-blue text-lg" />
           <input
             type="text"
             value={query}
             onChange={handleChange}
             placeholder="Performer, event, venue"
-            className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold"
+            className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-bright-orange selection:bg-flame-red"
           />
         </div>
       </div>
 
       {suggestions.length > 0 && (
-        <ul className="absolute top-14 left-0 w-full bg-black/90 border border-gray-700 rounded-md z-10">
+        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r from-deep-blue to-flame-red">
           {suggestions.map((s, i) => (
             <li
               key={i}
@@ -52,7 +52,9 @@ export default function SearchBox() {
                 setQuery(s);
                 setSuggestions([]);
               }}
-              className="px-3 py-2 text-white hover:bg-gray-800 cursor-pointer"
+              className={`px-3 py-2 text-white bg-black/60 hover:opacity-90 cursor-pointer ${
+                i === 0 ? "rounded-t-md" : ""
+              } ${i === suggestions.length - 1 ? "rounded-b-md" : ""}`}
             >
               {s}
             </li>
@@ -62,3 +64,5 @@ export default function SearchBox() {
     </div>
   );
 }
+
+export default SearchBox;
