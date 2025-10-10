@@ -1,6 +1,6 @@
-import img from "./assets/splash-wo.png";
-import logo from "./assets/bocket-bw-wo-bg-lit.png";
-import SearchBox from "./components/Searchbox";
+import img from "../assets/images/splash-wo.png";
+import logo from "../assets/images/bocket-bw-wo-bg-lit.png";
+import SearchBox from "../components/ui/Searchbox";
 
 function SplashScreen() {
   return (
@@ -14,7 +14,7 @@ function SplashScreen() {
       <img
         src={logo}
         alt="logo"
-        className="absolute bottom-0 right-0 h-12 mx-6 my-4 sm:h-16 md:h-18 lg:h-21"
+        className="absolute bottom-0 right-0 h-12 mx-10 my-4 sm:h-16 md:h-18 lg:h-21"
       />
       <div className="absolute w-full h-full flex flex-col justify-center items-center gap-6">
         <h1 className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-bright-orange font-[800]">
