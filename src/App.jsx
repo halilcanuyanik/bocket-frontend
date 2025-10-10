@@ -1,9 +1,9 @@
-import LandingPage from "./pages/LandingPage";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
     <div className="w-[100vw] h-[100vh]">
-      <LandingPage />
+      <AppRouter />
     </div>
   );
 }

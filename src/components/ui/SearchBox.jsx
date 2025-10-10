@@ -29,7 +29,7 @@ function SearchBox() {
   };
 
   return (
-    <div className="relative w-64">
+    <div className="relative w-72 sm:w-84 md:w-92">
       <div className="p-[2px] rounded-md bg-gradient-to-r from-electric-blue to-bright-orange">
         <div className="flex items-center gap-2 w-full h-12 px-3 bg-black/80 rounded-md">
           <FaSearch className="text-electric-blue text-lg" />
@@ -38,13 +38,13 @@ function SearchBox() {
             value={query}
             onChange={handleChange}
             placeholder="Performer, event, venue"
-            className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-bright-orange selection:bg-flame-red"
+            className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-bright-orange selection:bg-flame-red md:text-xl"
           />
         </div>
       </div>
 
       {suggestions.length > 0 && (
-        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r from-deep-blue to-flame-red">
+        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-deep-blue to-flame-red md:text-xl">
           {suggestions.map((s, i) => (
             <li
               key={i}
