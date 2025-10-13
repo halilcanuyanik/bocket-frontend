@@ -1,7 +1,7 @@
-import img from "../assets/images/splash-wo.png";
-import logo from "../assets/images/bocket-bw-wo-bg-lit.png";
-import SearchBox from "../components/ui/Searchbox";
-import Button from "../components/ui/Button";
+import img from '@/assets/images/splash-wo.png';
+import logo from '@/assets/images/bocket-bw-wo-bg-lit.png';
+import SearchBox from '@/components/ui/Searchbox';
+import Button from '@/components/ui/Button';
 
 function SplashScreen() {
   return (
