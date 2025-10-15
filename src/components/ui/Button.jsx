@@ -1,18 +1,43 @@
 import { useNavigate } from 'react-router-dom';
 
-function Button() {
+function Button({
+  children,
+  onClick,
+  to,
+  className = '',
+  variant = 'default',
+  size = 'md',
+}) {
   const navigate = useNavigate();
 
-  const handleLogInClick = () => {
-    navigate('/login');
+  const handleClick = () => {
+    if (to) {
+      navigate(to);
+    } else if (onClick) {
+      onClick();
+    }
+  };
+
+  const baseStyles =
+    'font-extrabold cursor-pointer transition-all ease-linear selection:bg-flame-red selection:text-white';
+
+  const variants = {
+    default:
+      'bg-clip-text text-transparent bg-gradient-to-r from-deep-blue to-flame-red',
+  };
+
+  const sizes = {
+    sm: 'text-sm px-2 py-1',
+    md: 'text-lg px-4 py-2',
+    lg: 'text-2xl px-6 py-3',
   };
 
   return (
     <button
-      className="absolute top-0 right-0 text-lg font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-deep-blue via-purple to-electric-blue my-4 mx-8 cursor-pointer sm:text-2xl md:text-3xl items-center hover:border-b-2 hover:border-bright-orange transition-all ease-linear"
-      onClick={handleLogInClick}
+      onClick={handleClick}
+      className={` ${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
     >
-      Log In
+      {children}
     </button>
   );
 }
