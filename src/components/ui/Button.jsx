@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
 function Button({
-  children,
-  onClick,
-  to,
+  wrapperClass = '',
   className = '',
-  variant = 'default',
   size = 'md',
-  wrapperClass = 'default',
+  onClick,
+  children,
+  to,
+  disabled = false,
 }) {
   const navigate = useNavigate();
 
@@ -16,12 +16,11 @@ function Button({
     else if (onClick) onClick();
   };
 
-  const baseStyles =
-    'font-semibold cursor-pointer transition-all ease-linear rounded-md border-none';
-
-  const variants = {
-    default: 'bg-black text-white',
-  };
+  const baseStyles = `font-semibold cursor-pointer transition-all ease-linear rounded-md border-none ${
+    disabled
+      ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+      : 'bg-black text-white'
+  }`;
 
   const sizes = {
     sm: 'text-sm px-2 py-1',
@@ -30,11 +29,12 @@ function Button({
   };
   return (
     <div
-      className={`flex justify-center items-center p-0.5 bg-gradient-to-r from-sky-blue via-lavender via-fuchsia to-coral-red  ${wrapperClass}`}
+      className={`flex justify-center items-center p-0.5 bg-gradient-to-r from-sky-blue via-lavender via-fuchsia to-coral-red custom-selection ${wrapperClass}`}
     >
       <button
         onClick={handleClick}
-        className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+        className={`${baseStyles} ${sizes[size]} ${className}`}
+        disabled={disabled}
       >
         {children}
       </button>

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Button from '@/components/ui/Button';
 
 function NotFoundPage() {
   const navigate = useNavigate();
@@ -20,15 +21,14 @@ function NotFoundPage() {
           Sorry, we couldn’t find the page you’re looking for.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <button
-            className="rounded-md cursor-pointer bg-coral-red px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-flame-red/80 custom-selection"
+          <Button
+            wrapperClass="rounded-md"
+            children="Go back home"
             onClick={handleClick}
-          >
-            Go back home
-          </button>
+          />
           <a
             href="#"
-            className="text-sm font-semibold text-white custom-selection"
+            className="text-sm font-semibold text-white custom-selection hover:text-coral-red"
           >
             Contact support <span aria-hidden="true">&rarr;</span>
           </a>
