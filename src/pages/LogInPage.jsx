@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { login } from '@/features/Auth/api/authService';
 import logo from '@/assets/images/logo-tr-lit.png';
 import Button from '@/components/ui/Button';
 
 function LogInPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -22,9 +22,8 @@ function LogInPage() {
     setError(null);
 
     try {
-      const user = await login(formData);
-      console.log('Log In Successful!', user);
-      navigate('/home');
+      const data = await login(formData);
+      console.log(data);
     } catch (err) {
       console.error(err);
     } finally {

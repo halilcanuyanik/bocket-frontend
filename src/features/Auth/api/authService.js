@@ -4,7 +4,7 @@ export const login = async (credentials) => {
   try {
     const response = await api.post('users/login', credentials);
 
-    const accessToken = response.data.accessToken;
+    const accessToken = response.accessToken;
 
     if (accessToken) {
       localStorage.setItem('accessToken', accessToken);
@@ -20,7 +20,7 @@ export const signup = async (credentials) => {
   try {
     const response = await api.post('/users/signup', credentials);
 
-    const accessToken = response.data.accessToken;
+    const accessToken = response.accessToken;
 
     if (accessToken) {
       localStorage.setItem('accessToken', accessToken);
