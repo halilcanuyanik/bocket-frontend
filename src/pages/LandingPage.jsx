@@ -1,7 +1,6 @@
 import img from '@/assets/images/splash.png';
 import logo from '@/assets/images/logo-bw-tr-lit.png';
 import SearchBox from '@/components/ui/Searchbox';
-import Button from '@/components/ui/Button';
 
 function LandingPage() {
   return (
@@ -22,12 +21,6 @@ function LandingPage() {
           Your Next Vibe Awaits
         </h1>
         <SearchBox />
-        <Button
-          wrapperClass="absolute top-0 right-0 m-4"
-          to="/login"
-          children="Log In"
-          size="sm"
-        />
       </div>
     </div>
   );
