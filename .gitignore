@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-src/assets/
+src/assets/images
 
 .env.development

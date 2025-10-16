@@ -1,3 +1,5 @@
+import '@/assets/styles/Loading.css';
+
 function Loading() {
   const barAnimations = [
     'animate-quiet-wave',
@@ -14,7 +16,7 @@ function Loading() {
           key={index}
           className={`
             transform scale-y-40 h-full w-0.5 
-            bg-flame-red
+            bg-lavender
             rounded-full 
             transform-origin-bottom
             ${animationClass}

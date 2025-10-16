@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LandingPage from '@/pages/LandingPage';
+import NotFoundPage from '@/pages/NotFoundPage';
+import LogInPage from '@/pages/LogInPage';
 
 export const router = createBrowserRouter([
   {
@@ -7,7 +9,11 @@ export const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
+    path: '/login',
+    element: <LogInPage />,
+  },
+  {
     path: '*',
-    element: <div>404 No page found!</div>,
+    element: <NotFoundPage />,
   },
 ]);

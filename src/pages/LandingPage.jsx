@@ -1,9 +1,9 @@
-import img from '@/assets/images/splash-wo.png';
-import logo from '@/assets/images/bocket-bw-wo-bg-lit.png';
+import img from '@/assets/images/splash.png';
+import logo from '@/assets/images/logo-bw-tr-lit.png';
 import SearchBox from '@/components/ui/Searchbox';
 import Button from '@/components/ui/Button';
 
-function SplashScreen() {
+function LandingPage() {
   return (
     <div className="w-full relative bg-black flex justify-center items-center">
       <img
@@ -15,21 +15,22 @@ function SplashScreen() {
       <img
         src={logo}
         alt="logo"
-        className="absolute bottom-0 right-0 h-12 mx-10 my-4 sm:h-16 md:h-18 lg:h-21"
+        className="absolute bottom-0 right-0 h-12 m-4 sm:h-16 md:h-18 lg:h-21"
       />
       <div className="absolute w-full h-full flex flex-col justify-center items-center gap-6">
-        <h1 className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-bright-orange font-[800] sm:text-4xl md:text-5xl selection:bg-flame-red selection:text-white">
+        <h1 className="text-3xl font-[800] sm:text-4xl md:text-5xl custom-selection">
           Your Next Vibe Awaits
         </h1>
         <SearchBox />
         <Button
+          wrapperClass="absolute top-0 right-0 m-4"
           to="/login"
           children="Log In"
-          className="absolute top-0 right-0"
+          size="sm"
         />
       </div>
     </div>
   );
 }
 
-export default SplashScreen;
+export default LandingPage;

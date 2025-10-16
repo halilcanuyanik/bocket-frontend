@@ -7,23 +7,20 @@ function Button({
   className = '',
   variant = 'default',
   size = 'md',
+  wrapperClass = '',
 }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (to) {
-      navigate(to);
-    } else if (onClick) {
-      onClick();
-    }
+    if (to) navigate(to);
+    else if (onClick) onClick();
   };
 
   const baseStyles =
-    'font-extrabold cursor-pointer transition-all ease-linear selection:bg-flame-red selection:text-white';
+    'font-semibold cursor-pointer transition-all ease-linear selection:bg-flame-red selection:text-white';
 
   const variants = {
-    default:
-      'bg-clip-text text-transparent bg-gradient-to-r from-deep-blue to-flame-red',
+    default: 'bg-black text-white shadow-[2px_2px_3px_#000000b4]',
   };
 
   const sizes = {
@@ -33,12 +30,16 @@ function Button({
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={` ${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+    <div
+      className={`${wrapperClass} p-0.5 rounded-lg bg-gradient-to-r from-deep-blue to-flame-red`}
     >
-      {children}
-    </button>
+      <button
+        onClick={handleClick}
+        className={`${baseStyles} ${variants[variant]} ${sizes[size]} rounded-lg border-none ${className}`}
+      >
+        {children}
+      </button>
+    </div>
   );
 }
 

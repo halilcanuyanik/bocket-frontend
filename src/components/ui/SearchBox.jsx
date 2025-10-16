@@ -47,9 +47,9 @@ function SearchBox() {
 
   return (
     <div className="relative w-72 sm:w-84 md:w-92">
-      <div className="p-[2px] rounded-md bg-gradient-to-r from-electric-blue to-bright-orange">
+      <div className="p-[2px] rounded-md bg-gradient-to-r from-indigo to-sky-blue">
         <div className="flex items-center gap-2 w-full h-12 px-3 bg-black/80 rounded-md">
-          <FaSearch className="text-electric-blue text-lg flex-shrink-0" />
+          <FaSearch className="text-lavender text-lg flex-shrink-0" />
 
           <div className="flex items-center flex-grow">
             <input
@@ -57,7 +57,7 @@ function SearchBox() {
               value={query}
               onChange={handleChange}
               placeholder="Performer, event, venue"
-              className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-bright-orange selection:bg-flame-red md:text-xl"
+              className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-sky-blue custom-selection md:text-xl"
             />
 
             {loading && (
