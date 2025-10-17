@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Loading from '@/components/common/Loading';
 
 function Button({
   wrapperClass = '',
@@ -8,24 +9,26 @@ function Button({
   children,
   to,
   disabled = false,
+  loading = false,
 }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    if (loading || disabled) return;
     if (to) navigate(to);
     else if (onClick) onClick();
   };
 
   const baseStyles = `font-semibold cursor-pointer transition-all ease-linear rounded-md border-none ${
-    disabled
-      ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
+    disabled || loading
+      ? 'bg-gray-900 cursor-not-allowed'
       : 'bg-black text-white'
   }`;
 
   const sizes = {
     sm: 'text-sm px-2 py-1',
     md: 'text-lg px-4 py-1',
-    lg: 'text-2xl px-16 py-2',
+    lg: 'text-xl px-8 py-2',
   };
   return (
     <div
@@ -34,9 +37,9 @@ function Button({
       <button
         onClick={handleClick}
         className={`${baseStyles} ${sizes[size]} ${className}`}
-        disabled={disabled}
+        disabled={disabled || loading}
       >
-        {children}
+        {loading ? <Loading /> : children}
       </button>
     </div>
   );

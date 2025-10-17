@@ -12,7 +12,7 @@ export const login = async (credentials) => {
 
     return response.data;
   } catch (err) {
-    console.error(err);
+    throw new Error(err.response.data.message);
   }
 };
 
@@ -28,7 +28,7 @@ export const signup = async (credentials) => {
 
     return response.data;
   } catch (err) {
-    console.error(err);
+    throw new Error(err.response.data.message);
   }
 };
 
@@ -37,6 +37,6 @@ export const logout = async () => {
   try {
     await api.post('/users/logout');
   } catch (err) {
-    console.error(err);
+    throw new Error(err.response.data.message);
   }
 };

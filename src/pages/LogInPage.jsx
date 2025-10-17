@@ -1,31 +1,37 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { login } from '@/features/Auth/api/authService';
 import logo from '@/assets/images/logo-tr-lit.png';
 import Button from '@/components/ui/Button';
+import useSnackbar from '@/hooks/useSnackbar';
+import Snackbar from '@/components/common/Snackbar';
 
 function LogInPage() {
-  // const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const {
+    snackbarOpen,
+    snackbarMessage,
+    snackbarSeverity,
+    showSnackbar,
+    closeSnackbar,
+  } = useSnackbar();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (error) setError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setIsLoading(true);
-    setError(null);
 
     try {
       const data = await login(formData);
       console.log(data);
+      showSnackbar('Logged In successfully!', 'success');
     } catch (err) {
-      console.error(err);
+      showSnackbar(err.message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -34,7 +40,7 @@ function LogInPage() {
   return (
     <div className="h-[100vh] bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8 custom-selection">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img src={logo} alt="Bocket logo" className="mx-auto h-32 w-auto" />
+        <img src={logo} alt="logo" className="mx-auto h-32 w-auto" />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">
           Log in to your account
         </h2>
@@ -98,14 +104,15 @@ function LogInPage() {
             <Button
               wrapperClass="rounded-md"
               size="lg"
-              children={isLoading ? 'Logging In...' : 'Log In'}
+              children={'Log In'}
               disabled={isLoading}
+              loading={isLoading}
             />
           </div>
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-400">
-          Already have an account?
+          Don't have an account?
           <a
             href="/signup"
             className="mx-2 font-semibold text-lively-orange hover:text-lively-orange/80"
@@ -114,6 +121,12 @@ function LogInPage() {
           </a>
         </p>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={closeSnackbar}
+      />
     </div>
   );
 }
