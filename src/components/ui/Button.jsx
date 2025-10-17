@@ -4,6 +4,7 @@ import Loading from '@/components/common/Loading';
 function Button({
   wrapperClass = '',
   className = '',
+  type = 'submit',
   size = 'md',
   onClick,
   children,

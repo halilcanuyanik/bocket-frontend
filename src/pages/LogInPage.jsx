@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '@/features/Auth/api/authService';
 import logo from '@/assets/images/logo-tr-lit.png';
 import Button from '@/components/ui/Button';
@@ -6,6 +7,7 @@ import useSnackbar from '@/hooks/useSnackbar';
 import Snackbar from '@/components/common/Snackbar';
 
 function LogInPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,15 +29,20 @@ function LogInPage() {
     setIsLoading(true);
 
     try {
-      const data = await login(formData);
-      console.log(data);
-      showSnackbar('Logged In successfully!', 'success');
+      const response = await login(formData);
+      showSnackbar('Logged in successfully!', 'success');
+      setTimeout(() => navigate('/home'), 1500);
     } catch (err) {
       showSnackbar(err.message, 'error');
     } finally {
       setIsLoading(false);
     }
   };
+
+  const inputs = [
+    { id: 'email', label: 'Email', type: 'email' },
+    { id: 'password', label: 'Password', type: 'password' },
+  ];
 
   return (
     <div className="h-[100vh] bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8 custom-selection">
@@ -48,65 +55,32 @@ function LogInPage() {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm/6 font-medium text-white"
-            >
-              Email
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                type="email"
-                name="email"
-                required
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo sm:text-sm/6"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="/forgotPassword"
-                  className="font-semibold text-coral-red hover:text-coral-red/80"
-                >
-                  Forgot password?
-                </a>
+          {inputs.map(({ id, label, type }) => {
+            return (
+              <div key={id}>
+                <label className="block text-sm font-medium text-white">
+                  {label}
+                </label>
+                <input
+                  id={id}
+                  name={id}
+                  type={type}
+                  required
+                  value={formData[id]}
+                  onChange={handleChange}
+                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo sm:text-sm/6"
+                />
               </div>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                type="password"
-                name="password"
-                required
-                autoComplete="current-password"
-                value={formData.password}
-                onChange={handleChange}
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo sm:text-sm/6"
-              />
-            </div>
-          </div>
-
+            );
+          })}
           <div className="flex justify-center">
             <Button
               wrapperClass="rounded-md"
               size="lg"
-              children={'Log In'}
+              children="Log In"
               disabled={isLoading}
               loading={isLoading}
+              onClick={handleSubmit}
             />
           </div>
         </form>
