@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Card from '@/components/ui/Card';
-import api from '@/lib/axiosClient';
 import Loading from '@/components/common/Loading';
+import api from '@/lib/axiosClient';
 
 function Carousel() {
   const [events, setEvents] = useState([]);
