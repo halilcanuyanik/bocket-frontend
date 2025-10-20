@@ -46,10 +46,10 @@ function SearchBox() {
   };
 
   return (
-    <div className="relative w-72 sm:w-84 md:w-92">
+    <div className="relative w-full max-w-[350px] sm:max-w-[450px] md:max-w-[550px] lg:max-w-[650px]">
       <div className="p-[2px] rounded-md bg-gradient-to-r from-indigo to-sky-blue">
-        <div className="flex items-center gap-2 w-full h-12 px-3 bg-black/80 rounded-md">
-          <FaSearch className="text-lavender text-lg flex-shrink-0" />
+        <div className="flex items-center gap-2 w-full h-12 sm:h-14 md:h-16 px-3 bg-black/80 rounded-md">
+          <FaSearch className="text-lavender text-lg sm:text-xl flex-shrink-0" />
 
           <div className="flex items-center flex-grow">
             <input
@@ -57,12 +57,12 @@ function SearchBox() {
               value={query}
               onChange={handleChange}
               placeholder="Performer, event, venue"
-              className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-sky-blue custom-selection md:text-xl"
+              className="bg-transparent outline-none w-full text-white placeholder-gray-100 font-semibold caret-sky-blue custom-selection text-sm sm:text-base md:text-lg lg:text-xl"
             />
 
             {loading && (
               <div className="flex items-center flex-shrink-0 ml-2">
-                <Loading />
+                <Loading color="bg-lavender" size="sm" />
               </div>
             )}
           </div>
@@ -70,7 +70,7 @@ function SearchBox() {
       </div>
 
       {suggestions.length > 0 && !loading && (
-        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-indigo to-coral-red md:text-xl">
+        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-indigo to-coral-red text-sm sm:text-base md:text-lg lg:text-xl">
           {suggestions.map((s, i) => (
             <li
               key={i}

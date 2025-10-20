@@ -31,6 +31,7 @@ function Button({
     md: 'text-lg px-4 py-1',
     lg: 'text-xl px-8 py-2',
   };
+
   return (
     <div
       className={`flex justify-center items-center p-0.5 bg-gradient-to-r from-sky-blue via-lavender via-fuchsia to-coral-red custom-selection ${wrapperClass}`}
