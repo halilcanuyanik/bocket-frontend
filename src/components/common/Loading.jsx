@@ -1,6 +1,13 @@
 import '@/assets/styles/Loading.css';
 
-function Loading() {
+function Loading({ size = 'md', color = 'bg-blue-500' }) {
+  const sizeConfig = {
+    sm: { container: 'h-10 w-10 space-x-1.5', bar: 'w-1.5 h-8' },
+    md: { container: 'h-14 w-14 space-x-2', bar: 'w-2 h-12' },
+    lg: { container: 'h-20 w-16 space-x-2.5', bar: 'w-2.5 h-16' },
+    xl: { container: 'h-28 w-20 space-x-3', bar: 'w-3 h-20' },
+  };
+
   const barAnimations = [
     'animate-quiet-wave',
     'animate-normal-wave',
@@ -10,15 +17,18 @@ function Loading() {
   ];
 
   return (
-    <div className="flex justify-between items-center h-8 space-x-0.5 w-6">
+    <div
+      className={`flex justify-between items-end ${sizeConfig[size].container}`}
+    >
       {barAnimations.map((animationClass, index) => (
         <div
           key={index}
           className={`
-            transform scale-y-40 h-full w-0.5 
-            bg-lavender
+            transform 
+            ${sizeConfig[size].bar} 
+            ${color} 
             rounded-full 
-            transform-origin-bottom
+            transform-origin-bottom 
             ${animationClass}
           `}
         />

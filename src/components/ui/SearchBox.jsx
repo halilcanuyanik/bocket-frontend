@@ -70,7 +70,7 @@ function SearchBox() {
       </div>
 
       {suggestions.length > 0 && !loading && (
-        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-deep-blue to-flame-red md:text-xl">
+        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-indigo to-coral-red md:text-xl">
           {suggestions.map((s, i) => (
             <li
               key={i}
