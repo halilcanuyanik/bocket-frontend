@@ -2,7 +2,7 @@ import api from '@/lib/axiosClient';
 
 export const login = async (credentials) => {
   try {
-    const response = await api.post('users/login', credentials);
+    const response = await api.post('/users/login', credentials);
 
     const accessToken = response.accessToken;
 

@@ -1,4 +1,4 @@
-function Card({ coverImage, title, artist, price }) {
+function Card({ coverImage, title, artist }) {
   return (
     <div
       className="
@@ -27,7 +27,6 @@ function Card({ coverImage, title, artist, price }) {
           {title}
         </h3>
         <p className="text-xs sm:text-sm opacity-80 truncate">{artist}</p>
-        <p className="text-xs sm:text-sm font-semibold mt-1">${price}</p>
       </div>
     </div>
   );

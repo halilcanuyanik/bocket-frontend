@@ -9,7 +9,8 @@ function Carousel() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await api.get('events/upcoming-five');
+        const response = await api.get('/events');
+        console.log(response);
         const fetchedEvents = response.data.data.events;
         setEvents(fetchedEvents);
       } catch (err) {
@@ -28,8 +29,7 @@ function Carousel() {
             key={event._id}
             coverImage={event.coverImage}
             title={event.title}
-            artist={event.artist}
-            price={event.price}
+            artist={event.performers?.[0]?.name}
           />
         ))
       ) : (

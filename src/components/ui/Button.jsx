@@ -41,7 +41,7 @@ function Button({
         className={`${baseStyles} ${sizes[size]} ${className}`}
         disabled={disabled || loading}
       >
-        {loading ? <Loading /> : children}
+        {loading ? <Loading size="sm" /> : children}
       </button>
     </div>
   );
