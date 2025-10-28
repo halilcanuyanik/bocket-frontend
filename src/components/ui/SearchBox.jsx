@@ -11,7 +11,7 @@ function SearchBox() {
   const searchEvents = async (value) => {
     setLoading(true);
     try {
-      const response = await api.get('events');
+      const response = await api.get('/events');
       const events = response.data.data.events;
 
       const filtered = events.filter(
@@ -69,7 +69,7 @@ function SearchBox() {
         <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-indigo to-coral-red text-sm sm:text-base md:text-lg lg:text-xl">
           {suggestions.map((event, i) => (
             <li
-              key={event.id || i}
+              key={event._id || i}
               onClick={() => {
                 setQuery(event.title);
                 setSuggestions([]);
@@ -89,20 +89,9 @@ function SearchBox() {
               <div className="flex flex-col flex-grow min-w-0">
                 <span className="font-bold truncate">{event.title}</span>
                 <span className="text-gray-300 text-xs sm:text-sm truncate">
-                  {event.artist || 'Unknown artist'}
-                  {event.venue ? ` • ${event.venue}` : ''}
+                  {event.performers[0].name || 'Unknown artist'}
                 </span>
               </div>
-
-              {event.date && (
-                <span className="text-gray-400 text-xs sm:text-sm flex-shrink-0 ml-2">
-                  {new Date(event.date).toLocaleDateString('en-US', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                  })}
-                </span>
-              )}
             </li>
           ))}
         </ul>

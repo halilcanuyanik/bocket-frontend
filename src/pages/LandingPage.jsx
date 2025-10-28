@@ -3,9 +3,9 @@ import Carousel from '@/components/ui/Carousel';
 
 function LandingPage() {
   return (
-    <div className="w-screen min-h-[100vh]">
+    <div className="w-screen min-h-screen">
       <HeroSection />
-      <Carousel />
+      <Carousel label="UPCOMING EVENTS" />
     </div>
   );
 }
