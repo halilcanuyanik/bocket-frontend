@@ -6,6 +6,9 @@ import Button from '@/components/ui/Button';
 import useSnackbar from '@/hooks/useSnackbar';
 import Snackbar from '@/components/common/Snackbar';
 
+import emailIcon from '@/assets/icons/email.svg';
+import passwordIcon from '@/assets/icons/password.svg';
+
 function LogInPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -40,8 +43,8 @@ function LogInPage() {
   };
 
   const inputs = [
-    { id: 'email', label: 'Email', type: 'email' },
-    { id: 'password', label: 'Password', type: 'password' },
+    { id: 'email', placeholder: 'Email', type: 'email' },
+    { id: 'password', placeholder: 'Password', type: 'password' },
   ];
 
   return (
@@ -55,20 +58,18 @@ function LogInPage() {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {inputs.map(({ id, label, type }) => {
+          {inputs.map(({ id, placeholder, type }) => {
             return (
               <div key={id}>
-                <label className="block text-sm font-medium text-white">
-                  {label}
-                </label>
                 <input
                   id={id}
                   name={id}
                   type={type}
+                  placeholder={placeholder}
                   required
                   value={formData[id]}
                   onChange={handleChange}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo sm:text-sm/6"
+                  className="block w-full rounded-lg px-4 py-2.5 text-base text-white outline-3 -outline-offset-3 outline-white/10 placeholder:text-white/80 caret-white/80 focus:outline-3 focus:-outline-offset-3 focus:outline-royal-blue sm:text-sm/6"
                 />
               </div>
             );
