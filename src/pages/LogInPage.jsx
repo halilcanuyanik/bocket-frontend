@@ -47,6 +47,11 @@ function LogInPage() {
     { id: 'password', placeholder: 'Password', type: 'password' },
   ];
 
+  const iconMap = {
+    email: emailIcon,
+    password: passwordIcon,
+  };
+
   return (
     <div className="h-[100vh] bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8 custom-selection">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -60,7 +65,12 @@ function LogInPage() {
         <form className="space-y-6" onSubmit={handleSubmit}>
           {inputs.map(({ id, placeholder, type }) => {
             return (
-              <div key={id}>
+              <div key={id} className="relative">
+                <img
+                  src={iconMap[id]}
+                  alt=""
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 opacity-80"
+                />
                 <input
                   id={id}
                   name={id}
@@ -69,7 +79,7 @@ function LogInPage() {
                   required
                   value={formData[id]}
                   onChange={handleChange}
-                  className="block w-full rounded-lg px-4 py-2.5 text-base text-white outline-3 -outline-offset-3 outline-white/10 placeholder:text-white/80 caret-white/80 focus:outline-3 focus:-outline-offset-3 focus:outline-royal-blue sm:text-sm/6"
+                  className="block w-full rounded-lg pl-10 pr-4 py-2.5 text-base text-white outline-3 -outline-offset-3 outline-white/10 placeholder:text-white/80 caret-white/80 focus:outline-3 focus:-outline-offset-3 focus:outline-royal-blue sm:text-sm/6"
                 />
               </div>
             );
