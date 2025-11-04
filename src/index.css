@@ -19,6 +19,42 @@ body {
   h2 {
     @apply text-transparent bg-clip-text bg-gradient-to-r from-sky-blue via-bright-violet to-lively-orange;
   }
+
+  @keyframes quiet-wave {
+    25% {
+      transform: scaleY(0.6);
+    }
+    50% {
+      transform: scaleY(0.4);
+    }
+    75% {
+      transform: scaleY(0.8);
+    }
+  }
+
+  @keyframes normal-wave {
+    25% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(0.4);
+    }
+    75% {
+      transform: scaleY(0.6);
+    }
+  }
+
+  @keyframes loud-wave {
+    25% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(0.4);
+    }
+    75% {
+      transform: scaleY(1.2);
+    }
+  }
 }
 
 @layer components {
@@ -28,8 +64,23 @@ body {
   .cool-text {
     @apply text-transparent bg-clip-text bg-gradient-to-r from-sky-blue via-royal-blue to-indigo;
   }
+}
+
+@layer utilities {
   .custom-selection {
     @apply selection:bg-sky-blue selection:text-white;
+  }
+
+  .animate-quiet-wave {
+    animation: quiet-wave 1.2s ease-in-out infinite;
+  }
+
+  .animate-normal-wave {
+    animation: normal-wave 1.2s ease-in-out infinite;
+  }
+
+  .animate-loud-wave {
+    animation: loud-wave 1.2s ease-in-out infinite;
   }
 }
 

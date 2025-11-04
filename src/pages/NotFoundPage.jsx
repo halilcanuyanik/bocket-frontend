@@ -28,7 +28,7 @@ function NotFoundPage() {
           />
           <a
             href="#"
-            className="text-sm font-semibold text-white custom-selection hover:text-coral-red"
+            className="text-sm font-semibold text-white custom-selection hover:text-coral-red transition-all"
           >
             Contact support <span aria-hidden="true">&rarr;</span>
           </a>

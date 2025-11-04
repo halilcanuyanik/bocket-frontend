@@ -1,5 +1,3 @@
-import '@/assets/styles/Loading.css';
-
 function Loading({ size = 'md', color = 'bg-blue-500' }) {
   const sizes = {
     sm: { container: 'h-8 w-10 space-x-1.5', bar: 'w-1.5 h-6' },
