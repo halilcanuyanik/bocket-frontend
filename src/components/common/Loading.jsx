@@ -17,7 +17,9 @@ function Loading({ size = 'md', color = 'bg-blue-500' }) {
   ];
 
   return (
-    <div className={`flex justify-between items-end ${sizes[size].container}`}>
+    <div
+      className={`flex justify-between items-center ${sizes[size].container}`}
+    >
       {barAnimations.map((animationClass, index) => (
         <div
           key={index}
