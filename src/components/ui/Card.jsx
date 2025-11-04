@@ -1,7 +1,9 @@
-function Card({ order, coverImage, title, artist }) {
+function Card({ order, coverImage, title, artist, textStyle }) {
   return (
     <div className="flex justify-center items-center relative">
-      <p className="absolute text-[16rem] -left-16 translate-y-6 whitespace-nowrap cool-text">
+      <p
+        className={`absolute text-[16rem] -left-16 translate-y-6 whitespace-nowrap ${textStyle}`}
+      >
         {order}
       </p>
       <div
