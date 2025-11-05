@@ -1,4 +1,4 @@
-function Card({ order, coverImage, title, artist, textStyle }) {
+function Card({ order, coverImage, title, performer, textStyle }) {
   return (
     <div className="flex justify-center items-center relative">
       <p
@@ -32,7 +32,7 @@ function Card({ order, coverImage, title, artist, textStyle }) {
           <h3 className="text-sm sm:text-base md:text-lg font-bold truncate">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm opacity-80 truncate">{artist}</p>
+          <p className="text-xs sm:text-sm opacity-80 truncate">{performer}</p>
         </div>
       </div>
     </div>
