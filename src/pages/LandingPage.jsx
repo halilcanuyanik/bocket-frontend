@@ -47,7 +47,7 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="w-screen min-h-screen">
+    <div className="w-screen min-h-screen custom-selection">
       <HeroSection />
       <Carousel
         label="TOP RATED EVENTS"
