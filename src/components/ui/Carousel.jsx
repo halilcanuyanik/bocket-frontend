@@ -15,6 +15,7 @@ function Carousel({ label, textStyle, events = [] }) {
                 coverImage={event.coverImage}
                 title={event.title}
                 performer={event.performer}
+                endpoint={event.endpoint}
                 textStyle={textStyle}
               />
             ))

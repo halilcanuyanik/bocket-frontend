@@ -1,4 +1,16 @@
-function Card({ order, coverImage, title, performer, textStyle }) {
+import { useNavigate } from 'react-router-dom';
+
+function Card({ order, coverImage, title, performer, endpoint, textStyle }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/eventDetails', {
+      state: {
+        eventEndpoint: endpoint,
+      },
+    });
+  };
+
   return (
     <div className="flex justify-center items-center relative">
       <p
@@ -15,6 +27,7 @@ function Card({ order, coverImage, title, performer, textStyle }) {
         transition-transform duration-300
         bg-neutral-900
       "
+        onClick={handleClick}
       >
         <div
           className="

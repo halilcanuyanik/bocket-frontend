@@ -22,6 +22,7 @@ function LandingPage() {
           title: e.title,
           performer: e.performers?.[0]?.name,
           coverImage: e.coverImage,
+          endpoint: `/events/${e._id}`,
         }))
       );
 
@@ -31,6 +32,7 @@ function LandingPage() {
           title: i.event.title,
           performer: i.event.performers?.[0]?.name,
           coverImage: i.event.coverImage,
+          endpoint: `/events/instances/${i._id}`,
         }))
       );
 
@@ -40,6 +42,7 @@ function LandingPage() {
           title: i.event.title,
           performer: i.event.performers?.[0]?.name,
           coverImage: i.event.coverImage,
+          endpoint: `/events/instances/${i._id}`,
         }))
       );
     };
@@ -62,7 +65,7 @@ function LandingPage() {
       <Carousel
         label="ALMOST SOLD OUT"
         events={almostSoldOut}
-        textStyle="faded-text"
+        textStyle="warm-text"
       />
     </div>
   );
