@@ -16,6 +16,7 @@ function Carousel({ label, textStyle, events = [] }) {
                 title={event.title}
                 performer={event.performer}
                 endpoint={event.endpoint}
+                type={event.type}
                 textStyle={textStyle}
               />
             ))

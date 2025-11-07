@@ -8,6 +8,7 @@ export default function DetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
   const endpoint = state?.eventEndpoint;
+  const type = state?.type;
 
   useEffect(() => {
     if (!endpoint) {
@@ -19,8 +20,9 @@ export default function DetailsPage() {
     const fetchData = async () => {
       try {
         const response = await api.get(endpoint);
-        setEventData(response.data.data.event);
-        console.log(response.data.data.event);
+        const data =
+          type === 'event' ? response.data.data : response.data.data.event;
+        setEventData(data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -29,7 +31,7 @@ export default function DetailsPage() {
     };
 
     fetchData();
-  }, [endpoint]);
+  }, [endpoint, type]);
 
   return (
     <div className="w-screen h-screen bg-gray-900 grid grid-cols-7 grid-rows-5 custom-selection">
@@ -60,7 +62,6 @@ export default function DetailsPage() {
               })}
             </ul>
             <p className="text-gray-300 text-lg">{eventData.description}</p>
-            {/* <p className="text-gray-300 text-lg">{eventData.venue.country}</p> */}
             <p className="text-gray-300 text-lg">
               ⭐ {eventData.averageRating} ({eventData.ratingCount})
             </p>

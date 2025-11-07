@@ -17,32 +17,35 @@ function LandingPage() {
       ]);
 
       setTopRated(
-        ratedRes.data.data.events.map((e) => ({
+        ratedRes.data.data.map((e) => ({
           id: e._id,
           title: e.title,
           performer: e.performers?.[0]?.name,
           coverImage: e.coverImage,
           endpoint: `/events/${e._id}`,
+          type: 'event',
         }))
       );
 
       setUpcoming(
-        upcomingRes.data.data.allEventInstances.map((i) => ({
+        upcomingRes.data.data.map((i) => ({
           id: i.event._id,
           title: i.event.title,
           performer: i.event.performers?.[0]?.name,
           coverImage: i.event.coverImage,
           endpoint: `/events/instances/${i._id}`,
+          type: 'instance',
         }))
       );
 
       setAlmostSoldOut(
-        soldOutRes.data.data.allEventInstances.map((i) => ({
+        soldOutRes.data.data.map((i) => ({
           id: i.event._id,
           title: i.event.title,
           performer: i.event.performers?.[0]?.name,
           coverImage: i.event.coverImage,
           endpoint: `/events/instances/${i._id}`,
+          type: 'instance',
         }))
       );
     };

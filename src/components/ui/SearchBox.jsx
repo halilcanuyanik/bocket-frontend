@@ -11,15 +11,23 @@ function SearchBox() {
   const searchEvents = async (value) => {
     setLoading(true);
     try {
-      const response = await api.get('/events');
-      const events = response.data.data.events;
+      const response = await api.get('/events/instances?limit=50');
+      const instances = response.data.data;
 
-      const filtered = events.filter(
-        (e) =>
-          e.artist?.toLowerCase().includes(value.toLowerCase()) ||
-          e.venue?.toLowerCase().includes(value.toLowerCase()) ||
-          e.title?.toLowerCase().includes(value.toLowerCase())
-      );
+      const filtered = instances.filter((i) => {
+        const performerMatch = i.event.performers?.some((p) =>
+          p.name?.toLowerCase().includes(value.toLowerCase())
+        );
+
+        const venueMatch = i.venue?.name
+          ?.toLowerCase()
+          .includes(value.toLowerCase());
+        const titleMatch = i.event?.title
+          ?.toLowerCase()
+          .includes(value.toLowerCase());
+
+        return performerMatch || venueMatch || titleMatch;
+      });
 
       setSuggestions(filtered);
     } catch (err) {
@@ -65,37 +73,35 @@ function SearchBox() {
         </div>
       </div>
 
-      {suggestions.length > 0 && !loading && (
-        <ul className="absolute top-14 left-0 w-full rounded-md z-10 p-[2px] bg-gradient-to-r font-semibold from-indigo to-coral-red text-sm sm:text-base md:text-lg lg:text-xl">
-          {suggestions.map((event, i) => (
-            <li
-              key={event._id || i}
-              onClick={() => {
-                setQuery(event.title);
-                setSuggestions([]);
-              }}
-              className={`flex items-center gap-3 px-3 py-2 text-white bg-black/60 hover:bg-black/80 transition-all cursor-pointer ${
-                i === 0 ? 'rounded-t-md' : ''
-              } ${i === suggestions.length - 1 ? 'rounded-b-md' : ''}`}
-            >
-              {event.coverImage && (
-                <img
-                  src={event.coverImage}
-                  alt={event.title}
-                  className="w-12 h-12 object-cover rounded-md flex-shrink-0"
-                />
-              )}
+      {suggestions.map((instance, i) => (
+        <li
+          key={instance._id || i}
+          onClick={() => {
+            setQuery(instance.event.title);
+            setSuggestions([]);
+          }}
+          className={`flex items-center gap-3 px-3 py-2 text-white bg-black/60 hover:bg-black/80 transition-all cursor-pointer ${
+            i === 0 ? 'rounded-t-md' : ''
+          } ${i === suggestions.length - 1 ? 'rounded-b-md' : ''}`}
+        >
+          {instance.event.coverImage && (
+            <img
+              src={instance.event.coverImage}
+              alt={instance.event.title}
+              className="w-12 h-12 object-cover rounded-md flex-shrink-0"
+            />
+          )}
 
-              <div className="flex flex-col flex-grow min-w-0">
-                <span className="font-bold truncate">{event.title}</span>
-                <span className="text-gray-300 text-xs sm:text-sm truncate">
-                  {event.performers[0].name || 'Unknown artist'}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+          <div className="flex flex-col flex-grow min-w-0">
+            <span className="font-bold truncate">{instance.event.title}</span>
+            <span className="text-gray-300 text-xs sm:text-sm truncate">
+              {[instance.event.performers?.[0]?.name, instance.venue?.name]
+                .filter(Boolean)
+                .join(' • ') || 'Unknown'}
+            </span>
+          </div>
+        </li>
+      ))}
     </div>
   );
 }
