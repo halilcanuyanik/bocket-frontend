@@ -106,7 +106,6 @@ function SignUpPage() {
               children="Sign Up"
               disabled={isLoading}
               loading={isLoading}
-              onClick={handleSubmit}
             />
           </div>
         </form>

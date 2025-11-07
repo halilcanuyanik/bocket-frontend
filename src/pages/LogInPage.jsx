@@ -91,7 +91,6 @@ function LogInPage() {
               children="Log In"
               disabled={isLoading}
               loading={isLoading}
-              onClick={handleSubmit}
             />
           </div>
         </form>
