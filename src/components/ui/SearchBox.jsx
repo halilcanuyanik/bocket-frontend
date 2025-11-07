@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import Loading from '../common/Loading';
 import api from '@/lib/axiosClient';
@@ -7,6 +8,18 @@ function SearchBox() {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClick = (instanceId) => {
+    setSuggestions([]);
+    navigate('/eventDetails', {
+      state: {
+        eventEndpoint: `events/instances/${instanceId}`,
+        type: 'instance',
+      },
+    });
+  };
 
   const searchEvents = async (value) => {
     setLoading(true);
@@ -76,10 +89,7 @@ function SearchBox() {
       {suggestions.map((instance, i) => (
         <li
           key={instance._id || i}
-          onClick={() => {
-            setQuery(instance.event.title);
-            setSuggestions([]);
-          }}
+          onClick={() => handleClick(instance._id)}
           className={`flex items-center gap-3 px-3 py-2 text-white bg-black/60 hover:bg-black/80 transition-all cursor-pointer ${
             i === 0 ? 'rounded-t-md' : ''
           } ${i === suggestions.length - 1 ? 'rounded-b-md' : ''}`}
