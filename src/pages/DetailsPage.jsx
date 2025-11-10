@@ -21,7 +21,7 @@ export default function DetailsPage() {
       try {
         const response = await api.get(endpoint);
         const data =
-          type === 'event' ? response.data.data : response.data.data.event;
+          type === 'show' ? response.data.data : response.data.data.show;
         setEventData(data);
       } catch (err) {
         console.error(err);

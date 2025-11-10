@@ -11,12 +11,12 @@ function SearchBox() {
 
   const navigate = useNavigate();
 
-  const handleClick = (instanceId) => {
+  const handleClick = (eventId) => {
     setSuggestions([]);
     navigate('/eventDetails', {
       state: {
-        eventEndpoint: `events/instances/${instanceId}`,
-        type: 'instance',
+        eventEndpoint: `shows/events/${eventId}`,
+        type: 'event',
       },
     });
   };
@@ -24,18 +24,19 @@ function SearchBox() {
   const searchEvents = async (value) => {
     setLoading(true);
     try {
-      const response = await api.get('/events/instances?limit=50');
-      const instances = response.data.data;
+      const response = await api.get('/shows/events?limit=50');
 
-      const filtered = instances.filter((i) => {
-        const performerMatch = i.event.performers?.some((p) =>
+      const events = response.data.data;
+
+      const filtered = events.filter((e) => {
+        const performerMatch = e.show.performers?.some((p) =>
           p.name?.toLowerCase().includes(value.toLowerCase())
         );
 
-        const venueMatch = i.venue?.name
+        const venueMatch = e.venue?.name
           ?.toLowerCase()
           .includes(value.toLowerCase());
-        const titleMatch = i.event?.title
+        const titleMatch = e.show?.title
           ?.toLowerCase()
           .includes(value.toLowerCase());
 
@@ -86,26 +87,26 @@ function SearchBox() {
         </div>
       </div>
 
-      {suggestions.map((instance, i) => (
+      {suggestions.map((event, i) => (
         <li
-          key={instance._id || i}
-          onClick={() => handleClick(instance._id)}
+          key={event._id || i}
+          onClick={() => handleClick(event._id)}
           className={`flex items-center gap-3 px-3 py-2 text-white bg-black/60 hover:bg-black/80 transition-all cursor-pointer ${
             i === 0 ? 'rounded-t-md' : ''
           } ${i === suggestions.length - 1 ? 'rounded-b-md' : ''}`}
         >
-          {instance.event.coverImage && (
+          {event.show.coverImage && (
             <img
-              src={instance.event.coverImage}
-              alt={instance.event.title}
+              src={event.show.coverImage}
+              alt={event.show.title}
               className="w-12 h-12 object-cover rounded-md flex-shrink-0"
             />
           )}
 
           <div className="flex flex-col flex-grow min-w-0">
-            <span className="font-bold truncate">{instance.event.title}</span>
+            <span className="font-bold truncate">{event.show.title}</span>
             <span className="text-gray-300 text-xs sm:text-sm truncate">
-              {[instance.event.performers?.[0]?.name, instance.venue?.name]
+              {[event.show.performers?.[0]?.name, event.venue?.name]
                 .filter(Boolean)
                 .join(' • ') || 'Unknown'}
             </span>

@@ -4,48 +4,49 @@ import Carousel from '@/components/ui/Carousel';
 import api from '@/lib/axiosClient';
 
 function LandingPage() {
-  const [topRated, setTopRated] = useState([]);
+  const [topFiveRated, setTopFiveRated] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [almostSoldOut, setAlmostSoldOut] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const [ratedRes, upcomingRes, soldOutRes] = await Promise.all([
-        api.get('/events/topFiveRatedEvents'),
-        api.get('/events/upcomingEvents'),
-        api.get('/events/almostSoldOut'),
-      ]);
+      const [topFiveRatedRes, upcomingRes, almostSoldOutRes] =
+        await Promise.all([
+          api.get('/shows/topFiveRated'),
+          api.get('/shows/upcoming'),
+          api.get('/shows/almostSoldOut'),
+        ]);
 
-      setTopRated(
-        ratedRes.data.data.map((e) => ({
+      setTopFiveRated(
+        topFiveRatedRes.data.data.map((e) => ({
           id: e._id,
           title: e.title,
           performer: e.performers?.[0]?.name,
           coverImage: e.coverImage,
-          endpoint: `/events/${e._id}`,
-          type: 'event',
+          endpoint: `/shows/${e._id}`,
+          type: 'show',
         }))
       );
 
       setUpcoming(
         upcomingRes.data.data.map((i) => ({
-          id: i.event._id,
-          title: i.event.title,
-          performer: i.event.performers?.[0]?.name,
-          coverImage: i.event.coverImage,
-          endpoint: `/events/instances/${i._id}`,
-          type: 'instance',
+          id: i.show._id,
+          title: i.show.title,
+          performer: i.show.performers?.[0]?.name,
+          coverImage: i.show.coverImage,
+          endpoint: `/shows/events/${i._id}`,
+          type: 'event',
         }))
       );
 
       setAlmostSoldOut(
-        soldOutRes.data.data.map((i) => ({
-          id: i.event._id,
-          title: i.event.title,
-          performer: i.event.performers?.[0]?.name,
-          coverImage: i.event.coverImage,
-          endpoint: `/events/instances/${i._id}`,
-          type: 'instance',
+        almostSoldOutRes.data.data.map((i) => ({
+          id: i.show._id,
+          title: i.show.title,
+          performer: i.show.performers?.[0]?.name,
+          coverImage: i.show.coverImage,
+          endpoint: `/shows/events/${i._id}`,
+          type: 'event',
         }))
       );
     };
@@ -57,7 +58,7 @@ function LandingPage() {
       <HeroSection />
       <Carousel
         label="TOP RATED EVENTS"
-        events={topRated}
+        events={topFiveRated}
         textStyle="hot-text"
       />
       <Carousel
