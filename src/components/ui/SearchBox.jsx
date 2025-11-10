@@ -24,26 +24,12 @@ function SearchBox() {
   const searchEvents = async (value) => {
     setLoading(true);
     try {
-      const response = await api.get('/shows/events?limit=50');
+      const response = await api.get(
+        `/shows/search?query=${encodeURIComponent(value)}`
+      );
+      const events = response.data.data || [];
 
-      const events = response.data.data;
-
-      const filtered = events.filter((e) => {
-        const performerMatch = e.show.performers?.some((p) =>
-          p.name?.toLowerCase().includes(value.toLowerCase())
-        );
-
-        const venueMatch = e.venue?.name
-          ?.toLowerCase()
-          .includes(value.toLowerCase());
-        const titleMatch = e.show?.title
-          ?.toLowerCase()
-          .includes(value.toLowerCase());
-
-        return performerMatch || venueMatch || titleMatch;
-      });
-
-      setSuggestions(filtered);
+      setSuggestions(events);
     } catch (err) {
       console.error(err);
       setSuggestions([]);
