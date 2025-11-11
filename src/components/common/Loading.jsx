@@ -1,4 +1,4 @@
-function Loading({ size = 'md', color = 'bg-blue-500' }) {
+function Loading({ size = 'md', color = 'bg-blue-500', className = '' }) {
   const sizes = {
     sm: { container: 'h-8 w-10 space-x-1.5', bar: 'w-1.5 h-6' },
     md: { container: 'h-12 w-14 space-x-2', bar: 'w-2 h-10' },
@@ -16,7 +16,7 @@ function Loading({ size = 'md', color = 'bg-blue-500' }) {
 
   return (
     <div
-      className={`flex justify-between items-center ${sizes[size].container}`}
+      className={`flex justify-between items-center ${sizes[size].container} ${className}`}
     >
       {barAnimations.map((animationClass, index) => (
         <div

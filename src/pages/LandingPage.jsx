@@ -18,34 +18,34 @@ function LandingPage() {
         ]);
 
       setTopFiveRated(
-        topFiveRatedRes.data.data.map((e) => ({
-          id: e._id,
-          title: e.title,
-          performer: e.performers?.[0]?.name,
-          coverImage: e.coverImage,
-          endpoint: `/shows/${e._id}`,
+        topFiveRatedRes.data.data.map((s) => ({
+          id: s._id,
+          title: s.title,
+          performer: s.performers?.[0]?.name,
+          coverImage: s.coverImage,
+          endpoint: `/shows/${s._id}`,
           type: 'show',
         }))
       );
 
       setUpcoming(
-        upcomingRes.data.data.map((i) => ({
-          id: i.show._id,
-          title: i.show.title,
-          performer: i.show.performers?.[0]?.name,
-          coverImage: i.show.coverImage,
-          endpoint: `/shows/events/${i._id}`,
+        upcomingRes.data.data.map((e) => ({
+          id: e.show._id,
+          title: e.show.title,
+          performer: e.show.performers?.[0]?.name,
+          coverImage: e.show.coverImage,
+          endpoint: `/shows/events/${e._id}`,
           type: 'event',
         }))
       );
 
       setAlmostSoldOut(
-        almostSoldOutRes.data.data.map((i) => ({
-          id: i.show._id,
-          title: i.show.title,
-          performer: i.show.performers?.[0]?.name,
-          coverImage: i.show.coverImage,
-          endpoint: `/shows/events/${i._id}`,
+        almostSoldOutRes.data.data.map((e) => ({
+          id: e.show._id,
+          title: e.show.title,
+          performer: e.show.performers?.[0]?.name,
+          coverImage: e.show.coverImage,
+          endpoint: `/shows/events/${e._id}`,
           type: 'event',
         }))
       );
