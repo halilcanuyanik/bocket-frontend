@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import api from '@/lib/axiosClient';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
+import Tile from '@/components/ui/Tile';
 import locationIcon from '@/assets/icons/location.svg';
 
 import { formatReadably, formatTime } from '@/utils/DateFormatter';
@@ -38,7 +39,7 @@ export default function DetailsPage() {
   }, [endpoint, type]);
 
   return (
-    <div className="w-screen h-screen flex gap-24 bg-gray-900 custom-selection">
+    <div className="w-screen min-h-screen flex flex-col custom-selection">
       {isLoading ? (
         <Loading className="absolute top-6/12 left-6/12" />
       ) : !eventData ? (
@@ -49,49 +50,35 @@ export default function DetailsPage() {
         </div>
       ) : (
         <>
-          <div className="min-h-screen w-8/12 px-12 flex flex-col scroll-auto">
-            <div className="w-full flex flex-col gap-6 my-12 pb-6 border-gray-100 border-b-[1px]">
-              <h1 className="font-semibold text-5xl text-center">
-                {eventData.show.title}
-              </h1>
-              <p className="text-xl">{eventData.show.description}</p>
-              <div className="flex justify-start gap-24">
-                <div className="flex gap-4 text-xl text-lively-orange">
-                  <p>{formatReadably(eventData.startTime)}</p>
-                  <p>{formatTime(eventData.startTime)}</p>
-                </div>
-                <div className="flex gap-2 text-xl text-royal-blue items-center">
-                  <img src={locationIcon} />
-                  <span>{eventData.venue.name} - </span>
-                  <span>{eventData.venue.country},</span>
-                  <span>{eventData.venue.city}</span>
-                </div>
-              </div>
-              <div className="flex gap-12">
-                <Button
-                  size="md"
-                  wrapperClass="rounded-md"
-                  children=""
-                >{`Buy ${formatCurrency(eventData.pricing.currency)}${
-                  eventData.pricing.base
-                }`}</Button>
-              </div>
-            </div>
-            <div className=""></div>
-          </div>
-          <div className="h-screen w-4/12 relative overflow-hidden">
+          <div className="h-12 w-full bg-black flex items-center"></div>
+          <div className="relative overflow-hidden h-64">
             <img
               src={eventData.show.coverImage}
-              className="h-full w-full object-cover"
+              className="w-full object-cover"
             />
-
-            <div className="absolute bottom-4 left-4 bg-gray-900 border-2 border-coral-red text-white p-2 rounded-lg flex items-center">
-              <span className="hot-text">
-                ⭐ {eventData.show.averageRating}/5 (
-                {`${eventData.show.ratingCount}`})
-              </span>
-            </div>
+            <div
+              className="
+        absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0/1)_0%,rgb(0_0_0/0)_10%,rgb(0_0_0/0)_90%,rgb(0_0_0/1)_100%)]
+    "
+            ></div>
           </div>
+
+          <div className="w-full p-6 flex flex-col items-center gap-3 border-gray-100 border-b-[0.5px]">
+            <h1 className="text-black font-semibold text-2xl">
+              {eventData.show.title}
+            </h1>
+            <p className="">{eventData.show.description}</p>
+            <Tile
+              day={formatReadably(eventData.startTime)}
+              venueName={eventData.venue.name}
+              hour={formatTime(eventData.startTime)}
+              address={eventData.venue.address}
+              price={eventData.pricing.base}
+              currency={eventData.pricing.currency}
+            />
+          </div>
+
+          <div className="w-full p-6 flex-col items-center gap-3"></div>
         </>
       )}
     </div>
