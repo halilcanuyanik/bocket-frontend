@@ -1,4 +1,4 @@
-export const formatReadably = (isoString) => {
+export const formatDate = (isoString) => {
   if (!isoString) {
     return 'N/A';
   }
@@ -32,5 +32,6 @@ export const formatTime = (isoString) => {
   return dateObject.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
   });
 };

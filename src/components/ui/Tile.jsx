@@ -9,7 +9,7 @@ function Tile({ label, day, hour, venueName, address, price, currency }) {
         <span className="col-start-1 col-span-1 row-start-1 row-span-1">
           <b>{day}</b>
         </span>
-        <span className="col-start-2 col-span-1 row-start-1 row-span-1">
+        <span className="col-start-2 col-span-1 row-start-1 row-span-1 truncate">
           <b>{venueName}</b>
         </span>
         <span className="col-start-1 col-span-1 row-start-2 row-span-1 ">
