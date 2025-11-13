@@ -6,11 +6,17 @@ export const login = async (credentials) => {
 
     const accessToken = response.accessToken;
 
+    const role = response.data.data.role;
+
     if (accessToken) {
       localStorage.setItem('accessToken', accessToken);
     }
 
-    return response.data;
+    if (role) {
+      localStorage.setItem('role', role);
+    }
+
+    return response;
   } catch (err) {
     throw new Error(err.response.data.message);
   }
@@ -22,11 +28,17 @@ export const signup = async (credentials) => {
 
     const accessToken = response.accessToken;
 
+    const role = response.data.data.role;
+
     if (accessToken) {
       localStorage.setItem('accessToken', accessToken);
     }
 
-    return response.data;
+    if (role) {
+      localStorage.setItem('role', role);
+    }
+
+    return response;
   } catch (err) {
     throw new Error(err.response.data.message);
   }
@@ -34,6 +46,7 @@ export const signup = async (credentials) => {
 
 export const logout = async () => {
   localStorage.removeItem('accessToken');
+  localStorage.removeItem('role');
   try {
     await api.post('/users/logout');
   } catch (err) {

@@ -33,8 +33,13 @@ function LogInPage() {
 
     try {
       const response = await login(formData);
+
       showSnackbar('Logged in successfully!', 'success');
-      setTimeout(() => navigate('/home'), 1500);
+
+      const role = localStorage.getItem('role');
+
+      if (role === 'admin') setTimeout(() => navigate('/admin'), 1500);
+      else if (role === 'user') setTimeout(() => navigate('/home'), 1500);
     } catch (err) {
       showSnackbar(err.message, 'error');
     } finally {
