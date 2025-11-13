@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/eventDetails',
+    path: '/eventDetails/:id',
     element: <DetailsPage />,
   },
   {

@@ -1,23 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-function Card({
-  order,
-  coverImage,
-  title,
-  performer,
-  endpoint,
-  type,
-  textStyle,
-}) {
+function Card({ id, order, coverImage, title, performer, textStyle }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/eventDetails', {
-      state: {
-        eventEndpoint: endpoint,
-        type,
-      },
-    });
+    navigate(`/eventDetails/${id}`);
   };
 
   return (

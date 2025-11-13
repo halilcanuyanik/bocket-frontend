@@ -8,15 +8,14 @@ function Carousel({ label, textStyle, events = [] }) {
       <div className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide">
         <div className="flex gap-16 mx-12">
           {events.length > 0 ? (
-            events.map((event, i) => (
+            events.map((e, i) => (
               <Card
-                key={event._id}
+                key={e._id}
+                id={e._id}
                 order={i + 1}
-                coverImage={event.coverImage}
-                title={event.title}
-                performer={event.performer}
-                endpoint={event.endpoint}
-                type={event.type}
+                coverImage={e.show.coverImage}
+                title={e.show.title}
+                performer={e.show.performers?.[0].name}
                 textStyle={textStyle}
               />
             ))
