@@ -20,4 +20,29 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+api.interceptors.response.use(
+  (res) => res,
+  async (err) => {
+    const originalRequest = err.config;
+    if (err.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/users/refreshToken`,
+          {},
+          { withCredentials: true }
+        );
+        localStorage.setItem('accessToken', data.accessToken);
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('role');
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(err);
+  }
+);
+
 export default api;
