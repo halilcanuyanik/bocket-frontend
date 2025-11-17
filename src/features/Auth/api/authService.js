@@ -4,7 +4,7 @@ export const login = async (credentials) => {
   try {
     const response = await api.post('/users/login', credentials);
 
-    const accessToken = response.accessToken;
+    const accessToken = response.data.accessToken;
 
     const role = response.data.data.role;
 
@@ -26,7 +26,7 @@ export const signup = async (credentials) => {
   try {
     const response = await api.post('/users/signup', credentials);
 
-    const accessToken = response.accessToken;
+    const accessToken = response.data.accessToken;
 
     const role = response.data.data.role;
 
@@ -45,10 +45,15 @@ export const signup = async (credentials) => {
 };
 
 export const logout = async () => {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('role');
+  const token = localStorage.getItem('accessToken');
   try {
-    await api.post('/users/logout');
+    await api.post(
+      '/users/logout',
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('role');
   } catch (err) {
     throw new Error(err.response.data.message);
   }

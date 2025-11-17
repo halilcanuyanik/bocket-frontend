@@ -7,6 +7,7 @@ import LogInPage from '@/pages/LogInPage';
 import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/HomePage';
 import AdminPage from '@/pages/AdminPage';
+import LogOutPage from '@/pages/LogOutPage';
 
 import SeatEditor from '@/pages/SeatEditor';
 
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
         <AdminPage />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: '/logout',
+    element: <LogOutPage />,
   },
   {
     path: '*',

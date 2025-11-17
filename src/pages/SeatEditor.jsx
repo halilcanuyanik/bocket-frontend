@@ -151,7 +151,6 @@ export default function SeatEditor() {
   };
 
   const updateGroupPrice = (gid, newPrice) => {
-    console.log(gid);
     setGroups((prev) =>
       prev.map((g) => (g.id === gid ? { ...g, price: newPrice } : g))
     );
