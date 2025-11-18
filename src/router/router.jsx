@@ -7,6 +7,8 @@ import LogInPage from '@/pages/LogInPage';
 import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/HomePage';
 import AdminPage from '@/pages/AdminPage';
+import AccountPage from '@/pages/AccountPage';
+import TicketsPage from '@/pages/TicketsPage';
 import LogOutPage from '@/pages/LogOutPage';
 
 import SeatEditor from '@/pages/SeatEditor';
@@ -45,6 +47,18 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute allowedRoles={['admin']}>
         <AdminPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/account',
+    element: <AccountPage />,
+  },
+  {
+    path: '/tickets',
+    element: (
+      <ProtectedRoute allowedRoles={['user']}>
+        <TicketsPage />
       </ProtectedRoute>
     ),
   },

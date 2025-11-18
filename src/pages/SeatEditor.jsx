@@ -10,8 +10,8 @@ export default function SeatEditor() {
   const [groups, setGroups] = useState([]);
   const [currentGroupId, setCurrentGroupId] = useState(null);
   const [stage, setStage] = useState({
-    x: 200,
-    y: 50,
+    x: (window.innerWidth - 400) / 2,
+    y: 120,
     width: 400,
     height: 100,
   });
@@ -47,7 +47,7 @@ export default function SeatEditor() {
         newGroups[i] = { ...newGroups[i], id: `G${num}` };
       }
 
-      if (gid === gid) {
+      if (currentGroupId === gid) {
         setCurrentGroupId(null);
       }
 
@@ -137,7 +137,7 @@ export default function SeatEditor() {
     );
   };
 
-  const changeSelectedSeatsStatus = (status) => {
+  const changeSeatsStatus = (status) => {
     setGroups((prev) =>
       prev.map((g) => ({
         ...g,
@@ -157,8 +157,8 @@ export default function SeatEditor() {
   };
 
   const seatColor = (seat) => {
-    if (seat.isSelected) return 'red';
-    if (seat.status === SeatStatus.available) return 'blue';
+    if (seat.isSelected) return '#E04B57';
+    if (seat.status === SeatStatus.available) return '#2C3186';
     if (seat.status === SeatStatus.taken) return 'gray';
     return 'black';
   };
@@ -258,53 +258,50 @@ export default function SeatEditor() {
   return (
     <div
       ref={containerRef}
-      className="w-screen h-screen relative overflow-hidden origin-top-left"
+      className="w-screen min-h-screen relative overflow-hidden origin-top-left"
     >
-      <div className="flex gap-8 p-8 bg-[#eee]">
-        <button onClick={addGroup} className="px-4 py-2 bg-gray-200 rounded">
+      <div className="flex gap-8 p-8 bg-white">
+        <button onClick={addGroup} className="editor-button">
           add group
         </button>
         <button
           onClick={() => deleteGroup(currentGroupId)}
-          className="px-4 py-2 bg-gray-200 rounded"
+          className="editor-button"
         >
           delete group
         </button>
-        <button
-          onClick={addRowAtBottom}
-          className="px-4 py-2 bg-gray-200 rounded"
-        >
+        <button onClick={addRowAtBottom} className="editor-button">
           add row
         </button>
-        <button onClick={deleteSeats} className="px-4 py-2 bg-gray-200 rounded">
+        <button onClick={deleteSeats} className="editor-button">
           delete selected
         </button>
         <button
-          onClick={() => changeSelectedSeatsStatus('available')}
-          className="px-4 py-2 bg-gray-200 rounded"
+          onClick={() => changeSeatsStatus('available')}
+          className="editor-button"
         >
           mark available
         </button>
         <button
-          onClick={() => changeSelectedSeatsStatus('taken')}
-          className="px-4 py-2 bg-gray-200 rounded"
+          onClick={() => changeSeatsStatus('taken')}
+          className="editor-button"
         >
           mark taken
         </button>
         <button
-          onClick={() => changeSelectedSeatsStatus('blocked')}
-          className="px-4 py-2 bg-gray-200 rounded"
+          onClick={() => changeSeatsStatus('blocked')}
+          className="editor-button"
         >
           mark blocked
         </button>
-        <button onClick={exportJson} className="px-4 py-2 bg-gray-200 rounded">
+        <button onClick={exportJson} className="editor-button">
           export json
         </button>
       </div>
 
       <div
         onMouseDown={onStageDrag}
-        className="absolute flex items-center justify-center font-bold text-white bg-green-600"
+        className="absolute flex items-center justify-center font-bold text-white bg-gray-400 rounded-sm"
         style={{
           left: stage.x,
           top: stage.y,
@@ -320,15 +317,15 @@ export default function SeatEditor() {
           key={g.id}
           onMouseDown={(e) => onGroupDrag(e, g.id)}
           onClick={() => setCurrentGroupId(g.id)}
-          className={`absolute bg-[#f2f2f2] p-2 ${
+          className={`absolute bg-[#f2f2f2] p-2 rounded-sm ${
             currentGroupId === g.id
-              ? 'border-2 border-red-500'
+              ? 'border-2 border-lively-orange'
               : 'border-2 border-black'
           }`}
           style={{ left: g.x, top: g.y }}
         >
           <div className="font-bold">
-            group {g.id} - ${g.price.toFixed(2)}
+            {g.id} - ${g.price.toFixed(2)}
           </div>
           {g.grid.map((row, ri) => (
             <div key={ri} className="flex items-center">
@@ -347,7 +344,7 @@ export default function SeatEditor() {
               ))}
               <button
                 onClick={() => addSeatToRow(g.id, ri)}
-                className="px-2 py-1 bg-gray-300 rounded ml-1"
+                className="px-2 py-1 bg-gray-300 rounded ml-1 cursor-pointer"
               >
                 +
               </button>
@@ -356,7 +353,7 @@ export default function SeatEditor() {
 
           <button
             onClick={addRowAtBottom}
-            className="px-2 py-1 bg-gray-300 rounded ml-1"
+            className="px-2 py-1 bg-gray-300 rounded ml-1 cursor-pointer"
           >
             +
           </button>
@@ -383,13 +380,13 @@ export default function SeatEditor() {
 
       {verticalGuide !== null && (
         <div
-          className="absolute bg-red-500"
+          className="absolute bg-sky-blue"
           style={{ left: verticalGuide, top: 0, bottom: 0, width: 1 }}
         />
       )}
       {horizontalGuide !== null && (
         <div
-          className="absolute bg-red-500"
+          className="absolute bg-sky-blue"
           style={{ top: horizontalGuide, left: 0, right: 0, height: 1 }}
         />
       )}
