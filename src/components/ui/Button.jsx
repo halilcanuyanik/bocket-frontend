@@ -27,14 +27,14 @@ function Button({
   }`;
 
   const sizes = {
-    sm: 'text-sm px-2 py-1',
-    md: 'text-lg px-4 py-1',
-    lg: 'text-xl px-8 py-2',
+    sm: 'text-sm px-3 py-0.5',
+    md: 'text-base px-4 py-1',
+    lg: 'text-lg px-6 py-2',
     responsive: `
-    sm:text-sm sm:px-2 sm:py-1
-    md:text-lg md:px-4 md:py-1
-    lg:text-xl lg:px-8 lg:py-2
-  `,
+     sm:text-sm sm:px-3 sm:py-0.5
+     md:text-base md:px-4 md:py-1
+     lg:text-lg lg:px-6 lg:py-2
+    `,
   };
 
   return (
