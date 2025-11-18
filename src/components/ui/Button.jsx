@@ -20,7 +20,7 @@ function Button({
     else if (onClick) onClick();
   };
 
-  const baseStyles = `font-semibold cursor-pointer transition-all ease-linear rounded-md border-none ${
+  const baseStyles = `font-semibold cursor-pointer hover:bg-gray-900 transition-all ease-linear rounded-md border-none ${
     disabled || loading
       ? 'bg-gray-900 cursor-not-allowed'
       : 'bg-black text-white'
@@ -30,6 +30,11 @@ function Button({
     sm: 'text-sm px-2 py-1',
     md: 'text-lg px-4 py-1',
     lg: 'text-xl px-8 py-2',
+    responsive: `
+    sm:text-sm sm:px-2 sm:py-1
+    md:text-lg md:px-4 md:py-1
+    lg:text-xl lg:px-8 lg:py-2
+  `,
   };
 
   return (
