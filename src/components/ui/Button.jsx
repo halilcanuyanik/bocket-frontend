@@ -34,7 +34,7 @@ function Button({
 
   return (
     <div
-      className={`flex justify-center items-center p-0.5 bg-gradient-to-r from-sky-blue via-lavender via-fuchsia to-coral-red custom-selection ${wrapperClass}`}
+      className={`inline-flex justify-center items-center p-0.5 bg-gradient-to-r from-sky-blue via-lavender via-fuchsia to-coral-red custom-selection ${wrapperClass}`}
     >
       <button
         onClick={handleClick}

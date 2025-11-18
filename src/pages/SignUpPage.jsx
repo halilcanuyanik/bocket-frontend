@@ -72,7 +72,7 @@ function SignUpPage() {
   };
 
   return (
-    <div className="min-h-[100vh] bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8 custom-selection">
+    <div className="h-screen bg-gray-900 flex flex-col justify-center px-6 py-12 lg:px-8 custom-selection">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="logo" className="mx-auto h-32 w-auto" />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">
