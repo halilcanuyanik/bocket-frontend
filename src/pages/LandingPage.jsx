@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import HeroSection from '@/components/layout/HeroSection';
 import SearchSection from '@/components/layout/SearchSection';
 import Carousel from '@/components/ui/Carousel';
+import Footer from '@/components/layout/Footer';
+
 import api from '@/lib/axiosClient';
 
 function LandingPage() {
@@ -47,6 +49,7 @@ function LandingPage() {
         events={almostSoldOut}
         textStyle="warm-text"
       />
+      <Footer />
     </div>
   );
 }
