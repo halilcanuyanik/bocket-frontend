@@ -1,17 +1,28 @@
+// ROUTER
 import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
+
+// SPLASH
 import LandingPage from '@/pages/LandingPage';
-import DetailsPage from '@/pages/DetailsPage';
-import NotFoundPage from '@/pages/NotFoundPage';
+
+// AUTH
 import LogInPage from '@/pages/LogInPage';
 import SignUpPage from '@/pages/SignUpPage';
-import HomePage from '@/pages/HomePage';
-import AdminPage from '@/pages/AdminPage';
-import AccountPage from '@/pages/AccountPage';
-import TicketsPage from '@/pages/TicketsPage';
-import LogOutPage from '@/pages/LogOutPage';
 
-import SeatEditor from '@/pages/SeatEditor';
+// USER
+import HomePage from '@/pages/HomePage';
+import DetailsPage from '@/pages/DetailsPage';
+import SeatSelectionPage from '@/pages/SeatSelectionPage';
+import TicketsPage from '@/pages/TicketsPage';
+
+// ADMIN
+import AdminPage from '@/pages/AdminPage';
+import SeatEditorPage from '@/pages/SeatEditorPage';
+
+// COMMON
+import AccountPage from '@/pages/AccountPage';
+import LogOutPage from '@/pages/LogOutPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export const router = createBrowserRouter([
   {
@@ -19,12 +30,16 @@ export const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/seats/:id',
-    element: <SeatEditor />,
-  },
-  {
     path: '/eventDetails/:id',
     element: <DetailsPage />,
+  },
+  {
+    path: '/seats/:id',
+    element: (
+      <ProtectedRoute allowedRoles={['user']}>
+        <SeatSelectionPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/login',

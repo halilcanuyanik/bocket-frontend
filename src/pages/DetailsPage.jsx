@@ -110,7 +110,11 @@ function DetailsPage() {
                 <img src={venueIcon} />
                 <p>{eventData.venue.name}</p>
               </div>
-              <Button size="md" wrapperClass="rounded-lg self-center">
+              <Button
+                size="md"
+                wrapperClass="rounded-lg self-center"
+                to={`/seats/${eventData.id}`}
+              >
                 Buy {formatCurrency(eventData.pricing.currency)}
                 {eventData.pricing.base}
               </Button>

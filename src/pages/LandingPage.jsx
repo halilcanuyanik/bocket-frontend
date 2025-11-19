@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import HeroSection from '@/components/layout/HeroSection';
+import SearchSection from '@/components/layout/SearchSection';
 import Carousel from '@/components/ui/Carousel';
 import api from '@/lib/axiosClient';
 
@@ -30,6 +31,7 @@ function LandingPage() {
   return (
     <div className="w-screen min-h-screen custom-selection">
       <HeroSection />
+      <SearchSection />
       <Carousel
         label="TOP RATED EVENTS"
         events={topRated}

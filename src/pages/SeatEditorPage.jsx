@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const SeatStatus = {
   available: 'available',
@@ -6,7 +6,7 @@ const SeatStatus = {
   blocked: 'blocked',
 };
 
-export default function SeatEditor() {
+export default function SeatEditorPage() {
   const TOOLBAR_HEIGHT = 64;
   const STAGE_MIN_TOP = TOOLBAR_HEIGHT + 8;
   const SNAP_THRESHOLD = 8;
@@ -412,7 +412,9 @@ export default function SeatEditor() {
             try {
               navigator.clipboard &&
                 navigator.clipboard.writeText(JSON.stringify(d));
-            } catch (e) {}
+            } catch (e) {
+              console.error(e);
+            }
           }}
           className="editor-button"
         >
