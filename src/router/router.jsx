@@ -17,6 +17,8 @@ import TicketsPage from '@/pages/TicketsPage';
 
 // ADMIN
 import AdminPage from '@/pages/AdminPage';
+import VenuesPage from '@/pages/VenuesPage';
+import VenuePage from '@/pages/VenuePage';
 import SeatEditorPage from '@/pages/SeatEditorPage';
 
 // COMMON
@@ -38,6 +40,22 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute allowedRoles={['user']}>
         <SeatSelectionPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/venues',
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <VenuesPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/venues/:id',
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <VenuePage />
       </ProtectedRoute>
     ),
   },
