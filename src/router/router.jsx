@@ -42,6 +42,14 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: '/editSeats/:id',
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <SeatEditorPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: '/login',
     element: <LogInPage />,
   },
