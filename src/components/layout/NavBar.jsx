@@ -12,14 +12,13 @@ function NavBar() {
   };
 
   return (
-    <div className="relative px-4 w-screen h-16 bg-black flex justify-between items-center">
-      <div
-        className="w-12 h-12 flex justify-center items-center rounded-[50%]"
+    <div className="relative px-4 w-screen h-12 sm:h-16 md:h-20 bg-black flex justify-between items-center">
+      <img
+        className="h-6 sm:h-8 md:h-10"
+        src={isOpen ? closeIcon : menuIcon}
         onClick={handleClick}
-      >
-        <img className="h-6" src={isOpen ? closeIcon : menuIcon} />
-      </div>
-      <img src={logo} className="h-12" />
+      />
+      <img src={logo} className="py-1.5 h-full" />
       {isOpen && <Menu />}
     </div>
   );
