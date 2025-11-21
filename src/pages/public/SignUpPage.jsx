@@ -81,7 +81,7 @@ function SignUpPage() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit} autoComplete="off">
           {inputs.map(({ id, placeholder, type }) => {
             return (
               <div key={id} className="relative">
