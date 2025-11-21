@@ -2,29 +2,28 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 
-// SPLASH
-import LandingPage from '@/pages/LandingPage';
+// PUBLIC
+import LandingPage from '@/pages/public/LandingPage';
+import DetailsPage from '@/pages/public/DetailsPage';
+import SeatSelectionPage from '@/pages/public/SeatSelectionPage';
+import NotFoundPage from '@/pages/public/NotFoundPage';
 
 // AUTH
-import LogInPage from '@/pages/LogInPage';
-import SignUpPage from '@/pages/SignUpPage';
+import LogInPage from '@/pages/public/LogInPage';
+import SignUpPage from '@/pages/public/SignUpPage';
+import LogOutPage from '@/pages/common/LogOutPage';
 
 // USER
-import HomePage from '@/pages/HomePage';
-import DetailsPage from '@/pages/DetailsPage';
-import SeatSelectionPage from '@/pages/SeatSelectionPage';
-import TicketsPage from '@/pages/TicketsPage';
+import UserLayout from '@/components/layout/UserLayout';
+import HomePage from '@/pages/user/HomePage';
+import TicketsPage from '@/pages/user/TicketsPage';
 
 // ADMIN
-import AdminPage from '@/pages/AdminPage';
-import VenuesPage from '@/pages/VenuesPage';
-import VenuePage from '@/pages/VenuePage';
-import SeatEditorPage from '@/pages/SeatEditorPage';
-
-// COMMON
-import AccountPage from '@/pages/AccountPage';
-import LogOutPage from '@/pages/LogOutPage';
-import NotFoundPage from '@/pages/NotFoundPage';
+import AdminLayout from '@/components/layout/AdminLayout';
+import Dashboard from '@/pages/admin/Dashboard';
+import VenuesPage from '@/pages/admin/VenuesPage';
+import VenuePage from '@/pages/admin/VenuePage';
+import SeatEditorPage from '@/pages/admin/SeatEditorPage';
 
 export const router = createBrowserRouter([
   {
@@ -37,35 +36,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/seats/:id',
-    element: (
-      <ProtectedRoute allowedRoles={['user']}>
-        <SeatSelectionPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/venues',
-    element: (
-      <ProtectedRoute allowedRoles={['admin']}>
-        <VenuesPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/venues/:id',
-    element: (
-      <ProtectedRoute allowedRoles={['admin']}>
-        <VenuePage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/editSeats/:id',
-    element: (
-      <ProtectedRoute allowedRoles={['admin']}>
-        <SeatEditorPage />
-      </ProtectedRoute>
-    ),
+    element: <SeatSelectionPage />,
   },
   {
     path: '/login',
@@ -79,33 +50,53 @@ export const router = createBrowserRouter([
     path: '/home',
     element: (
       <ProtectedRoute allowedRoles={['user']}>
-        <HomePage />
+        <UserLayout />
       </ProtectedRoute>
     ),
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: '/home/tickets',
+        element: <TicketsPage />,
+      },
+    ],
   },
   {
-    path: '/admin',
+    path: '/dashboard',
     element: (
       <ProtectedRoute allowedRoles={['admin']}>
-        <AdminPage />
+        <AdminLayout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: '/account',
-    element: <AccountPage />,
-  },
-  {
-    path: '/tickets',
-    element: (
-      <ProtectedRoute allowedRoles={['user']}>
-        <TicketsPage />
-      </ProtectedRoute>
-    ),
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: 'venues',
+        element: <VenuesPage />,
+      },
+      {
+        path: 'venues/:id',
+        element: <VenuePage />,
+      },
+      {
+        path: 'editSeats/:id',
+        element: <SeatEditorPage />,
+      },
+    ],
   },
   {
     path: '/logout',
-    element: <LogOutPage />,
+    element: (
+      <ProtectedRoute allowedRoles={['user', 'admin']}>
+        <LogOutPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '*',

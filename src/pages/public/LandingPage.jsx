@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import HeroSection from '@/components/layout/HeroSection';
-import SearchSection from '@/components/layout/SearchSection';
+import HeroSection from '@/components/ui/HeroSection';
+import SearchSection from '@/components/ui/SearchSection';
 import Carousel from '@/components/ui/Carousel';
-import Footer from '@/components/layout/Footer';
+import Footer from '@/components/ui/Footer';
 
 import api from '@/lib/axiosClient';
 

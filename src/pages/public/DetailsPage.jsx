@@ -10,7 +10,7 @@ import Tile from '@/components/ui/Tile';
 
 // UTILS
 import { formatDate, formatTime } from '@/utils/DateFormatter';
-import { formatCurrency } from '../utils/currencyFormatter';
+import { formatCurrency } from '../../utils/currencyFormatter';
 
 // ICONS
 import calendarIcon from '@/assets/icons/calendar.svg';

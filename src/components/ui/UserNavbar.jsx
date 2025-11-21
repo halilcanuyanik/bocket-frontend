@@ -2,7 +2,7 @@ import { useState } from 'react';
 import logo from '@/assets/images/logo-bw-tr-lit.png';
 import menuIcon from '@/assets/icons/menu.svg';
 import closeIcon from '@/assets/icons/close.svg';
-import Menu from '@/components/layout/Menu';
+import Menu from '@/components/ui/Menu';
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);

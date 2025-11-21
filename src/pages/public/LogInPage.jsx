@@ -1,23 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '@/features/Auth/api/authService';
+import { login } from '@/features/Auth/api/authService';
 import logo from '@/assets/images/logo-tr-lit.png';
 import Button from '@/components/ui/Button';
 import useSnackbar from '@/hooks/useSnackbar';
 import Snackbar from '@/components/common/Snackbar';
 
-import nameIcon from '@/assets/icons/name.svg';
 import emailIcon from '@/assets/icons/email.svg';
 import passwordIcon from '@/assets/icons/password.svg';
 
-function SignUpPage() {
+function LogInPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -38,13 +32,13 @@ function SignUpPage() {
     setIsLoading(true);
 
     try {
-      const response = await signup(formData);
+      const response = await login(formData);
 
-      showSnackbar('Signed Up Successfully!', 'success');
+      showSnackbar('Logged in successfully!', 'success');
 
       const role = localStorage.getItem('role');
 
-      if (role === 'admin') setTimeout(() => navigate('/admin'), 1500);
+      if (role === 'admin') setTimeout(() => navigate('/dashboard'), 1500);
       else if (role === 'user') setTimeout(() => navigate('/home'), 1500);
     } catch (err) {
       showSnackbar(err.message, 'error');
@@ -54,21 +48,13 @@ function SignUpPage() {
   };
 
   const inputs = [
-    { id: 'name', placeholder: 'Name', type: 'text' },
     { id: 'email', placeholder: 'Email', type: 'email' },
     { id: 'password', placeholder: 'Password', type: 'password' },
-    {
-      id: 'passwordConfirm',
-      placeholder: 'Confirm Password',
-      type: 'password',
-    },
   ];
 
   const iconMap = {
-    name: nameIcon,
     email: emailIcon,
     password: passwordIcon,
-    passwordConfirm: passwordIcon,
   };
 
   return (
@@ -76,7 +62,7 @@ function SignUpPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="logo" className="mx-auto h-32 w-auto" />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">
-          Create your account
+          Log in to your account
         </h2>
       </div>
 
@@ -103,12 +89,11 @@ function SignUpPage() {
               </div>
             );
           })}
-
           <div className="flex justify-center">
             <Button
               wrapperClass="rounded-md"
               size="lg"
-              children="Sign Up"
+              children="Log In"
               disabled={isLoading}
               loading={isLoading}
             />
@@ -116,12 +101,12 @@ function SignUpPage() {
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-400">
-          Already have an account?
+          Don't have an account?
           <a
-            href="/login"
+            href="/signup"
             className="mx-2 font-semibold text-lively-orange hover:text-lively-orange/80"
           >
-            Log In
+            Sign Up
           </a>
         </p>
       </div>
@@ -135,4 +120,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default LogInPage;
