@@ -28,7 +28,7 @@ function VenuePage() {
 
   return (
     <div className="w-screen h-screen flex flex-col">
-      <div className="flex justify-between px-6 items-center shadow-md h-16">
+      <div className="flex justify-between px-6 items-center h-16">
         <div className="flex gap-4">
           <span className="flex gap-2">
             <img src={venueIcon} />

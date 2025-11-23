@@ -77,15 +77,15 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: 'venues',
+        path: '/dashboard/venues',
         element: <VenuesPage />,
       },
       {
-        path: 'venues/:id',
+        path: '/dashboard/venues/:id',
         element: <VenuePage />,
       },
       {
-        path: 'editSeats/:id',
+        path: '/dashboard/editSeats/:id',
         element: <SeatEditorPage />,
       },
     ],

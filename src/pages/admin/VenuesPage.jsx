@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '@/lib/axiosClient';
 
+import Grid from '@/components/ui/Grid';
+
 function VenuesPage() {
   const [venues, setVenues] = useState([]);
   const navigate = useNavigate();
@@ -19,17 +21,21 @@ function VenuesPage() {
   }, []);
 
   return (
-    <div className="w-screen h-screen">
-      <ul>
-        {venues.map((e) => {
-          return (
-            <li key={e._id} onClick={() => navigate(`/venues/${e._id}`)}>
-              {e.name}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <section className="w-screen flex-1 bg-gray-100 flex gap-4 p-6">
+      {venues.map((v) => {
+        return (
+          <Grid
+            key={v._id}
+            id={v._id}
+            name={v.name}
+            address={v.address}
+            city={v.city}
+            country={v.country}
+            capacity={v.capacity}
+          />
+        );
+      })}
+    </section>
   );
 }
 

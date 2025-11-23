@@ -29,7 +29,7 @@ function LogOutPage() {
     <section className="h-screen w-screen flex justify-center items-center bg-gray-900">
       <div className="flex flex-col gap-8 items-center">
         <img src={logo} className="h-32" />
-        <Loading size="xl" />
+        <Loading size="md" />
       </div>
     </section>
   );
