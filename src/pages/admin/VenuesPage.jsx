@@ -6,7 +6,7 @@ function VenuesPage() {
   const [venues, setVenues] = useState([]);
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex flex-col gap-6 p-6">
+    <section className="w-screen flex-1 bg-gray-100 flex flex-col items-center gap-6 p-6">
       <Search
         endpoint={`/venues`}
         onSuggestionsChange={setVenues}

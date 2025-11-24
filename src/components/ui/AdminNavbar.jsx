@@ -5,10 +5,9 @@ function AdminNavbar() {
   const navigate = useNavigate();
 
   const isDashboard = pathname === '/dashboard' || '/dashboard/venues';
-  const isVenueDetail = pathname.startsWith('/dashboard/venues/');
 
   return (
-    <div className="w-screen flex justify-between px-6 items-center shadow-md h-16">
+    <div className="w-screen flex justify-between px-6 items-center h-16">
       <div className="flex gap-4">
         {isDashboard && (
           <>
@@ -40,11 +39,6 @@ function AdminNavbar() {
             onClick={() => navigate('/logout')}
           >
             Log Out
-          </button>
-        )}
-        {isVenueDetail && (
-          <button className="bg-black text-white font-semibold hover:bg-black/80 cursor-pointer px-6 py-1.5 rounded-md">
-            Go Back
           </button>
         )}
       </div>

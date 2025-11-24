@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
+import Loading from '@/components/common/Loading';
+
 import api from '@/lib/axiosClient';
 
 import venueIcon from '@/assets/icons/venue.svg';
@@ -24,11 +27,16 @@ function VenuePage() {
     fetchVenue();
   }, [id]);
 
-  if (!venue) return <div>Loading...</div>;
+  if (!venue)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Loading size="sm" color="bg-black" />
+      </div>
+    );
 
   return (
     <div className="w-screen h-screen flex flex-col">
-      <div className="flex justify-between px-6 items-center h-16">
+      <div className="bg-gray-100 flex justify-between px-6 items-center h-16">
         <div className="flex gap-4">
           <span className="flex gap-2">
             <img src={venueIcon} />
@@ -44,9 +52,7 @@ function VenuePage() {
             <img src={capacityIcon} />
             {venue.capacity}
           </span>
-        </div>
-        <div className="flex items-center">
-          <button className="bg-black text-white font-semibold hover:bg-black/80 cursor-pointer px-6 py-1.5 rounded-md">
+          <button className="px-4 bg-black hover:bg-black/80 text-white rounded-md cursor-pointer">
             Edit
           </button>
         </div>
