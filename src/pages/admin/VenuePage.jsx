@@ -1,14 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
 import Loading from '@/components/common/Loading';
-
 import api from '@/lib/axiosClient';
 
 import venueIcon from '@/assets/icons/venue.svg';
 import addressIcon from '@/assets/icons/address.svg';
 import locationIcon from '@/assets/icons/location.svg';
 import capacityIcon from '@/assets/icons/capacity.svg';
+import SeatInspection from './SeatInspectionPage';
 
 function VenuePage() {
   const { id } = useParams();
@@ -18,6 +17,7 @@ function VenuePage() {
     const fetchVenue = async () => {
       try {
         const response = await api.get(`/venues/${id}`);
+        console.log(response.data.data);
         setVenue(response.data.data);
       } catch (err) {
         console.error(err);
@@ -52,24 +52,22 @@ function VenuePage() {
             <img src={capacityIcon} />
             {venue.capacity}
           </span>
-          <button className="px-4 bg-black hover:bg-black/80 text-white rounded-md cursor-pointer">
-            Edit
-          </button>
         </div>
       </div>
       <section className="w-screen flex-1 bg-gray-100 flex justify-center items-center text-6xl font-semibold">
         {venue.seatMap ? (
-          <div className="flex flex-col gap-12 items-center">
-            <p>There is a seat map!</p>
-            <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">
-              Edit Seat Map
-            </button>
-          </div>
+          <SeatInspection data={venue.seatMap} />
         ) : (
+          // <div className="flex flex-col gap-12 items-center">
+          //   <p>There is a seat map!</p>
+          //   <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">
+          //     Edit Seat Map
+          //   </button>
+          // </div>
           <div className="flex flex-col gap-12 items-center">
-            <p>There is no seat map!</p>
+            <p className="text-gray-300">There is no seat map!</p>
             <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">
-              Add Seat Map
+              Edit
             </button>
           </div>
         )}
