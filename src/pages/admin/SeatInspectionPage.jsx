@@ -13,7 +13,7 @@ export default function SeatInspection({ data }) {
   };
 
   return (
-    <div className="w-full h-full relative overflow-hidden bg-gray-50 touch-none">
+    <div className="w-full h-full relative overflow-hidden touch-none">
       <div
         className="absolute top-0 left-0 pointer-none:"
         style={{
@@ -38,7 +38,7 @@ export default function SeatInspection({ data }) {
         {data.groups.map((g) => (
           <div
             key={g.id}
-            className={`absolute bg-[#f2f2f2] p-2 rounded-sm border-indigo`}
+            className={`absolute bg-gray-200 p-1 rounded-md border-indigo`}
             style={{
               left: g.x,
               top: g.y,

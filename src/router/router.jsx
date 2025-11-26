@@ -22,6 +22,7 @@ import TicketsPage from '@/pages/user/TicketsPage';
 import AdminLayout from '@/components/layout/AdminLayout';
 import AdminPanel from '@/pages/admin/AdminPanel';
 import EventsPage from '@/pages/admin/EventsPage';
+import EventPage from '@/pages/admin/EventPage';
 import VenuesPage from '@/pages/admin/VenuesPage';
 import PerformersPage from '@/pages/admin/PerformersPage';
 import UsersPage from '@/pages/admin/UsersPage';
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: '/admin/events',
         element: <EventsPage />,
+      },
+      {
+        path: '/admin/events/:id',
+        element: <EventPage />,
       },
       {
         path: '/admin/venues',

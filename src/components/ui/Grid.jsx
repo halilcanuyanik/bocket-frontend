@@ -39,7 +39,7 @@ function Grid({ id, name, address, city, country, capacity }) {
           opacity-0 group-hover:opacity-100 group-focus:opacity-100
           transition-opacity cursor-pointer
         "
-        onClick={() => navigate(`/dashboard/venues/${id}`)}
+        onClick={() => navigate(`/admin/venues/${id}`)}
       >
         Edit
       </button>

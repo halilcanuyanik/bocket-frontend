@@ -1,5 +1,43 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Search from '@/components/common/Search';
 
 export default function EventsPage() {
-  return <section className="w-screen flex-1 bg-gray-100"></section>;
+  const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
+
+  return (
+    <section className="w-screen flex-1 bg-gray-100 flex flex-col items-center p-6">
+      <Search
+        endpoint={`/shows`}
+        onSuggestionsChange={setEvents}
+        placeholder="Events..."
+      />
+      <ul className="w-6/12 bg-white mt-2 rounded-md shadow overflow-y-auto">
+        {events.map((e) => (
+          <li
+            key={e._id}
+            className="p-3 flex gap-3 hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate(`/admin/events/${e._id}`)}
+          >
+            {e.show.coverImage && (
+              <img
+                src={e.show.coverImage}
+                className="w-12 h-12 rounded-md object-cover"
+              />
+            )}
+
+            <div className="flex flex-col">
+              <span className="font-semibold">{e.show.title}</span>
+              <span className="text-xs text-gray-500">
+                {[e.show.performers?.[0]?.name, e.venue?.name]
+                  .filter(Boolean)
+                  .join(' • ')}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }

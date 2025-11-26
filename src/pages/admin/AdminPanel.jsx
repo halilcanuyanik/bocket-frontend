@@ -1,4 +1,4 @@
-function Dashboard() {
+function AdminPanel() {
   return (
     <section className="w-screen flex-1 bg-gray-100 flex items-center justify-center">
       <div className="text-center text-gray-500 flex flex-col gap-3">
@@ -19,4 +19,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AdminPanel;
