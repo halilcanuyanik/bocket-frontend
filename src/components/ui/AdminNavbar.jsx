@@ -14,19 +14,28 @@ function AdminNavbar() {
             <button data-badge={7} className="dashboard-navbar-button">
               Announcements
             </button>
-            <button data-badge={23} className="dashboard-navbar-button">
+            <button
+              className="dashboard-navbar-button after:hidden"
+              onClick={() => navigate('/admin/events')}
+            >
               Events
             </button>
             <button
               className="dashboard-navbar-button after:hidden"
-              onClick={() => navigate('/dashboard/venues')}
+              onClick={() => navigate('/admin/venues')}
             >
               Venues
             </button>
-            <button className="dashboard-navbar-button after:hidden">
+            <button
+              className="dashboard-navbar-button after:hidden"
+              onClick={() => navigate('/admin/performers')}
+            >
               Performers
             </button>
-            <button className="dashboard-navbar-button after:hidden">
+            <button
+              className="dashboard-navbar-button after:hidden"
+              onClick={() => navigate('/admin/users')}
+            >
               Users
             </button>
           </>

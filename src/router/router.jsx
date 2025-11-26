@@ -20,8 +20,11 @@ import TicketsPage from '@/pages/user/TicketsPage';
 
 // ADMIN
 import AdminLayout from '@/components/layout/AdminLayout';
-import Dashboard from '@/pages/admin/Dashboard';
+import AdminPanel from '@/pages/admin/AdminPanel';
+import EventsPage from '@/pages/admin/EventsPage';
 import VenuesPage from '@/pages/admin/VenuesPage';
+import PerformersPage from '@/pages/admin/PerformersPage';
+import UsersPage from '@/pages/admin/UsersPage';
 import VenuePage from '@/pages/admin/VenuePage';
 import SeatEditorPage from '@/pages/admin/SeatEditorPage';
 
@@ -65,7 +68,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/dashboard',
+    path: '/admin',
     element: (
       <ProtectedRoute allowedRoles={['admin']}>
         <AdminLayout />
@@ -74,18 +77,30 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <AdminPanel />,
       },
       {
-        path: '/dashboard/venues',
+        path: '/admin/events',
+        element: <EventsPage />,
+      },
+      {
+        path: '/admin/venues',
         element: <VenuesPage />,
       },
       {
-        path: '/dashboard/venues/:id',
+        path: '/admin/venues/:id',
         element: <VenuePage />,
       },
       {
-        path: '/dashboard/editSeats/:id',
+        path: '/admin/performers',
+        element: <PerformersPage />,
+      },
+      {
+        path: '/admin/users',
+        element: <UsersPage />,
+      },
+      {
+        path: '/admin/editSeats/:id',
         element: <SeatEditorPage />,
       },
     ],

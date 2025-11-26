@@ -44,7 +44,7 @@ function SignUpPage() {
 
       const role = localStorage.getItem('role');
 
-      if (role === 'admin') setTimeout(() => navigate('/dashboard'), 1500);
+      if (role === 'admin') setTimeout(() => navigate('/admin'), 1500);
       else if (role === 'user') setTimeout(() => navigate('/home'), 1500);
     } catch (err) {
       showSnackbar(err.message, 'error');
