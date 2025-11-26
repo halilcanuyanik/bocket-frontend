@@ -53,17 +53,14 @@ function VenuePage() {
             {venue.capacity}
           </span>
         </div>
+        <Button size="md" wrapperClass="rounded-lg self-center">
+          Edit
+        </Button>
       </div>
       <section className="w-screen flex-1 bg-gray-100 flex justify-center items-center text-6xl font-semibold">
         {venue.seatMap ? (
           <SeatInspection data={venue.seatMap} />
         ) : (
-          // <div className="flex flex-col gap-12 items-center">
-          //   <p>There is a seat map!</p>
-          //   <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">
-          //     Edit Seat Map
-          //   </button>
-          // </div>
           <div className="flex flex-col gap-12 items-center">
             <p className="text-gray-300">There is no seat map!</p>
             <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">

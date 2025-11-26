@@ -12,6 +12,7 @@ import Button from '@/components/ui/Button';
 
 // UTILS
 import { formatDate, formatTime } from '@/utils/DateFormatter';
+import { formatCurrency } from '@/utils/CurrencyFormatter';
 
 // ICONS
 import calendarIcon from '@/assets/icons/calendar.svg';
@@ -91,6 +92,10 @@ export default function EventPage() {
               <span className="flex gap-2">
                 <img src={timeIcon} />
                 {formatTime(eventData.startTime)}
+              </span>
+              <span className="flex gap-2 font-bold">
+                {formatCurrency(eventData.pricing.currency)}
+                {eventData.pricing.base}
               </span>
             </div>
             <Button
