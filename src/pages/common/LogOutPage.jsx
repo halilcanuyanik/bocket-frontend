@@ -1,25 +1,23 @@
-import { useState, useEffect } from 'react';
+// REACT HOOKS
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '@/features/Auth/api/authService';
+
+// COMPONENTS
 import Loading from '@/components/common/Loading';
+
+// API
+import { logout } from '@/features/Auth/api/authService';
+
+// LOGO & ICONS
 import logo from '@/assets/images/logo-tr-lit.png';
 
-function LogOutPage() {
-  const [isLoading, setIsLoading] = useState(true);
+export default function LogOutPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleLogout = async () => {
-      try {
-        await logout();
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
+      await logout();
+      navigate('/');
     };
 
     handleLogout();
@@ -34,5 +32,3 @@ function LogOutPage() {
     </section>
   );
 }
-
-export default LogOutPage;

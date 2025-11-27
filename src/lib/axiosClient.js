@@ -38,6 +38,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('role');
+        window.location.href = '/';
         return Promise.reject(refreshError);
       }
     }

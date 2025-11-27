@@ -47,14 +47,18 @@ export const signup = async (credentials) => {
 export const logout = async () => {
   const token = localStorage.getItem('accessToken');
   try {
-    await api.post(
-      '/users/logout',
-      {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    if (token) {
+      await api.post(
+        '/users/logout',
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+    }
+  } catch (err) {
+    console.warn('Logout API failed, proceeding anyway.');
+    console.error(err);
+  } finally {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('role');
-  } catch (err) {
-    throw new Error(err.response.data.message);
   }
 };
