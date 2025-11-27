@@ -10,7 +10,7 @@ function VenuesPage() {
       <Search
         endpoint={`/venues`}
         onSuggestionsChange={setVenues}
-        placeholder="Venue name, address city or country..."
+        placeholder="Venue name, address, city or country..."
       />
       <div className="flex flex-wrap gap-4">
         {venues.map((v) => (

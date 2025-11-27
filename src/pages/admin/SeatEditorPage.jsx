@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 
-const SeatStatus = {
-  available: 'available',
-  taken: 'taken',
-  blocked: 'blocked',
+const seatColor = (seat) => {
+  if (seat.isSelected) return '#E04B57';
+  return '#2C3186';
 };
 
 export default function SeatEditorPage() {
@@ -33,30 +32,6 @@ export default function SeatEditorPage() {
 
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-  const importJson = (data) => {
-    setGroups(
-      (data.groups || []).map((g) => ({
-        ...g,
-        isSelected: false,
-        grid: (g.grid || []).map((row) =>
-          row.map((s) => ({ ...(s || {}), isSelected: false }))
-        ),
-      }))
-    );
-
-    if (data.stage) {
-      setStage((prev) => ({ ...prev, ...data.stage }));
-    }
-
-    const maxNumeric = (data.groups || [])
-      .map((g) => {
-        const m = String(g.id || '').match(/^G(\d+)$/);
-        return m ? parseInt(m[1], 10) : 0;
-      })
-      .reduce((a, b) => Math.max(a, b), 0);
-    idCounterRef.current = Math.max(idCounterRef.current, maxNumeric + 1);
-  };
-
   const exportJson = () => {
     const data = {
       stage,
@@ -64,7 +39,6 @@ export default function SeatEditorPage() {
         id: g.id,
         x: g.x,
         y: g.y,
-        price: g.price,
         grid: g.grid.map((row) =>
           row.map((s) => ({ id: s.id, status: s.status }))
         ),
@@ -82,8 +56,7 @@ export default function SeatEditorPage() {
       x: 50 + 50 * groups.length,
       y: 200 + 50 * groups.length,
       isSelected: false,
-      grid: [[{ id: 'A1', isSelected: false, status: SeatStatus.available }]],
-      price: 100,
+      grid: [[{ id: 'A1', isSelected: false, status: 'available' }]],
     };
     setGroups((prev) => [...prev, newGroup]);
     setCurrentGroupId(newId);
@@ -113,7 +86,7 @@ export default function SeatEditorPage() {
         row.push({
           id: `${String.fromCharCode(65 + rowIndex)}${colIndex + 1}`,
           isSelected: false,
-          status: SeatStatus.available,
+          status: 'available',
         });
         newGrid[rowIndex] = row;
         return { ...g, grid: newGrid };
@@ -131,7 +104,7 @@ export default function SeatEditorPage() {
           {
             id: `${String.fromCharCode(65 + newRowIndex)}1`,
             isSelected: false,
-            status: SeatStatus.available,
+            status: 'available',
           },
         ];
         return { ...g, grid: [...g.grid, newRow] };
@@ -139,7 +112,7 @@ export default function SeatEditorPage() {
     );
   };
 
-  const toggleSeatSelection = (gid, r, c) => {
+  const toggleSeatStatus = (gid, r, c) => {
     setGroups((prev) =>
       prev.map((g) => {
         let newGrid = g.grid;
@@ -201,32 +174,6 @@ export default function SeatEditorPage() {
       idCounterRef.current = normalized.length;
       return normalized;
     });
-  };
-
-  const changeSeatsStatus = (status) => {
-    setGroups((prev) =>
-      prev.map((g) => ({
-        ...g,
-        grid: g.grid.map((row) =>
-          row.map((seat) =>
-            seat.isSelected ? { ...seat, status, isSelected: false } : seat
-          )
-        ),
-      }))
-    );
-  };
-
-  const updateGroupPrice = (gid, newPrice) => {
-    setGroups((prev) =>
-      prev.map((g) => (g.id === gid ? { ...g, price: newPrice } : g))
-    );
-  };
-
-  const seatColor = (seat) => {
-    if (seat.isSelected) return '#E04B57';
-    if (seat.status === SeatStatus.available) return '#2C3186';
-    if (seat.status === SeatStatus.taken) return 'gray';
-    return 'black';
   };
 
   const onGroupDrag = (e, gid) => {
@@ -357,8 +304,7 @@ export default function SeatEditorPage() {
   return (
     <div
       ref={containerRef}
-      className="w-screen min-h-screen relative overflow-hidden origin-top-left bg-gray-50"
-      style={{ touchAction: 'none' }}
+      className="w-screen min-h-screen relative overflow-hidden origin-top-left bg-gray-50 touch-none"
     >
       <div
         className="flex gap-4 items-center px-6"
@@ -386,24 +332,6 @@ export default function SeatEditorPage() {
         </button>
         <button onClick={deleteSeats} className="editor-button">
           delete selected
-        </button>
-        <button
-          onClick={() => changeSeatsStatus('available')}
-          className="editor-button"
-        >
-          mark available
-        </button>
-        <button
-          onClick={() => changeSeatsStatus('taken')}
-          className="editor-button"
-        >
-          mark taken
-        </button>
-        <button
-          onClick={() => changeSeatsStatus('blocked')}
-          className="editor-button"
-        >
-          mark blocked
         </button>
 
         <button
@@ -486,9 +414,7 @@ export default function SeatEditorPage() {
               cursor: 'grab',
             }}
           >
-            <div className="font-bold">
-              {g.id} - ${Number(g.price || 0).toFixed(2)}
-            </div>
+            <div className="font-bold">{g.id}</div>
             {g.grid.map((row, ri) => (
               <div key={ri} className="flex items-center">
                 {row.map((seat, ci) => (
@@ -496,7 +422,7 @@ export default function SeatEditorPage() {
                     key={ci}
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleSeatSelection(g.id, ri, ci);
+                      toggleSeatStatus(g.id, ri, ci);
                     }}
                     className="w-10 h-10 m-1 rounded-md flex items-center justify-center text-white select-none cursor-pointer"
                     style={{ backgroundColor: seatColor(seat) }}
@@ -519,24 +445,6 @@ export default function SeatEditorPage() {
             >
               +
             </button>
-
-            {currentGroupId === g.id && (
-              <div className="mt-2 flex items-center gap-2">
-                <span>price:</span>
-                <input
-                  type="number"
-                  value={g.price}
-                  className="w-16 px-1 border rounded"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onChange={(e) =>
-                    updateGroupPrice(
-                      g.id,
-                      e.target.value === '' ? 0 : parseFloat(e.target.value)
-                    )
-                  }
-                />
-              </div>
-            )}
           </div>
         ))}
 
