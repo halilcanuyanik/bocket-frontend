@@ -1,7 +1,7 @@
 import Card from '@/components/ui/Card';
 import Loading from '@/components/common/Loading';
 
-function Carousel({ label, textStyle, events = [] }) {
+export default function Carousel({ label, textStyle, events = [] }) {
   return (
     <div className="min-h-80 flex flex-col items-center gap-6 py-8 px-6 border-[1]">
       <p className={`text-center font-semibold ${textStyle}`}>{label}</p>
@@ -29,5 +29,3 @@ function Carousel({ label, textStyle, events = [] }) {
     </div>
   );
 }
-
-export default Carousel;

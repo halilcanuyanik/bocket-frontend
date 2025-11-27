@@ -1,11 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 
-function Card({ id, order, coverImage, title, performer, textStyle }) {
+export default function Card({
+  id,
+  order,
+  coverImage,
+  title,
+  performer,
+  textStyle,
+}) {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/eventDetails/${id}`);
-  };
 
   return (
     <div className="flex justify-center items-center relative">
@@ -23,7 +26,7 @@ function Card({ id, order, coverImage, title, performer, textStyle }) {
         transition-transform duration-300
         bg-neutral-900
       "
-        onClick={handleClick}
+        onClick={() => navigate(`/eventDetails/${id}`)}
       >
         <div
           className="
@@ -47,5 +50,3 @@ function Card({ id, order, coverImage, title, performer, textStyle }) {
     </div>
   );
 }
-
-export default Card;

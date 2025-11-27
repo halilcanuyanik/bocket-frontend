@@ -1,12 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 
-function NotFoundPage() {
+export default function NotFoundPage() {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/');
-  };
 
   return (
     <main className="grid h-[100vh] place-items-center bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
@@ -24,7 +20,7 @@ function NotFoundPage() {
           <Button
             wrapperClass="rounded-md"
             children="Go back home"
-            onClick={handleClick}
+            onClick={() => navigate('/')}
           />
           <a
             href="#"
@@ -37,5 +33,3 @@ function NotFoundPage() {
     </main>
   );
 }
-
-export default NotFoundPage;

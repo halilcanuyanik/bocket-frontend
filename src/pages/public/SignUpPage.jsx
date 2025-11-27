@@ -1,16 +1,24 @@
+// REACT HOOKS
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '@/features/Auth/api/authService';
-import logo from '@/assets/images/logo-tr-lit.png';
-import Button from '@/components/ui/Button';
+
+// CUSTOM HOOKS
 import useSnackbar from '@/hooks/useSnackbar';
+
+// COMPONENTS
+import Button from '@/components/ui/Button';
 import Snackbar from '@/components/common/Snackbar';
 
+// API
+import { signup } from '@/features/Auth/api/authService';
+
+// LOGO & ICONS
+import logo from '@/assets/images/logo-tr-lit.png';
 import nameIcon from '@/assets/icons/name.svg';
 import emailIcon from '@/assets/icons/email.svg';
 import passwordIcon from '@/assets/icons/password.svg';
 
-function SignUpPage() {
+export default function SignUpPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -134,5 +142,3 @@ function SignUpPage() {
     </div>
   );
 }
-
-export default SignUpPage;

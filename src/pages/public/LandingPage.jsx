@@ -1,12 +1,16 @@
+// REACT HOOKS
 import { useState, useEffect } from 'react';
+
+// COMPONENTS
 import HeroSection from '@/components/ui/HeroSection';
 import SearchSection from '@/components/ui/SearchSection';
 import Carousel from '@/components/ui/Carousel';
 import Footer from '@/components/ui/Footer';
 
+// API
 import api from '@/lib/axiosClient';
 
-function LandingPage() {
+export default function LandingPage() {
   const [topRated, setTopRated] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [almostSoldOut, setAlmostSoldOut] = useState([]);
@@ -53,5 +57,3 @@ function LandingPage() {
     </div>
   );
 }
-
-export default LandingPage;

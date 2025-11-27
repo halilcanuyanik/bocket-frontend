@@ -1,15 +1,23 @@
+// REACT HOOKS
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '@/features/Auth/api/authService';
-import logo from '@/assets/images/logo-tr-lit.png';
-import Button from '@/components/ui/Button';
+
+// CUSTOM HOOKS
 import useSnackbar from '@/hooks/useSnackbar';
+
+// COMPONENTS
+import Button from '@/components/ui/Button';
 import Snackbar from '@/components/common/Snackbar';
 
+// API
+import { login } from '@/features/Auth/api/authService';
+
+// LOGO & ICONS
+import logo from '@/assets/images/logo-tr-lit.png';
 import emailIcon from '@/assets/icons/email.svg';
 import passwordIcon from '@/assets/icons/password.svg';
 
-function LogInPage() {
+export default function LogInPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
@@ -119,5 +127,3 @@ function LogInPage() {
     </div>
   );
 }
-
-export default LogInPage;
