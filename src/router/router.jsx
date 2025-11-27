@@ -27,7 +27,7 @@ import VenuesPage from '@/pages/admin/VenuesPage';
 import PerformersPage from '@/pages/admin/PerformersPage';
 import UsersPage from '@/pages/admin/UsersPage';
 import VenuePage from '@/pages/admin/VenuePage';
-import SeatEditorPage from '@/pages/admin/SeatEditorPage';
+import SeatEditionPage from '@/pages/admin/SeatEditionPage';
 
 export const router = createBrowserRouter([
   {
@@ -106,7 +106,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/admin/editSeats/:id',
-        element: <SeatEditorPage />,
+        element: <SeatEditionPage />,
       },
     ],
   },

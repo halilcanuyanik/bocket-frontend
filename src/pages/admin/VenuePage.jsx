@@ -2,12 +2,13 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loading from '@/components/common/Loading';
 import api from '@/lib/axiosClient';
+import Button from '@/components/ui/Button';
 
 import venueIcon from '@/assets/icons/venue.svg';
 import addressIcon from '@/assets/icons/address.svg';
 import locationIcon from '@/assets/icons/location.svg';
 import capacityIcon from '@/assets/icons/capacity.svg';
-import SeatInspection from './SeatInspectionPage';
+import SeatInspectionPage from './SeatInspectionPage';
 
 function VenuePage() {
   const { id } = useParams();
@@ -36,36 +37,30 @@ function VenuePage() {
 
   return (
     <div className="w-screen h-screen flex flex-col">
-      <div className="bg-gray-100 flex justify-between px-6 items-center h-16">
-        <div className="flex gap-4">
-          <span className="flex gap-2">
-            <img src={venueIcon} />
-            {venue.name}
-          </span>
-          <span className="flex gap-2">
-            <img src={addressIcon} /> {venue.address}
-          </span>
-          <span className="flex gap-2">
-            <img src={locationIcon} /> {venue.city}, {venue.country}
-          </span>
-          <span className="flex gap-2">
-            <img src={capacityIcon} />
-            {venue.capacity}
-          </span>
-        </div>
-        <Button size="md" wrapperClass="rounded-lg self-center">
-          Edit
-        </Button>
-      </div>
-      <section className="w-screen flex-1 bg-gray-100 flex justify-center items-center text-6xl font-semibold">
+      <section className="w-screen flex-1 bg-gray-100 flex justify-center items-center font-semibold">
         {venue.seatMap ? (
-          <SeatInspection data={venue.seatMap} />
+          <SeatInspectionPage data={venue.seatMap} info={venue} />
         ) : (
-          <div className="flex flex-col gap-12 items-center">
-            <p className="text-gray-300">There is no seat map!</p>
-            <button className="bg-black text-white font-semibold text-xl hover:bg-black/80 cursor-pointer px-1 py-1.5 rounded-md w-48">
+          <div className="bg-gray-100 flex justify-between px-6 items-center h-16">
+            <div className="flex gap-4">
+              <span className="flex gap-2">
+                <img src={venueIcon} />
+                {venue.name}
+              </span>
+              <span className="flex gap-2">
+                <img src={addressIcon} /> {venue.address}
+              </span>
+              <span className="flex gap-2">
+                <img src={locationIcon} /> {venue.city}, {venue.country}
+              </span>
+              <span className="flex gap-2">
+                <img src={capacityIcon} />
+                {venue.capacity}
+              </span>
+            </div>
+            <Button size="md" wrapperClass="rounded-lg self-center">
               Edit
-            </button>
+            </Button>
           </div>
         )}
       </section>

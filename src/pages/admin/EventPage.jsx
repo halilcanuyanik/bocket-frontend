@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '@/lib/axiosClient';
 
-// SEAT
-import SeatInspectionPage from './SeatInspectionPage';
-
 // COMPONENTS
 import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
+
+//PAGES
+import SeatInspectionPage from './SeatInspectionPage';
 
 // UTILS
 import { formatDate, formatTime } from '@/utils/DateFormatter';
@@ -67,50 +67,7 @@ export default function EventPage() {
         </div>
       ) : (
         <>
-          <div className="flex gap-8 px-6 items-center h-16">
-            <div className="flex gap-4">
-              <span>{eventData.show.title}</span>
-              <span className="flex gap-2">
-                <img src={venueIcon} />
-                {eventData.venue.name}
-              </span>
-              <span className="flex gap-2">
-                <img src={addressIcon} /> {eventData.venue.address}
-              </span>
-              <span className="flex gap-2">
-                <img src={locationIcon} /> {eventData.venue.city},{' '}
-                {eventData.venue.country}
-              </span>
-              <span className="flex gap-2">
-                <img src={capacityIcon} />
-                {eventData.venue.capacity}
-              </span>
-              <span className="flex gap-2">
-                <img src={calendarIcon} />
-                {formatDate(eventData.startTime)}
-              </span>
-              <span className="flex gap-2">
-                <img src={timeIcon} />
-                {formatTime(eventData.startTime)}
-              </span>
-              <span className="flex gap-2 font-bold">
-                {formatCurrency(eventData.pricing.currency)}
-                {eventData.pricing.base}
-              </span>
-            </div>
-            <Button
-              size="md"
-              wrapperClass="rounded-lg self-center"
-              to={`/seats/${eventData.id}`}
-            >
-              Edit
-            </Button>
-          </div>
-          {hasSeatMap && (
-            <section className="w-full h-screen self-center rounded-lg">
-              <SeatInspectionPage data={eventData.eventSeatMap} />
-            </section>
-          )}
+          {hasSeatMap && <SeatInspectionPage data={eventData.eventSeatMap} />}
         </>
       )}
     </section>
