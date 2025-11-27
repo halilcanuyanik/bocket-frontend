@@ -30,19 +30,23 @@ export default function SeatInspectionPage({ info, data }) {
   const [mapData, setMapData] = useState(null);
   const [scale, setScale] = useState(1);
   const containerRef = useRef(null);
+
   const [isEditMode, setIsEditMode] = useState(false);
+  const [groupPrices, setGroupPrices] = useState({});
 
   useEffect(() => {
-    const loadMap = () => {
-      try {
-        const parsed = JSON.parse(JSON.stringify(data));
-        setMapData(parsed);
-        setScale(parsed.meta?.scale || 1);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    loadMap();
+    if (data) {
+      const parsed = JSON.parse(JSON.stringify(data));
+
+      const initialPrices = {};
+      parsed.groups.forEach((g) => {
+        initialPrices[g.id] = g.price || info.pricing.base || 0;
+      });
+
+      setGroupPrices(initialPrices);
+      setMapData(parsed);
+      setScale(parsed.meta?.scale || 1);
+    }
   }, [data]);
 
   const handleZoom = (delta) => {
@@ -53,9 +57,53 @@ export default function SeatInspectionPage({ info, data }) {
     return <Loading size="md" />;
   }
 
+  const handleEditButton = async () => {
+    if (!isEditMode) {
+      setIsEditMode(true);
+      return;
+    }
+
+    const updated = {
+      ...mapData,
+      groups: mapData.groups.map((g) => ({
+        ...g,
+        price: groupPrices[g.id],
+      })),
+    };
+
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await api.patch(
+        `/shows/events/${info._id}`,
+        {
+          showId: info.show._id,
+          venueId: info.venue._id,
+          eventSeatMap: updated,
+          startTime: info.startTime,
+          endTime: info.endTime,
+          pricing: {
+            base: info.pricing?.base,
+            currency: info.pricing?.currency,
+          },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setMapData(updated);
+    setIsEditMode(false);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-900 overflow-hidden">
+      {/* TOP BAR */}
       <div className="h-16 bg-gray-800 flex items-center justify-between px-6 shadow-md z-50">
+        {/* LEFT SIDE */}
         <div className="flex items-center gap-4">
           {fromVenue && (
             <>
@@ -65,7 +113,14 @@ export default function SeatInspectionPage({ info, data }) {
                 {info.city}, {info.country}
               </span>
               <span>{info.capacity}</span>
-              <Button size="sm" children="Edit" wrapperClass="rounded-lg" />
+
+              <Button
+                size="sm"
+                wrapperClass="rounded-lg"
+                onClick={handleEditButton}
+              >
+                {isEditMode ? 'Save Changes' : 'Edit'}
+              </Button>
             </>
           )}
 
@@ -77,11 +132,19 @@ export default function SeatInspectionPage({ info, data }) {
                 {info.venue.city}, {info.venue.country}
               </span>
               <span>{info.venue.capacity}</span>
-              <Button size="sm" children="Edit" wrapperClass="rounded-lg" />
+
+              <Button
+                size="sm"
+                wrapperClass="rounded-lg"
+                onClick={handleEditButton}
+              >
+                {isEditMode ? 'Save Changes' : 'Edit'}
+              </Button>
             </>
           )}
         </div>
 
+        {/* INFO LEGEND */}
         <div className="flex gap-3 text-xs text-gray-300">
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 bg-indigo-600 rounded-sm"></div> Blocked
@@ -94,6 +157,7 @@ export default function SeatInspectionPage({ info, data }) {
           </div>
         </div>
 
+        {/* ZOOM */}
         <div className="flex bg-gray-700 rounded-lg p-1">
           <button
             onClick={() => handleZoom(-0.1)}
@@ -113,6 +177,7 @@ export default function SeatInspectionPage({ info, data }) {
         </div>
       </div>
 
+      {/* MAP CONTAINER */}
       <div
         ref={containerRef}
         className="flex-1 overflow-auto relative cursor-grab active:cursor-grabbing bg-[#1a1c23]"
@@ -125,6 +190,7 @@ export default function SeatInspectionPage({ info, data }) {
             height: '2000px',
           }}
         >
+          {/* STAGE */}
           <div
             className="absolute bg-gray-800 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
             style={{
@@ -137,24 +203,20 @@ export default function SeatInspectionPage({ info, data }) {
             STAGE
           </div>
 
+          {/* GROUPS */}
           {mapData.groups.map((group) => (
             <div
               key={group.id}
               className="absolute"
-              style={{
-                left: group.x,
-                top: group.y,
-              }}
+              style={{ left: group.x, top: group.y }}
             >
               <div className="absolute -top-6 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
                 {group.id}
               </div>
 
-              {/* GRID */}
               <div className="flex flex-col gap-2">
                 {group.grid.map((row, rowIndex) => (
                   <div key={rowIndex} className="flex gap-2">
-                    {/* Satır Numarası (Opsiyonel: Sol tarafa A, B, C yazmak için) */}
                     <div className="w-4 flex items-center justify-center text-gray-600 text-xs font-bold">
                       {row[0]?.id.charAt(0)}
                     </div>
@@ -165,7 +227,6 @@ export default function SeatInspectionPage({ info, data }) {
                         className={getSeatStyle(seat)}
                         title={`Koltuk: ${seat.id}`}
                       >
-                        {/* Seat Number */}
                         <span className="text-[9px]">
                           {seat.id.replace(/[A-Z]/, '')}
                         </span>
@@ -174,10 +235,27 @@ export default function SeatInspectionPage({ info, data }) {
                   </div>
                 ))}
               </div>
+
               {fromEvent && (
                 <div className="w-full text-center text-gray-300 py-2 text-xs font-bold uppercase tracking-wider">
-                  {formatCurrency(info.pricing.currency)}
-                  {info.pricing.base}
+                  {!isEditMode ? (
+                    <>
+                      {formatCurrency(info.pricing.currency)}
+                      {group.price ?? info.pricing.base}
+                    </>
+                  ) : (
+                    <input
+                      type="number"
+                      value={groupPrices[group.id]}
+                      onChange={(e) =>
+                        setGroupPrices((prev) => ({
+                          ...prev,
+                          [group.id]: Number(e.target.value),
+                        }))
+                      }
+                      className="bg-gray-700 text-white text-xs px-2 py-1 rounded w-20 text-center"
+                    />
+                  )}
                 </div>
               )}
             </div>
