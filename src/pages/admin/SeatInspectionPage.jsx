@@ -35,7 +35,7 @@ export default function SeatInspectionPage({ info, data }) {
   const [groupPrices, setGroupPrices] = useState({});
 
   useEffect(() => {
-    if (data) {
+    if (fromEvent && data) {
       const parsed = JSON.parse(JSON.stringify(data));
 
       const initialPrices = {};
@@ -46,6 +46,10 @@ export default function SeatInspectionPage({ info, data }) {
       setGroupPrices(initialPrices);
       setMapData(parsed);
       setScale(parsed.meta?.scale || 1);
+    } else if (fromVenue && data) {
+      const parsed = JSON.parse(JSON.stringify(data));
+      setMapData(parsed);
+      setScale(parsed.meta?.scale || 1);
     }
   }, [data]);
 
@@ -54,7 +58,7 @@ export default function SeatInspectionPage({ info, data }) {
   };
 
   if (!mapData) {
-    return <Loading size="md" />;
+    return <Loading size="md" color="bg-black" />;
   }
 
   const handleEditButton = async () => {
@@ -113,14 +117,6 @@ export default function SeatInspectionPage({ info, data }) {
                 {info.city}, {info.country}
               </span>
               <span>{info.capacity}</span>
-
-              <Button
-                size="sm"
-                wrapperClass="rounded-lg"
-                onClick={handleEditButton}
-              >
-                {isEditMode ? 'Save Changes' : 'Edit'}
-              </Button>
             </>
           )}
 
@@ -145,17 +141,19 @@ export default function SeatInspectionPage({ info, data }) {
         </div>
 
         {/* INFO LEGEND */}
-        <div className="flex gap-3 text-xs text-gray-300">
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-indigo-600 rounded-sm"></div> Blocked
+        {fromEvent && (
+          <div className="flex gap-3 text-xs text-gray-300">
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 bg-indigo-600 rounded-sm"></div> Blocked
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 bg-gray-300 rounded-sm"></div> Taken
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div> VIP
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-gray-300 rounded-sm"></div> Taken
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div> VIP
-          </div>
-        </div>
+        )}
 
         {/* ZOOM */}
         <div className="flex bg-gray-700 rounded-lg p-1">
