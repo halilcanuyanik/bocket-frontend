@@ -67,7 +67,12 @@ export default function EventPage() {
         </div>
       ) : (
         <>
-          {hasSeatMap && <SeatInspectionPage data={eventData.eventSeatMap} />}
+          {hasSeatMap && (
+            <SeatInspectionPage
+              data={eventData.eventSeatMap}
+              info={eventData}
+            />
+          )}
         </>
       )}
     </section>

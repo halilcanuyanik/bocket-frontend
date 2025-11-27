@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
+import { formatCurrency } from '@/utils/CurrencyFormatter';
+import api from '@/lib/axiosClient';
 
 const getSeatStyle = (seat) => {
   const baseStyle =
@@ -28,6 +30,7 @@ export default function SeatInspectionPage({ info, data }) {
   const [mapData, setMapData] = useState(null);
   const [scale, setScale] = useState(1);
   const containerRef = useRef(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     const loadMap = () => {
@@ -62,6 +65,18 @@ export default function SeatInspectionPage({ info, data }) {
                 {info.city}, {info.country}
               </span>
               <span>{info.capacity}</span>
+              <Button size="sm" children="Edit" wrapperClass="rounded-lg" />
+            </>
+          )}
+
+          {fromEvent && (
+            <>
+              <span>{info.venue.name}</span>
+              <span>{info.venue.address}</span>
+              <span>
+                {info.venue.city}, {info.venue.country}
+              </span>
+              <span>{info.venue.capacity}</span>
               <Button size="sm" children="Edit" wrapperClass="rounded-lg" />
             </>
           )}
@@ -110,7 +125,6 @@ export default function SeatInspectionPage({ info, data }) {
             height: '2000px',
           }}
         >
-          {/* SAHNE (STAGE) */}
           <div
             className="absolute bg-gray-800 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
             style={{
@@ -123,7 +137,6 @@ export default function SeatInspectionPage({ info, data }) {
             STAGE
           </div>
 
-          {/* GRUPLAR */}
           {mapData.groups.map((group) => (
             <div
               key={group.id}
@@ -161,6 +174,12 @@ export default function SeatInspectionPage({ info, data }) {
                   </div>
                 ))}
               </div>
+              {fromEvent && (
+                <div className="w-full text-center text-gray-300 py-2 text-xs font-bold uppercase tracking-wider">
+                  {formatCurrency(info.pricing.currency)}
+                  {info.pricing.base}
+                </div>
+              )}
             </div>
           ))}
         </div>
