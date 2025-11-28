@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import VenueInfoBar from '@/components/ui/VenueInfoBar';
-import Button from '@/components/ui/Button';
 import Loading from '@/components/common/Loading';
 
 //PAGES
@@ -44,8 +42,7 @@ export default function EventPage() {
         </div>
       ) : (
         <div className="flex items-center">
-          <VenueInfoBar venue={event.venue} />
-          <Button size="sm" children="Edit Seatmap" />
+          <SeatInspectionPage event={event} />
         </div>
       )}
     </section>

@@ -1,6 +1,3 @@
-// COMPONENTS
-import Button from '@/components/ui/Button';
-
 // LOGO & ICONS
 import venueIcon from '@/assets/icons/venue.svg';
 import addressIcon from '@/assets/icons/address.svg';

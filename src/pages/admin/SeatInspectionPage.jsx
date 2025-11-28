@@ -23,41 +23,41 @@ const getSeatStyle = (seat) => {
   }
 };
 
-export default function SeatInspectionPage({
-  event = {},
-  venue = {},
-  seatMap = {},
-}) {
+export default function SeatInspectionPage({ event = null, venue = null }) {
   const { pathname } = useLocation();
 
   const fromVenue = pathname.startsWith('/admin/venues/');
   const fromEvent = pathname.startsWith('/admin/events/');
 
-  const [mapData, setMapData] = useState(null);
-  const [scale, setScale] = useState(1);
   const containerRef = useRef(null);
 
+  const [mapData, setMapData] = useState(null);
+  const [scale, setScale] = useState(1);
   const [isEditMode, setIsEditMode] = useState(false);
   const [groupPrices, setGroupPrices] = useState({});
 
+  const resolvedVenue = event?.venue || venue || null;
+  const resolvedSeatMap = event?.eventSeatMap || venue?.seatMap || null;
+
   useEffect(() => {
-    if (fromEvent && seatMap) {
-      const parsed = JSON.parse(JSON.stringify(seatMap));
-
-      const initialPrices = {};
-      parsed.groups.forEach((g) => {
-        initialPrices[g.id] = g.price || event.pricing.base || 0;
-      });
-
-      setGroupPrices(initialPrices);
-      setMapData(parsed);
-      setScale(parsed.meta?.scale || 1);
-    } else if (fromVenue && seatMap) {
-      const parsed = JSON.parse(JSON.stringify(seatMap));
-      setMapData(parsed);
-      setScale(parsed.meta?.scale || 1);
+    if (!resolvedSeatMap) {
+      setMapData(null);
+      return;
     }
-  }, [seatMap]);
+
+    const parsed = JSON.parse(JSON.stringify(resolvedSeatMap));
+
+    setMapData(parsed);
+    setScale(parsed.meta?.scale || 1);
+
+    if (event) {
+      const initial = {};
+      parsed.groups?.forEach((g) => {
+        initial[g.id] = g.price ?? event?.pricing?.base ?? 0;
+      });
+      setGroupPrices(initial);
+    }
+  }, [resolvedSeatMap, event]);
 
   const handleZoom = (delta) => {
     setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
@@ -103,7 +103,6 @@ export default function SeatInspectionPage({
     } catch (err) {
       console.error(err);
     }
-
     setMapData(updated);
     setIsEditMode(false);
   };
@@ -112,14 +111,14 @@ export default function SeatInspectionPage({
     <div className="flex flex-col h-screen overflow-hidden">
       {fromVenue && (
         <div className="flex items-center">
-          <VenueInfoBar venue={venue} />
+          <VenueInfoBar venue={resolvedVenue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
           <Button size="sm" children="Edit" wrapperClass="self-center"></Button>
         </div>
       )}
       {fromEvent && (
         <div className="flex items-center">
-          <VenueInfoBar venue={event.venue} />
+          <VenueInfoBar venue={resolvedVenue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
           <Button size="sm" wrapperClass="mr-4" onClick={handleEditButton}>
             {isEditMode ? 'Save Changes' : 'Edit'}
