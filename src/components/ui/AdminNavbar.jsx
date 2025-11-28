@@ -7,8 +7,11 @@ function AdminNavbar() {
   return (
     <div className="w-screen h-16 px-6 flex justify-between items-center">
       <div className="flex gap-4">
-        <button data-badge={7} className="admin-navbar-button">
-          Announcements
+        <button
+          className="admin-navbar-button after:hidden"
+          onClick={() => navigate('/admin')}
+        >
+          Panel
         </button>
         <button
           className="admin-navbar-button after:hidden"

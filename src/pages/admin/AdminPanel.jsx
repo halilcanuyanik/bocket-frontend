@@ -1,19 +1,47 @@
+// REACT HOOKS
+import { useState, useEffect } from 'react';
+
+// COMPONENTS
+import Loading from '@/components/common/Loading';
+
+// API
+import api from '@/lib/axiosClient';
+
 export default function AdminPanel() {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getAdmin = async () => {
+      try {
+        const response = await api.get('/users/verify');
+        setData(response.data.data);
+        setIsLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getAdmin();
+  }, []);
+
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex items-center justify-center">
-      <div className="text-center text-gray-500 flex flex-col gap-3">
-        <div className="w-20 h-20 rounded-full bg-gray-300 mx-auto animate-pulse" />
-
-        <h2 className="text-lg font-semibold">Dashboard</h2>
-        <p className="text-sm text-gray-400">
-          Your analytics and activity will appear here soon.
-        </p>
-
-        <div className="mt-4 flex flex-col gap-2">
-          <div className="h-3 w-40 bg-gray-300 rounded animate-pulse" />
-          <div className="h-3 w-32 bg-gray-300 rounded animate-pulse" />
-          <div className="h-3 w-48 bg-gray-300 rounded animate-pulse" />
-        </div>
+    <section className="w-screen flex-1 bg-gray-100 p-12">
+      <div className="w-56 h-24 px-4 gap-4 bg-white rounded-lg shadow-md border-1 border-lively-orange flex items-center">
+        {isLoading ? (
+          <div className="w-full h-full flex items-center justify-center">
+            <Loading size="sm" color="bg-lively-orange" />
+          </div>
+        ) : (
+          <>
+            <div className="w-6 h-6 bg-lively-orange rounded-[50%] animate-pulse"></div>
+            <div className="flex flex-col">
+              <span className="text-sm text-black font-bold">{data.name}</span>
+              <span className="text-xs text-gray-900 font-semibold">
+                {data.email}
+              </span>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );
