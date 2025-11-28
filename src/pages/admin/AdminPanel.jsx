@@ -9,7 +9,6 @@ import api from '@/lib/axiosClient';
 
 export default function AdminPanel() {
   const [data, setData] = useState(null);
-  const [stats, setStats] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,19 +22,6 @@ export default function AdminPanel() {
       }
     };
     getAdmin();
-  }, []);
-
-  useEffect(() => {
-    const getUserStats = async () => {
-      try {
-        const response = await api.get('/users');
-        console.log(response.data.results);
-        setStats(response.data.results);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    getUserStats();
   }, []);
 
   return (

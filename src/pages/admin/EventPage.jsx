@@ -10,30 +10,18 @@ import Button from '@/components/ui/Button';
 //PAGES
 import SeatInspectionPage from './SeatInspectionPage';
 
-// UTILS
-import { formatDate, formatTime } from '@/utils/DateFormatter';
-import { formatCurrency } from '@/utils/CurrencyFormatter';
-
-// ICONS
-import calendarIcon from '@/assets/icons/calendar.svg';
-import timeIcon from '@/assets/icons/time.svg';
-import locationIcon from '@/assets/icons/location.svg';
-import venueIcon from '@/assets/icons/venue.svg';
-import addressIcon from '@/assets/icons/address.svg';
-import capacityIcon from '@/assets/icons/capacity.svg';
-
 export default function EventPage() {
   const { id } = useParams();
-  const [eventData, setEventData] = useState(null);
+  const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasSeatMap, setHasSeatMap] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getEvent = async () => {
       try {
         const response = await api.get(`/shows/events/${id}`);
         const data = response.data.data;
-        setEventData(data);
+        setEvent(data);
         if (data.eventSeatMap) {
           setHasSeatMap(true);
         }
@@ -44,12 +32,12 @@ export default function EventPage() {
       }
     };
 
-    fetchData();
+    getEvent();
   }, [id]);
 
   useEffect(() => {
-    if (!eventData?.show?._id) return;
-  }, [eventData]);
+    if (!event?.show?._id) return;
+  }, [event]);
 
   return (
     <section className="w-screen flex-1 bg-gray-100 flex flex-col custom-selection relative">
@@ -59,7 +47,7 @@ export default function EventPage() {
           size="md"
           color="bg-black"
         />
-      ) : !eventData ? (
+      ) : !event ? (
         <div className="flex items-center justify-center text-white">
           <p className="text-2xl font-semibold text-coral-red custom-selection">
             Content Not Found!
@@ -68,10 +56,7 @@ export default function EventPage() {
       ) : (
         <>
           {hasSeatMap && (
-            <SeatInspectionPage
-              data={eventData.eventSeatMap}
-              info={eventData}
-            />
+            <SeatInspectionPage event={event} seatMap={event.eventSeatMap} />
           )}
         </>
       )}

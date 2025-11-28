@@ -9,7 +9,7 @@ function VenuesPage() {
   const [venues, setVenues] = useState([]);
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex flex-col items-center p-6">
+    <section className="w-screen flex-1 bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex justify-between items-center px-4">
         <h1 className="text-black font-bold text-4xl">Venues</h1>
         <Search

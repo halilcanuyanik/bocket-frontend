@@ -23,7 +23,7 @@ export default function UsersPage() {
         />
       </div>
 
-      <div className="w-full h-16 px-4 grid grid-cols-4 items-center border-b-1 border-gray-300 font-bold">
+      <div className="w-full h-16 px-4 grid grid-cols-4 items-center border-b-1 border-gray-300 text-md font-bold">
         <span>Name</span>
         <span>Email</span>
         <span>Role</span>
@@ -31,7 +31,10 @@ export default function UsersPage() {
 
       {users.map((u) => {
         return (
-          <div className="group w-full h-16 mt-4 rounded-md grid grid-cols-4 items-center px-4 hover:bg-gray-50 hover:shadow-sm transition-all ease-linear cursor-pointer truncate">
+          <div
+            key={u._id}
+            className="group w-full h-16 mt-4 rounded-md grid grid-cols-4 items-center px-4 hover:bg-gray-50 hover:shadow-sm transition-all ease-linear cursor-pointer truncate"
+          >
             <span>{u.name}</span>
             <span>{u.email}</span>
             <span className="flex gap-2">

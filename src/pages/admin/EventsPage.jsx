@@ -8,11 +8,15 @@ export default function EventsPage() {
 
   return (
     <section className="w-screen flex-1 bg-gray-100 flex flex-col items-center p-6">
-      <Search
-        endpoint={`/shows`}
-        onSuggestionsChange={setEvents}
-        placeholder="Events..."
-      />
+      <div className="w-full h-24 flex justify-between items-center px-4">
+        <h1 className="text-black font-bold text-4xl">Events</h1>
+        <Search
+          endpoint={`/shows`}
+          onSuggestionsChange={setEvents}
+          placeholder="Events..."
+        />
+      </div>
+
       <ul className="w-6/12 bg-white mt-2 rounded-md shadow overflow-y-auto">
         {events.map((e) => (
           <li

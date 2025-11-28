@@ -4,6 +4,7 @@ import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
 import { formatCurrency } from '@/utils/CurrencyFormatter';
 import api from '@/lib/axiosClient';
+import VenueInfoBar from '@/components/ui/VenueInfoBar';
 
 const getSeatStyle = (seat) => {
   const baseStyle =
@@ -21,7 +22,11 @@ const getSeatStyle = (seat) => {
   }
 };
 
-export default function SeatInspectionPage({ info, data }) {
+export default function SeatInspectionPage({
+  event = {},
+  venue = {},
+  seatMap,
+}) {
   const { pathname } = useLocation();
 
   const fromVenue = pathname.startsWith('/admin/venues/');
@@ -35,23 +40,23 @@ export default function SeatInspectionPage({ info, data }) {
   const [groupPrices, setGroupPrices] = useState({});
 
   useEffect(() => {
-    if (fromEvent && data) {
-      const parsed = JSON.parse(JSON.stringify(data));
+    if (fromEvent && seatMap) {
+      const parsed = JSON.parse(JSON.stringify(seatMap));
 
       const initialPrices = {};
       parsed.groups.forEach((g) => {
-        initialPrices[g.id] = g.price || info.pricing.base || 0;
+        initialPrices[g.id] = g.price || event.pricing.base || 0;
       });
 
       setGroupPrices(initialPrices);
       setMapData(parsed);
       setScale(parsed.meta?.scale || 1);
-    } else if (fromVenue && data) {
-      const parsed = JSON.parse(JSON.stringify(data));
+    } else if (fromVenue && seatMap) {
+      const parsed = JSON.parse(JSON.stringify(seatMap));
       setMapData(parsed);
       setScale(parsed.meta?.scale || 1);
     }
-  }, [data]);
+  }, [seatMap]);
 
   const handleZoom = (delta) => {
     setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
@@ -78,23 +83,22 @@ export default function SeatInspectionPage({ info, data }) {
     try {
       const token = localStorage.getItem('accessToken');
       const response = await api.patch(
-        `/shows/events/${info._id}`,
+        `/shows/events/${event._id}`,
         {
-          showId: info.show._id,
-          venueId: info.venue._id,
+          showId: event.show._id,
+          venueId: event.venue._id,
           eventSeatMap: updated,
-          startTime: info.startTime,
-          endTime: info.endTime,
+          startTime: event.startTime,
+          endTime: event.endTime,
           pricing: {
-            base: info.pricing?.base,
-            currency: info.pricing?.currency,
+            base: event.pricing?.base,
+            currency: event.pricing?.currency,
           },
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response);
     } catch (err) {
       console.error(err);
     }
@@ -104,43 +108,31 @@ export default function SeatInspectionPage({ info, data }) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900 overflow-hidden">
-      {/* TOP BAR */}
-      <div className="h-16 bg-gray-800 flex items-center justify-between px-6 shadow-md z-50">
-        {/* LEFT SIDE */}
-        <div className="flex items-center gap-4">
-          {fromVenue && (
-            <>
-              <span>{info.name}</span>
-              <span>{info.address}</span>
-              <span>
-                {info.city}, {info.country}
-              </span>
-              <span>{info.capacity}</span>
-            </>
-          )}
+    <div className="flex flex-col h-screen overflow-hidden">
+      {fromVenue && (
+        <>
+          <VenueInfoBar venue={venue} />
+          <Button
+            size="sm"
+            children="Edit"
+            wrapperClass="rounded-lg self-center"
+          ></Button>
+        </>
+      )}
+      {fromEvent && (
+        <>
+          <VenueInfoBar venue={event.venue} />
+          <Button
+            size="sm"
+            wrapperClass="rounded-lg"
+            onClick={handleEditButton}
+          >
+            {isEditMode ? 'Save Changes' : 'Edit'}
+          </Button>
+        </>
+      )}
 
-          {fromEvent && (
-            <>
-              <span>{info.venue.name}</span>
-              <span>{info.venue.address}</span>
-              <span>
-                {info.venue.city}, {info.venue.country}
-              </span>
-              <span>{info.venue.capacity}</span>
-
-              <Button
-                size="sm"
-                wrapperClass="rounded-lg"
-                onClick={handleEditButton}
-              >
-                {isEditMode ? 'Save Changes' : 'Edit'}
-              </Button>
-            </>
-          )}
-        </div>
-
-        {/* INFO LEGEND */}
+      <div className="h-16 flex items-center justify-between px-6 z-50">
         {fromEvent && (
           <div className="flex gap-3 text-xs text-gray-300">
             <div className="flex items-center gap-1">
@@ -155,7 +147,6 @@ export default function SeatInspectionPage({ info, data }) {
           </div>
         )}
 
-        {/* ZOOM */}
         <div className="flex bg-gray-700 rounded-lg p-1">
           <button
             onClick={() => handleZoom(-0.1)}
@@ -175,7 +166,6 @@ export default function SeatInspectionPage({ info, data }) {
         </div>
       </div>
 
-      {/* MAP CONTAINER */}
       <div
         ref={containerRef}
         className="flex-1 overflow-auto relative cursor-grab active:cursor-grabbing bg-[#1a1c23]"
@@ -188,7 +178,6 @@ export default function SeatInspectionPage({ info, data }) {
             height: '2000px',
           }}
         >
-          {/* STAGE */}
           <div
             className="absolute bg-gray-800 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
             style={{
@@ -201,7 +190,6 @@ export default function SeatInspectionPage({ info, data }) {
             STAGE
           </div>
 
-          {/* GROUPS */}
           {mapData.groups.map((group) => (
             <div
               key={group.id}
@@ -238,8 +226,8 @@ export default function SeatInspectionPage({ info, data }) {
                 <div className="w-full text-center text-gray-300 py-2 text-xs font-bold uppercase tracking-wider">
                   {!isEditMode ? (
                     <>
-                      {formatCurrency(info.pricing.currency)}
-                      {group.price ?? info.pricing.base}
+                      {formatCurrency(event.pricing.currency)}
+                      {group.price ?? event.pricing.base}
                     </>
                   ) : (
                     <input
