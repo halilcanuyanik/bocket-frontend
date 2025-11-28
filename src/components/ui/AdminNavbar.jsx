@@ -1,4 +1,7 @@
+// REACT ROUTER HOOKS
 import { useNavigate, useLocation } from 'react-router-dom';
+
+// COMPONENTS
 import Button from '@/components/ui/Button';
 
 function AdminNavbar() {
@@ -13,17 +16,24 @@ function AdminNavbar() {
     { label: 'Users', path: '/admin/users' },
   ];
 
+  const isActive = (path) => {
+    if (path === '/admin') {
+      return pathname === '/admin';
+    }
+    return pathname.startsWith(path);
+  };
+
   return (
     <div className="w-screen h-16 px-6 flex justify-between items-center">
       <div className="flex gap-4">
         {links.map((link) => {
-          const isActive = pathname === link.path;
-
           return (
             <button
               key={link.path}
               className={`admin-navbar-button after:hidden ${
-                isActive ? 'text-lively-orange font-semibold' : ''
+                isActive(link.path)
+                  ? 'text-lively-orange font-semibold border-b-2 border-orange-500'
+                  : ''
               }`}
               onClick={() => navigate(link.path)}
             >
