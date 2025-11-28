@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+// REACT HOOKS
+import { useState } from 'react';
+
+// COMPONENTS
 import Search from '@/components/common/Search';
 
 const roleColors = {
