@@ -9,8 +9,8 @@ import capacityIcon from '@/assets/icons/capacity.svg';
 
 export default function VenueInfoBar({ venue }) {
   return (
-    <div className="h-16 flex items-center justify-between px-6 z-50">
-      <div className="flex items-center gap-4 mr-4">
+    <div className="h-16 flex items-center justify-between z-50">
+      <div className="flex items-center gap-4 pl-4 mr-4">
         <span className="flex gap-2">
           <img src={venueIcon} alt="" />
           {venue.name}

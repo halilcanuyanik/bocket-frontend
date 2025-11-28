@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button';
 import { formatCurrency } from '@/utils/CurrencyFormatter';
 import api from '@/lib/axiosClient';
 import VenueInfoBar from '@/components/ui/VenueInfoBar';
+import ZoomControl from '@/components/ui/ZoomControl';
 
 const getSeatStyle = (seat) => {
   const baseStyle =
@@ -18,14 +19,14 @@ const getSeatStyle = (seat) => {
     case 'vip':
       return `${baseStyle} bg-yellow-500 text-white cursor-pointer hover:bg-yellow-600`;
     default:
-      return `${baseStyle} bg-indigo-600 text-white cursor-pointer hover:bg-indigo-700 hover:scale-110`;
+      return `${baseStyle} bg-indigo text-white cursor-pointer hover:bg-royal-blue hover:scale-110`;
   }
 };
 
 export default function SeatInspectionPage({
   event = {},
   venue = {},
-  seatMap,
+  seatMap = {},
 }) {
   const { pathname } = useLocation();
 
@@ -110,31 +111,28 @@ export default function SeatInspectionPage({
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       {fromVenue && (
-        <>
+        <div className="flex items-center">
           <VenueInfoBar venue={venue} />
+          <ZoomControl scale={scale} onZoom={handleZoom} />
           <Button
             size="sm"
             children="Edit"
             wrapperClass="rounded-lg self-center"
           ></Button>
-        </>
+        </div>
       )}
       {fromEvent && (
-        <>
+        <div className="flex items-center">
           <VenueInfoBar venue={event.venue} />
+          <ZoomControl scale={scale} onZoom={handleZoom} />
           <Button
             size="sm"
-            wrapperClass="rounded-lg"
+            wrapperClass="rounded-lg mr-4"
             onClick={handleEditButton}
           >
             {isEditMode ? 'Save Changes' : 'Edit'}
           </Button>
-        </>
-      )}
-
-      <div className="h-16 flex items-center justify-between px-6 z-50">
-        {fromEvent && (
-          <div className="flex gap-3 text-xs text-gray-300">
+          <div className="flex gap-3 text-xs text-black font-semibold">
             <div className="flex items-center gap-1">
               <div className="w-3 h-3 bg-indigo-600 rounded-sm"></div> Blocked
             </div>
@@ -145,30 +143,11 @@ export default function SeatInspectionPage({
               <div className="w-3 h-3 bg-yellow-500 rounded-sm"></div> VIP
             </div>
           </div>
-        )}
-
-        <div className="flex bg-gray-700 rounded-lg p-1">
-          <button
-            onClick={() => handleZoom(-0.1)}
-            className="px-3 py-1 text-white hover:bg-gray-600 rounded"
-          >
-            -
-          </button>
-          <span className="px-2 py-1 text-gray-300 text-sm min-w-[3rem] text-center">
-            {Math.round(scale * 100)}%
-          </span>
-          <button
-            onClick={() => handleZoom(0.1)}
-            className="px-3 py-1 text-white hover:bg-gray-600 rounded"
-          >
-            +
-          </button>
         </div>
-      </div>
-
+      )}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto relative cursor-grab active:cursor-grabbing bg-[#1a1c23]"
+        className="flex-1 overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-100"
       >
         <div
           className="relative origin-top-left transition-transform duration-200 ease-out"
@@ -179,7 +158,7 @@ export default function SeatInspectionPage({
           }}
         >
           <div
-            className="absolute bg-gray-800 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
+            className="absolute bg-gray-300 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
             style={{
               left: mapData.stage.x,
               top: mapData.stage.y,
@@ -223,7 +202,7 @@ export default function SeatInspectionPage({
               </div>
 
               {fromEvent && (
-                <div className="w-full text-center text-gray-300 py-2 text-xs font-bold uppercase tracking-wider">
+                <div className="w-full text-center text-gray-500 py-2 text-xs font-bold uppercase tracking-wider">
                   {!isEditMode ? (
                     <>
                       {formatCurrency(event.pricing.currency)}

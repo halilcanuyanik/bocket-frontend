@@ -18,7 +18,6 @@ function VenuePage() {
     const fetchVenue = async () => {
       try {
         const response = await api.get(`/venues/${id}`);
-        console.log(response.data.data);
         setVenue(response.data.data);
       } catch (err) {
         console.error(err);
