@@ -37,7 +37,7 @@ function HeroSection() {
             size="responsive"
             children="Log In"
             to="/login"
-            wrapperClass="rounded-lg self-start"
+            wrapperClass="self-start"
           />
         </div>
       </div>

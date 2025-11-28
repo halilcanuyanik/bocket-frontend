@@ -1,11 +1,15 @@
 // REACT HOOKS
 import { useEffect, useState } from 'react';
+
+// REACT ROUTER HOOKS
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import VenueInfoBar from '@/components/ui/VenueInfoBar';
-import SeatInspectionPage from './SeatInspectionPage';
 import Loading from '@/components/common/Loading';
+import VenueInfoBar from '@/components/ui/VenueInfoBar';
+
+// PAGES
+import SeatInspectionPage from '@/pages/admin/SeatInspectionPage';
 
 // API
 import api from '@/lib/axiosClient';

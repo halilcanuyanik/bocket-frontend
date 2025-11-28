@@ -17,11 +17,7 @@ export default function NotFoundPage() {
           Sorry, we couldn’t find the page you’re looking for.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button
-            wrapperClass="rounded-md"
-            children="Go back home"
-            onClick={() => navigate('/')}
-          />
+          <Button children="Go back home" onClick={() => navigate('/')} />
           <a
             href="#"
             className="text-sm font-semibold text-white custom-selection hover:text-coral-red transition-all"

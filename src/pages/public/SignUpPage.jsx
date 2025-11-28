@@ -114,7 +114,6 @@ export default function SignUpPage() {
 
           <div className="flex justify-center">
             <Button
-              wrapperClass="rounded-md"
               size="lg"
               children="Sign Up"
               disabled={isLoading}

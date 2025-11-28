@@ -99,7 +99,6 @@ export default function LogInPage() {
           })}
           <div className="flex justify-center">
             <Button
-              wrapperClass="rounded-md"
               size="lg"
               children="Log In"
               disabled={isLoading}

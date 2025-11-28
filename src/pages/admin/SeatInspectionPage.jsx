@@ -114,22 +114,14 @@ export default function SeatInspectionPage({
         <div className="flex items-center">
           <VenueInfoBar venue={venue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
-          <Button
-            size="sm"
-            children="Edit"
-            wrapperClass="rounded-lg self-center"
-          ></Button>
+          <Button size="sm" children="Edit" wrapperClass="self-center"></Button>
         </div>
       )}
       {fromEvent && (
         <div className="flex items-center">
           <VenueInfoBar venue={event.venue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
-          <Button
-            size="sm"
-            wrapperClass="rounded-lg mr-4"
-            onClick={handleEditButton}
-          >
+          <Button size="sm" wrapperClass="mr-4" onClick={handleEditButton}>
             {isEditMode ? 'Save Changes' : 'Edit'}
           </Button>
           <div className="flex gap-3 text-xs text-black font-semibold">
