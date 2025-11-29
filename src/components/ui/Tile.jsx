@@ -21,7 +21,7 @@ function Tile({ day, hour, venueName, address, price, currency, onClick }) {
           {address}
         </span>
         <Button
-          wrapperClass="col-start-3 col-span-1 row-start-1 row-span-2 justify-self-center rounded-lg"
+          wrapperClass="col-start-3 col-span-1 row-start-1 row-span-2 justify-self-center"
           size="sm"
         >
           Buy {formatCurrency(currency)}

@@ -113,7 +113,7 @@ export default function SeatInspectionPage({ event = null, venue = null }) {
         <div className="flex items-center">
           <VenueInfoBar venue={resolvedVenue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
-          <Button size="sm" children="Edit" wrapperClass="self-center"></Button>
+          <Button size="sm" children="Edit"></Button>
         </div>
       )}
       {fromEvent && (

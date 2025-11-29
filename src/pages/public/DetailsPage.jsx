@@ -109,11 +109,7 @@ export default function DetailsPage() {
                 <img src={venueIcon} />
                 <p>{event.venue.name}</p>
               </div>
-              <Button
-                size="md"
-                wrapperClass="self-center"
-                to={`/seats/${event.id}`}
-              >
+              <Button size="md" to={`/seats/${event.id}`}>
                 Buy {formatCurrency(event.pricing.currency)}
                 {event.pricing.base}
               </Button>

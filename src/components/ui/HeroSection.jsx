@@ -33,12 +33,7 @@ function HeroSection() {
             before they vanish.
           </p>
 
-          <Button
-            size="responsive"
-            children="Log In"
-            to="/login"
-            wrapperClass="self-start"
-          />
+          <Button size="responsive" children="Log In" to="/login" />
         </div>
       </div>
     </div>

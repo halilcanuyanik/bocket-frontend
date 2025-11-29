@@ -1,8 +1,14 @@
+// REACT HOOKS
 import { useState, useRef } from 'react';
+
+// COMPONENTS
+import VenueInfoBar from '@/components/ui/VenueInfoBar';
+
+// API
+import api from '@/lib/axiosClient';
 
 const seatColor = (seat) => {
   if (seat.isSelected) return '#E04B57';
-  if (seat.status === 'occupied') return '#9CA3AF';
   return '#2C3186';
 };
 
@@ -25,7 +31,7 @@ const getBounds = (group, seatSize = 40, gap = 8, padding = 16) => {
   };
 };
 
-export default function SeatEditionPage() {
+export default function SeatEditionPage({ venue }) {
   const TOOLBAR_HEIGHT = 64;
   const SEAT_SIZE = 40;
   const SEAT_GAP = 8;
@@ -374,7 +380,7 @@ export default function SeatEditionPage() {
         className="flex items-center gap-3 px-4 shadow-sm bg-white z-50"
         style={{ height: TOOLBAR_HEIGHT }}
       >
-        <h1 className="font-bold text-gray-700 mr-4">Seat Map Editor</h1>
+        <VenueInfoBar venue={venue} />
         <button
           onClick={addGroup}
           className="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700"
@@ -397,7 +403,7 @@ export default function SeatEditionPage() {
         <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
           <button
             onClick={() => setScale((s) => clamp(s - 0.1, 0.2, 3))}
-            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded"
+            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded cursor-pointer"
           >
             -
           </button>
@@ -406,7 +412,7 @@ export default function SeatEditionPage() {
           </span>
           <button
             onClick={() => setScale((s) => clamp(s + 0.1, 0.2, 3))}
-            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded"
+            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded cursor-pointer"
           >
             +
           </button>
@@ -417,7 +423,7 @@ export default function SeatEditionPage() {
             navigator.clipboard.writeText(JSON.stringify(d));
             alert('JSON copied to clipboard!');
           }}
-          className="ml-4 bg-green-600 text-white px-4 py-1 rounded text-sm hover:bg-green-700"
+          className="ml-4 bg-green-600 text-white px-4 py-1 rounded text-sm hover:bg-green-700 cursor-pointer"
         >
           Export
         </button>

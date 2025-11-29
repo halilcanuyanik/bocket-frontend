@@ -7,9 +7,11 @@ import { useParams } from 'react-router-dom';
 // COMPONENTS
 import Loading from '@/components/common/Loading';
 import VenueInfoBar from '@/components/ui/VenueInfoBar';
+import Button from '@/components/ui/Button';
 
 // PAGES
 import SeatInspectionPage from '@/pages/admin/SeatInspectionPage';
+import SeatEditionPage from '@/pages/admin/SeatEditionPage';
 
 // API
 import api from '@/lib/axiosClient';
@@ -19,7 +21,7 @@ function VenuePage() {
   const [venue, setVenue] = useState(null);
 
   useEffect(() => {
-    const fetchVenue = async () => {
+    const getVenue = async () => {
       try {
         const response = await api.get(`/venues/${id}`);
         setVenue(response.data.data);
@@ -28,7 +30,7 @@ function VenuePage() {
       }
     };
 
-    fetchVenue();
+    getVenue();
   }, [id]);
 
   if (!venue)
@@ -39,15 +41,16 @@ function VenuePage() {
     );
 
   return (
-    <div className="w-screen h-screen flex flex-col">
-      <section className="w-screen flex-1 bg-gray-100 flex font-semibold">
-        {venue.seatMap ? (
-          <SeatInspectionPage venue={venue} seatMap={venue.seatMap} />
-        ) : (
+    <section className="w-screen flex-1 bg-gray-100 flex font-semibold">
+      {venue.seatMap ? (
+        <SeatInspectionPage venue={venue} />
+      ) : (
+        <div className="flex">
           <VenueInfoBar venue={venue} />
-        )}
-      </section>
-    </div>
+          <Button size="sm" children="Edit" />
+        </div>
+      )}
+    </section>
   );
 }
 

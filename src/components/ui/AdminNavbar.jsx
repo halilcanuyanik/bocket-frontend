@@ -4,6 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 // COMPONENTS
 import Button from '@/components/ui/Button';
 
+// LOGO & ICONS
+import logo from '@/assets/images/logo-tr-lit.png';
+
 function AdminNavbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -26,6 +29,7 @@ function AdminNavbar() {
   return (
     <div className="w-screen h-16 px-6 flex justify-between items-center">
       <div className="flex gap-4">
+        <img className="h-8 self-center" src={logo} />
         {links.map((link) => {
           return (
             <button
