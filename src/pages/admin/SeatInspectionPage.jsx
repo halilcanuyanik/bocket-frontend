@@ -108,7 +108,7 @@ export default function SeatInspectionPage({ event = null, venue = null }) {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col flex-1 overflow-hidden">
       {fromVenue && (
         <div className="flex items-center">
           <VenueInfoBar venue={resolvedVenue} />

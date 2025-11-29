@@ -41,11 +41,11 @@ function VenuePage() {
     );
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex font-semibold">
+    <section className="w-screen flex-1 bg-gray-100">
       {venue.seatMap ? (
         <SeatInspectionPage venue={venue} />
       ) : (
-        <div className="flex">
+        <div className="flex items-center">
           <VenueInfoBar venue={venue} />
           <Button size="sm" children="Edit" />
         </div>

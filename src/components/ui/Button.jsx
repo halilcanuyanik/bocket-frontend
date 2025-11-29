@@ -35,6 +35,7 @@ export default function Button({
     font-semibold
     rounded-md
     border-none
+    cursor-pointer
     transition-all
     duration-150
     ease-linear
@@ -48,7 +49,7 @@ export default function Button({
   return (
     <div
       className={`
-        inline-flex 
+        inline-flex
         w-fit
         p-[2px]
         rounded-md
