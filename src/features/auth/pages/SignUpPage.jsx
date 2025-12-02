@@ -10,16 +10,22 @@ import Button from '@/components/ui/Button';
 import Snackbar from '@/components/common/Snackbar';
 
 // API
-import { login } from '@/features/Auth/api/authService';
+import { signup } from '@/features/auth/api/authService';
 
 // LOGO & ICONS
 import logo from '@/assets/images/logo-tr-lit.png';
+import nameIcon from '@/assets/icons/name.svg';
 import emailIcon from '@/assets/icons/email.svg';
 import passwordIcon from '@/assets/icons/password.svg';
 
-export default function LogInPage() {
+export default function SignUpPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -40,9 +46,9 @@ export default function LogInPage() {
     setIsLoading(true);
 
     try {
-      const response = await login(formData);
+      const response = await signup(formData);
 
-      showSnackbar('Logged in successfully!', 'success');
+      showSnackbar('Signed Up Successfully!', 'success');
 
       const role = localStorage.getItem('role');
 
@@ -56,13 +62,21 @@ export default function LogInPage() {
   };
 
   const inputs = [
+    { id: 'name', placeholder: 'Name', type: 'text' },
     { id: 'email', placeholder: 'Email', type: 'email' },
     { id: 'password', placeholder: 'Password', type: 'password' },
+    {
+      id: 'passwordConfirm',
+      placeholder: 'Confirm Password',
+      type: 'password',
+    },
   ];
 
   const iconMap = {
+    name: nameIcon,
     email: emailIcon,
     password: passwordIcon,
+    passwordConfirm: passwordIcon,
   };
 
   return (
@@ -70,7 +84,7 @@ export default function LogInPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="logo" className="mx-auto h-32 w-auto" />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight">
-          Log in to your account
+          Create your account
         </h2>
       </div>
 
@@ -97,10 +111,11 @@ export default function LogInPage() {
               </div>
             );
           })}
+
           <div className="flex justify-center">
             <Button
               size="lg"
-              children="Log In"
+              children="Sign Up"
               disabled={isLoading}
               loading={isLoading}
             />
@@ -108,12 +123,12 @@ export default function LogInPage() {
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-400">
-          Don't have an account?
+          Already have an account?
           <a
-            href="/signup"
+            href="/login"
             className="mx-2 font-semibold text-lively-orange hover:text-lively-orange/80"
           >
-            Sign Up
+            Log In
           </a>
         </p>
       </div>

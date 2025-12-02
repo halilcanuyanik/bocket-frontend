@@ -48,7 +48,7 @@ function AdminNavbar() {
       </div>
 
       <div className="flex items-center">
-        <Button children="Log Out" to="/logout" />
+        <Button size="sm" children="Log Out" to="/logout" />
       </div>
     </div>
   );

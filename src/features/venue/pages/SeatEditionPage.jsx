@@ -1,8 +1,9 @@
 // REACT HOOKS
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
-import VenueInfoBar from '@/components/ui/VenueInfoBar';
+import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
 
 // API
 import api from '@/lib/axiosClient';
@@ -31,12 +32,17 @@ const getBounds = (group, seatSize = 40, gap = 8, padding = 16) => {
   };
 };
 
-export default function SeatEditionPage({ venue }) {
+export default function SeatEditionPage() {
   const TOOLBAR_HEIGHT = 64;
   const SEAT_SIZE = 40;
   const SEAT_GAP = 8;
   const GROUP_PADDING = 16;
   const SNAP_THRESHOLD = 10;
+
+  const { id } = useParams();
+
+  const [venue, setVenue] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [groups, setGroups] = useState([]);
   const [currentGroupId, setCurrentGroupId] = useState(null);
@@ -49,17 +55,58 @@ export default function SeatEditionPage({ venue }) {
   });
 
   const [guides, setGuides] = useState({ x: null, y: null });
-
   const [scale, setScale] = useState(1);
 
   const lastSelectedSeatRef = useRef(null);
-
   const idCounterRef = useRef(0);
   const containerRef = useRef(null);
 
+  useEffect(() => {
+    const getVenue = async () => {
+      try {
+        const response = await api.get(`/venues/${id}`);
+        const venueData = response.data.data;
+        setVenue(venueData);
+
+        if (venueData.seatMap) {
+          const {
+            groups: savedGroups,
+            stage: savedStage,
+            meta,
+          } = venueData.seatMap;
+
+          if (savedGroups) {
+            setGroups(savedGroups);
+            idCounterRef.current = savedGroups.length;
+          }
+
+          if (savedStage) {
+            setStage(savedStage);
+          }
+
+          if (meta && meta.scale) {
+            setScale(meta.scale);
+          }
+        }
+      } catch (err) {
+        console.error('Venue fetch error:', err);
+      }
+    };
+
+    if (id) getVenue();
+  }, [id]);
+
+  if (!venue) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-gray-500">Venue bilgileri yükleniyor...</div>
+      </div>
+    );
+  }
+
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-  const exportJson = () => {
+  const generateSeatMapData = () => {
     const data = {
       meta: {
         scale,
@@ -78,8 +125,32 @@ export default function SeatEditionPage({ venue }) {
         ),
       })),
     };
-    console.log('EXPORT:', JSON.stringify(data, null, 2));
     return data;
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      setIsSaving(true);
+      const seatMapData = generateSeatMapData();
+
+      const token = localStorage.getItem('accessToken');
+
+      const response = await api.patch(
+        `/venues/update-seatmap/${id}`,
+        {
+          seatMap: seatMapData,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert('Changes saved successfully!');
+    } catch (error) {
+      console.error('Save error:', error);
+      alert('Failed to save changes.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const addGroup = () => {
@@ -95,8 +166,8 @@ export default function SeatEditionPage({ venue }) {
     setCurrentGroupId(newId);
   };
 
-  const normalizeGroupIds = (groups) => {
-    return groups.map((g, index) => ({
+  const normalizeGroupIds = (groupsList) => {
+    return groupsList.map((g, index) => ({
       ...g,
       id: `G${index + 1}`,
     }));
@@ -107,6 +178,7 @@ export default function SeatEditionPage({ venue }) {
     setGroups((prev) => {
       const filtered = prev.filter((g) => g.id !== gid);
       const normalized = normalizeGroupIds(filtered);
+      // Sayacı yeni uzunluğa göre güncelle
       idCounterRef.current = normalized.length;
 
       if (currentGroupId === gid) {
@@ -114,7 +186,6 @@ export default function SeatEditionPage({ venue }) {
       }
 
       return normalized;
-      // return filtered;
     });
     if (currentGroupId === gid) setCurrentGroupId(null);
   };
@@ -417,15 +488,17 @@ export default function SeatEditionPage({ venue }) {
             +
           </button>
         </div>
+
         <button
-          onClick={() => {
-            const d = exportJson();
-            navigator.clipboard.writeText(JSON.stringify(d));
-            alert('JSON copied to clipboard!');
-          }}
-          className="ml-4 bg-green-600 text-white px-4 py-1 rounded text-sm hover:bg-green-700 cursor-pointer"
+          onClick={handleSaveChanges}
+          disabled={isSaving}
+          className={`ml-4 text-white px-4 py-1 rounded text-sm cursor-pointer transition-colors ${
+            isSaving
+              ? 'bg-green-400 cursor-not-allowed'
+              : 'bg-green-600 hover:bg-green-700'
+          }`}
         >
-          Export
+          {isSaving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
 
@@ -455,6 +528,7 @@ export default function SeatEditionPage({ venue }) {
               <div className="text-xs text-gray-400 mt-1">Drag me</div>
             </div>
           </div>
+
           {groups.map((g) => (
             <div
               key={g.id}
@@ -475,6 +549,7 @@ export default function SeatEditionPage({ venue }) {
                     + Add Row
                   </button>
                 </div>
+
                 <div className="absolute -left-8 top-0 h-full flex flex-col justify-center">
                   <button
                     onClick={() => addColToGroup(g.id)}
@@ -485,6 +560,7 @@ export default function SeatEditionPage({ venue }) {
                     + Col
                   </button>
                 </div>
+
                 <div
                   onMouseDown={(e) => onGroupDrag(e, g.id)}
                   onClick={() => setCurrentGroupId(g.id)}
@@ -523,6 +599,7 @@ export default function SeatEditionPage({ venue }) {
               </div>
             </div>
           ))}
+
           {guides.x !== null && (
             <div
               className="absolute top-0 bottom-0 border-l border-cyan-400 border-dashed z-50 pointer-events-none"

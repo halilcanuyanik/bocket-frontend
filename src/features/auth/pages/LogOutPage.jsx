@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 
 // API
-import { logout } from '@/features/Auth/api/authService';
+import { logout } from '@/features/auth/api/authService';
 
 // LOGO & ICONS
 import logo from '@/assets/images/logo-tr-lit.png';

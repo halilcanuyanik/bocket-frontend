@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 
 //PAGES
-import SeatInspectionPage from '@/pages/admin/SeatInspectionPage';
+import SeatInspectionPage from '@/features/venue/pages/SeatInspectionPage';
 
 // API
 import api from '@/lib/axiosClient';

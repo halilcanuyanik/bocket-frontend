@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // COMPONENTS
 import Search from '@/components/common/Search';
-import Grid from '@/components/ui/Grid';
+import Grid from '@/features/venue/components/Grid';
 
 function VenuesPage() {
   const [venues, setVenues] = useState([]);

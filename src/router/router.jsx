@@ -3,31 +3,29 @@ import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 
 // PUBLIC
-import LandingPage from '@/pages/public/LandingPage';
-import DetailsPage from '@/pages/public/DetailsPage';
-import SeatSelectionPage from '@/pages/public/SeatSelectionPage';
-import NotFoundPage from '@/pages/public/NotFoundPage';
+import LandingPage from '@/pages/LandingPage';
+import DetailsPage from '@/pages/DetailsPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 // AUTH
-import LogInPage from '@/pages/public/LogInPage';
-import SignUpPage from '@/pages/public/SignUpPage';
-import LogOutPage from '@/pages/common/LogOutPage';
+import LogInPage from '@/features/auth/pages/LogInPage';
+import SignUpPage from '@/features/auth/pages/SignUpPage';
+import LogOutPage from '@/features/auth/pages/LogOutPage';
 
 // USER
 import UserLayout from '@/components/layout/UserLayout';
-import HomePage from '@/pages/user/HomePage';
-import TicketsPage from '@/pages/user/TicketsPage';
+import HomePage from '@/features/auth/user/pages/HomePage';
 
 // ADMIN
 import AdminLayout from '@/components/layout/AdminLayout';
-import AdminPanel from '@/pages/admin/AdminPanel';
-import EventsPage from '@/pages/admin/EventsPage';
-import EventPage from '@/pages/admin/EventPage';
-import VenuesPage from '@/pages/admin/VenuesPage';
-import PerformersPage from '@/pages/admin/PerformersPage';
-import UsersPage from '@/pages/admin/UsersPage';
-import VenuePage from '@/pages/admin/VenuePage';
-import SeatEditionPage from '@/pages/admin/SeatEditionPage';
+import AdminPanel from '@/features/auth/admin/pages/AdminPanel';
+import EventsPage from '@/features/event/pages/EventsPage';
+import EventPage from '@/features/event/pages/EventPage';
+import VenuesPage from '@/features/venue/pages/VenuesPage';
+import PerformersPage from '@/features/performer/pages/PerformersPage';
+import UsersPage from '@/features/user/pages/UsersPage';
+import VenuePage from '@/features/venue/pages/VenuePage';
+import SeatEditionPage from '@/features/venue/pages/SeatEditionPage';
 
 export const router = createBrowserRouter([
   {
@@ -35,12 +33,8 @@ export const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/eventDetails/:id',
+    path: '/event-details/:id',
     element: <DetailsPage />,
-  },
-  {
-    path: '/seats/:id',
-    element: <SeatSelectionPage />,
   },
   {
     path: '/login',
@@ -61,10 +55,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: '/home/tickets',
-        element: <TicketsPage />,
       },
     ],
   },
@@ -105,7 +95,7 @@ export const router = createBrowserRouter([
         element: <UsersPage />,
       },
       {
-        path: '/admin/editSeats/:id',
+        path: '/admin/edit-venue-seats/:id',
         element: <SeatEditionPage />,
       },
     ],

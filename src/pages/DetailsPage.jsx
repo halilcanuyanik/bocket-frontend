@@ -9,7 +9,7 @@ import Tile from '@/components/ui/Tile';
 
 // UTILS
 import { formatDate, formatTime } from '@/utils/DateFormatter';
-import { formatCurrency } from '../../utils/currencyFormatter';
+import { formatCurrency } from '../utils/currencyFormatter';
 
 // API
 import api from '@/lib/axiosClient';
