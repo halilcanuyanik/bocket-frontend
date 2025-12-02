@@ -45,15 +45,8 @@ export const signup = async (credentials) => {
 };
 
 export const logout = async () => {
-  const token = localStorage.getItem('accessToken');
   try {
-    if (token) {
-      await api.post(
-        '/users/logout',
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    }
+    await api.post('/users/logout');
   } catch (err) {
     console.warn('Logout API failed, proceeding anyway.');
     console.error(err);

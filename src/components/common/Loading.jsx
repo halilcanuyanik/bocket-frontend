@@ -1,6 +1,6 @@
 export default function Loading({
   size = 'md',
-  color = 'bg-royal-indigo',
+  color = 'bg-royal-blue',
   className = '',
 }) {
   const sizes = {

@@ -7,10 +7,7 @@ function HomePage() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        const response = await api.get('/users/verify', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await api.get('/users/verify');
         setUser(response.data.data);
       } catch (err) {
         console.error(err);

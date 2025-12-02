@@ -136,15 +136,10 @@ export default function SeatEditionPage() {
 
       const token = localStorage.getItem('accessToken');
 
-      const response = await api.patch(
-        `/venues/update-seatmap/${id}`,
-        {
-          seatMap: seatMapData,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await api.patch(`/venues/update-seatmap/${id}`, {
+        seatMap: seatMapData,
+      });
+
       alert('Changes saved successfully!');
     } catch (error) {
       console.error('Save error:', error);
