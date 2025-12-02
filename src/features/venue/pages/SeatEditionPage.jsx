@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
+import Loading from '@/components/common/Loading';
 import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
 
 // API
@@ -99,7 +100,7 @@ export default function SeatEditionPage() {
   if (!venue) {
     return (
       <div className="w-screen h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-gray-500">Venue bilgileri yükleniyor...</div>
+        <Loading color="bg-black" />
       </div>
     );
   }
@@ -298,7 +299,7 @@ export default function SeatEditionPage() {
 
   const deleteSeats = () => {
     setGroups((prev) => {
-      return prev
+      const processedGroups = prev
         .map((g) => {
           const gridWithDeleted = g.grid.map((row) =>
             row.filter((s) => !s.isSelected)
@@ -318,6 +319,12 @@ export default function SeatEditionPage() {
           return { ...g, grid: reindexedGrid };
         })
         .filter(Boolean);
+
+      const normalizedGroups = normalizeGroupIds(processedGroups);
+
+      idCounterRef.current = normalizedGroups.length;
+
+      return normalizedGroups;
     });
   };
 
@@ -454,19 +461,19 @@ export default function SeatEditionPage() {
         <VenueInfoBar venue={venue} />
         <button
           onClick={addGroup}
-          className="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700"
+          className="bg-royal-blue text-white px-3 py-1 rounded text-sm hover:bg-indigo-700 cursor-pointer"
         >
           Add Group
         </button>
         <button
           onClick={() => deleteGroup(currentGroupId)}
-          className="bg-red-50 text-red-600 border border-red-200 px-3 py-1 rounded text-sm hover:bg-red-100"
+          className="bg-coral-red/20 text-coral-red border border-coral-red/40 px-3 py-1 rounded text-sm hover:bg-coral-red/40 cursor-pointer"
         >
           Delete Group
         </button>
         <button
           onClick={deleteSeats}
-          className="bg-white text-gray-700 border border-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-50"
+          className="bg-white text-gray-700 border border-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-50 cursor-pointer"
         >
           Delete Seats
         </button>

@@ -95,7 +95,7 @@ export const router = createBrowserRouter([
         element: <UsersPage />,
       },
       {
-        path: '/admin/edit-venue-seats/:id',
+        path: '/admin/venues/edit-seats/:id',
         element: <SeatEditionPage />,
       },
     ],

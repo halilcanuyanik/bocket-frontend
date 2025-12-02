@@ -66,13 +66,12 @@ export default function EditVenueModal({ venue, onClose, onUpdated }) {
     }
 
     try {
-      const res = await api.patch(`/venues/${venue._id}`, form);
-
+      const response = await api.patch(`/venues/${venue._id}`, form);
       setTimeout(() => {
         showSnackbar('Venue updated successfully.', 'success');
 
         setTimeout(() => {
-          onUpdated(res.data.data);
+          onUpdated(response.data.data);
           onClose();
           setLoading(false);
         }, 500);
