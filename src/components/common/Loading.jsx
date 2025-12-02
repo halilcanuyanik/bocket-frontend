@@ -1,4 +1,8 @@
-function Loading({ size = 'md', color = 'bg-blue-500', className = '' }) {
+export default function Loading({
+  size = 'md',
+  color = 'bg-royal-indigo',
+  className = '',
+}) {
   const sizes = {
     sm: { container: 'h-8 w-10 space-x-1.5', bar: 'w-1.5 h-6' },
     md: { container: 'h-12 w-14 space-x-2', bar: 'w-2 h-10' },
@@ -24,7 +28,7 @@ function Loading({ size = 'md', color = 'bg-blue-500', className = '' }) {
           className={`
             transform 
             ${sizes[size].bar} 
-            ${color} 
+            ${color}
             rounded-full 
             transform-origin-bottom 
             ${animationClass}
@@ -34,5 +38,3 @@ function Loading({ size = 'md', color = 'bg-blue-500', className = '' }) {
     </div>
   );
 }
-
-export default Loading;

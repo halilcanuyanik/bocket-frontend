@@ -1,3 +1,4 @@
+// COMPONENTS
 import Card from '@/components/ui/Card';
 import Loading from '@/components/common/Loading';
 
@@ -20,8 +21,17 @@ export default function Carousel({ label, textStyle, events = [] }) {
               />
             ))
           ) : (
-            <div className="w-full flex justify-center">
-              <Loading size="lg" color="bg-coral-red" />
+            <div className="w-full min-h-64 flex items-center justify-center">
+              <Loading
+                size="md"
+                color={
+                  textStyle === 'hot-text'
+                    ? 'bg-coral-red'
+                    : textStyle === 'warm-text'
+                    ? 'bg-bright-violet'
+                    : 'bg-royal-blue'
+                }
+              />
             </div>
           )}
         </div>
