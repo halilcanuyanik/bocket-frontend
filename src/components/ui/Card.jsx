@@ -26,7 +26,7 @@ export default function Card({
         transition-transform duration-300
         bg-neutral-900
       "
-        onClick={() => navigate(`/eventDetails/${id}`)}
+        onClick={() => navigate(`/event-details/${id}`)}
       >
         <div
           className="

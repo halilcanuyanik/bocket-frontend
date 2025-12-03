@@ -22,6 +22,8 @@ function VenuePage() {
   const navigate = useNavigate();
 
   const [venue, setVenue] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const isModalOpen = isEditOpen || isDeleteOpen;
@@ -33,15 +35,17 @@ function VenuePage() {
         setVenue(response.data.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     getVenue();
   }, [id]);
 
-  if (!venue)
+  if (isLoading)
     return (
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-screen h-screen flex justify-center items-center">
         <Loading size="sm" color="bg-black" />
       </div>
     );

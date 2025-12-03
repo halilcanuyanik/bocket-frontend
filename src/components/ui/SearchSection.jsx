@@ -22,7 +22,7 @@ export default function SearchSection() {
             <li
               key={e._id}
               className="p-3 flex gap-3 hover:bg-gray-100 cursor-pointer"
-              onClick={() => navigate(`/eventDetails/${e._id}`)}
+              onClick={() => navigate(`/event-details/${e._id}`)}
             >
               {e.show.coverImage && (
                 <img

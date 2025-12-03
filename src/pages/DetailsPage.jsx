@@ -130,7 +130,7 @@ export default function DetailsPage() {
                     address={e.venue.address}
                     price={e.pricing.base}
                     currency={e.pricing.currency}
-                    onClick={() => navigate(`/eventDetails/${e._id}`)}
+                    onClick={() => navigate(`/event-details/${e._id}`)}
                   />
                 ))
               )}
