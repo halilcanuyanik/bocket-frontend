@@ -6,10 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
 import Tile from '@/components/ui/Tile';
-import EventScheduleCard from '@/components/common/EventScheduleCard';
 
 // UTILS
-import { formatCurrency } from '../utils/currencyFormatter';
+import { formatEventTime } from '@/utils/timeUtils';
+import { formatCurrency } from '@/utils/currencyFormatter';
 
 // API
 import api from '@/lib/axiosClient';
@@ -17,9 +17,6 @@ import api from '@/lib/axiosClient';
 // LOGO & ICONS
 import calendarIcon from '@/assets/icons/calendar.svg';
 import timeIcon from '@/assets/icons/time.svg';
-import venueIcon from '@/assets/icons/venue.svg';
-import addressIcon from '@/assets/icons/address.svg';
-import locationIcon from '@/assets/icons/location.svg';
 
 export default function DetailsPage() {
   const { id } = useParams();
@@ -33,8 +30,7 @@ export default function DetailsPage() {
     const getEvents = async () => {
       try {
         const response = await api.get(`/shows/events/${id}`);
-        const data = response.data.data;
-        setEvent(data);
+        setEvent(response.data.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -51,8 +47,8 @@ export default function DetailsPage() {
     const getOtherEvents = async () => {
       setIsOtherLoading(true);
       try {
-        const res = await api.get(`/shows/${event.show._id}/events`);
-        const allEvents = res.data.data;
+        const response = await api.get(`/shows/${event.show._id}/events`);
+        const allEvents = response.data.data;
         const filtered = allEvents.filter((e) => e._id !== event._id);
         setOtherEvents(filtered);
       } catch (err) {
@@ -90,26 +86,29 @@ export default function DetailsPage() {
           </h1>
           <p className="text-2xl">{event.show.description}</p>
 
-          <EventScheduleCard />
-
           <div className="flex gap-4">
             <div className="flex items-center gap-2">
-              <img src={venueIcon} />
-              <span>{event.venue.name}</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <img src={addressIcon} />
-              <span>{event.venue.address}</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <img src={locationIcon} />
+              <img src={timeIcon} />
               <span>
-                {event.venue.country}, {event.venue.city}
+                {formatEventTime(new Date(event.startTime)).hour}:
+                {formatEventTime(new Date(event.startTime)).minute}{' '}
+                {formatEventTime(new Date(event.startTime)).ampm}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <img src={calendarIcon} />
+              <span>
+                {formatEventTime(new Date(event.startTime)).day} {}
+                {formatEventTime(new Date(event.startTime)).month} {}
+                {formatEventTime(new Date(event.startTime)).year}, {}
+                {formatEventTime(new Date(event.startTime)).weekday}
               </span>
             </div>
           </div>
+
+          <span className="font-[Lexend] text-4xl text-black">
+            {event.venue.name}
+          </span>
 
           <Button size="md" to={`/seats/${event.id}`}>
             Buy {formatCurrency(event.pricing.currency)}
