@@ -1,4 +1,5 @@
-export function formatEventTime(date) {
+export function formatEventTime(time) {
+  const date = new Date(time);
   const hours24 = date.getHours();
   const hours12 = hours24 % 12 || 12;
 

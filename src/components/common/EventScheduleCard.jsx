@@ -1,8 +1,9 @@
 import { formatEventTime } from '@/utils/timeUtils';
 
-export default function EventScheduleCard({ date = new Date() }) {
-  const { hour, minute, ampm, day, month, year, weekday } =
-    formatEventTime(date);
+export default function EventScheduleCard({ time = new Date() }) {
+  const { hour, minute, ampm, day, month, year, weekday } = formatEventTime(
+    new Date(time)
+  );
 
   return (
     <div
