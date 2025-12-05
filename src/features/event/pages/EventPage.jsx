@@ -1,5 +1,6 @@
 // REACT HOOKS
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // REACT ROUTER HOOKS
 import { useParams } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
 import EventTimeBar from '@/features/event/components/EventTimeBar';
+import Button from '@/components/ui/Button';
 
 // API
 import api from '@/lib/axiosClient';
@@ -17,15 +19,21 @@ import { formatCurrency } from '@/utils/currencyFormatter';
 
 export default function EventPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const isModalOpen = isEditOpen || isDeleteOpen;
 
   useEffect(() => {
     const getEvent = async () => {
       try {
         const response = await api.get(`/shows/events/${id}`);
-        console.log(response.data.data);
         setEvent(response.data.data);
+        console.log(response.data.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -38,16 +46,44 @@ export default function EventPage() {
 
   if (isLoading)
     return (
-      <div className="w-screen h-screen flex justify-center items-center">
+      <div className="w-screen flex-1 flex justify-center items-center bg-gray-100">
         <Loading size="sm" color="bg-black" />
       </div>
     );
 
   return (
-    <div className="w-screen h-screen bg-gray-100 flex flex-col lg:flex-row custom-selection relative">
-      <div className="flex">
+    <div className="w-screen flex-1 bg-gray-100 flex flex-col custom-selection">
+      <div className="flex items-center">
+        <span className="font-semibold px-4">{event.show.title}</span>
+        <span className="font-bold">@{event.show.performers[0].name}</span>
         <VenueInfoBar venue={event.venue} />
-        <EventTimeBar time={event.startTime} />
+        <EventTimeBar className="mr-4" time={event.startTime} />
+        <Button size="sm" wrapperClass="mr-4" children="Edit" />
+        <button className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer">
+          Delete
+        </button>
+      </div>
+      <div className="grow">
+        {event.eventSeatMap ? (
+          <>
+            <SeatInspectionPage venue={event.eventSeatMap} />
+            <div
+              className={`${
+                isModalOpen ? 'hidden' : ''
+              }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
+            ></div>
+          </>
+        ) : (
+          <div className="mt-44 flex flex-col items-center justify-center h-full text-gray-400">
+            <p>No seat map defined yet.</p>
+            <p className="text-sm">
+              Click "Create Seat Map" to start designing.
+            </p>
+            <Button size="sm" wrapperClass="mt-4">
+              Create Seat Map
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

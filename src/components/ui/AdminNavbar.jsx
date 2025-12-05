@@ -27,7 +27,7 @@ function AdminNavbar() {
   };
 
   return (
-    <div className="w-screen h-16 px-6 flex justify-between items-center">
+    <div className="w-screen h-16 px-6 flex justify-between items-center custom-selection">
       <div className="flex gap-4">
         <img className="h-8 self-center" src={logo} />
         {links.map((link) => {

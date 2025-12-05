@@ -10,7 +10,7 @@ export default function EventTimeBar({ time }) {
 
   return (
     <div className="h-16 flex items-center justify-between">
-      <div className="flex items-center gap-4 pl-4 mr-4">
+      <div className="flex items-center gap-4 mr-4">
         <span className="flex gap-2">
           <img src={calendarIcon} alt="Calendar" />
           {day} {month} {year}
