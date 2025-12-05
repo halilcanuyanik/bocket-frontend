@@ -87,13 +87,13 @@ export default function DetailsPage() {
   const { show, venue, pricing } = event;
 
   return (
-    <div className="w-screen min-h-screen flex flex-col lg:flex-row custom-selection relative">
-      <div className="relative overflow-hidden h-64 lg:h-full">
-        <img src={show.coverImage} className="w-full object-cover" />
+    <div className="w-screen h-screen flex flex-col lg:flex-row custom-selection relative">
+      <div className="relative overflow-hidden h-64 lg:h-full lg:w-[40vw]">
+        <img src={show.coverImage} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0/1)_0%,rgb(0_0_0/0)_10%,rgb(0_0_0/0)_90%,rgb(0_0_0/1)_100%)] lg:hidden" />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full w-full lw:w-[60vw] overflow-y-auto">
         <div className="w-full p-6 flex flex-col gap-3 border-gray-200 border-b-[0.5px] lg:border-hidden">
           <h1 className="text-black font-semibold text-2xl">{show.title}</h1>
           <p>{show.description}</p>
@@ -112,14 +112,14 @@ export default function DetailsPage() {
 
           <div className="flex items-center gap-2">
             <img src={locationIcon} />
-            <p>
+            <span>
               {venue.address} - {venue.country}, {venue.city}
-            </p>
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <img src={venueIcon} />
-            <p>{venue.name}</p>
+            <span>{venue.name}</span>
           </div>
 
           <Button
@@ -136,7 +136,7 @@ export default function DetailsPage() {
           {otherLoading ? (
             <Loading className="absolute top-6/12 left-6/12" />
           ) : otherEvents.length === 0 ? (
-            <p className="text-center text-gray-500">No other events!</p>
+            <span className="text-center text-gray-500">No other events!</span>
           ) : (
             otherEvents.map((e) => {
               const t = formatEventTime(e.startTime);

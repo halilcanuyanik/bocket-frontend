@@ -1,5 +1,5 @@
 // REACT HOOKS
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 // REACT ROUTER HOOKS
 import { useParams } from 'react-router-dom';
@@ -12,6 +12,7 @@ import Button from '@/components/ui/Button';
 import api from '@/lib/axiosClient';
 
 // UTILS
+import { formatEventTime } from '@/utils/timeUtils.js';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 // LOGO & ICONS
@@ -19,9 +20,6 @@ import calendarIcon from '@/assets/icons/calendar.svg';
 import timeIcon from '@/assets/icons/time.svg';
 import locationIcon from '@/assets/icons/location.svg';
 import venueIcon from '@/assets/icons/venue.svg';
-
-import addressIcon from '@/assets/icons/address.svg';
-import capacityIcon from '@/assets/icons/capacity.svg';
 
 export default function EventPage() {
   const { id } = useParams();
@@ -43,6 +41,13 @@ export default function EventPage() {
     getEvent();
   }, [id]);
 
+  const eventStart = useMemo(
+    () => (event ? formatEventTime(event.startTime) : null),
+    [event]
+  );
+
+  const { show, venue, pricing } = event || {};
+
   if (isLoading)
     return (
       <div className="w-screen h-screen flex justify-center items-center">
@@ -51,46 +56,52 @@ export default function EventPage() {
     );
 
   return (
-    <section className="w-screen flex-1 grid grid-cols-[3fr_7fr] bg-gray-100 custom-selection">
-      <div className="relative group w-full h-full shadow-xl overflow-hidden">
-        <img
-          src={event.show.coverImage}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent via-80% to-black"></div>
-        <Button
-          wrapperClass="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 group-focus:opacity-100
-          transition-opacity cursor-pointer"
-          size="md"
-          children="Edit"
-        />
+    <div className="w-screen h-screen bg-gray-100 flex flex-col lg:flex-row custom-selection relative">
+      <div className="relative overflow-hidden h-64 lg:h-full lg:w-[40vw]">
+        <img src={show.coverImage} className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(0_0_0/1)_0%,rgb(0_0_0/0)_10%,rgb(0_0_0/0)_90%,rgb(0_0_0/1)_100%)] lg:hidden" />
+        <div className="hidden absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black lg:block" />
       </div>
-      <div className="relative w-full max-h-full mt-4 px-6 flex flex-col gap-4 flex-wrap">
-        <h1 className="text-4xl ">{event.show.title}</h1>
-        <p className="text-gray-400 text-xl pr-6">{event.show.description}</p>
 
-        <div className="flex gap-6">
-          <div className="flex items-center gap-2">
-            <img src={calendarIcon} />
-            <p>date</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <img src={timeIcon} />
-            <p>time</p>
-          </div>
-        </div>
+      <div className="flex flex-col h-full w-full lw:w-[60vw] overflow-y-auto">
+        <div className="w-full p-6 flex flex-col gap-3 border-gray-200 border-b-[0.5px] lg:border-hidden">
+          <h1 className="text-black font-semibold text-2xl">{show.title}</h1>
+          <p>{show.description}</p>
 
-        <div className="flex items-center gap-2">
-          <img src={locationIcon} />
-          <p>
-            {event.venue.address} - {event.venue.country}, {event.venue.city}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <img src={venueIcon} />
-          <p>{event.venue.name}</p>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <img src={calendarIcon} />
+              <span>{`${eventStart.day} ${eventStart.month} ${eventStart.year}`}</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <img src={timeIcon} />
+              <span>{`${eventStart.hour}:${eventStart.minute} ${eventStart.ampm}`}</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <img src={locationIcon} />
+            <p>
+              {venue.address} - {venue.country}, {venue.city}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <img src={venueIcon} />
+            <p>{venue.name}</p>
+          </div>
+
+          <Button
+            wrapperClass="self-center"
+            size="md"
+            to={`/seats/${event.id}`}
+          >
+            Buy {formatCurrency(pricing.currency)}
+            {pricing.base}
+          </Button>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
