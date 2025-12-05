@@ -35,9 +35,7 @@ function AdminNavbar() {
             <button
               key={link.path}
               className={`admin-navbar-button after:hidden ${
-                isActive(link.path)
-                  ? 'text-lively-orange font-semibold border-b-2 border-orange-500'
-                  : ''
+                isActive(link.path) ? 'text-lively-orange font-semibold' : ''
               }`}
               onClick={() => navigate(link.path)}
             >

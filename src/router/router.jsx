@@ -5,6 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 // PUBLIC
 import LandingPage from '@/pages/LandingPage';
 import DetailsPage from '@/pages/DetailsPage';
+import SeatSelectionPage from '@/pages/SeatSelectionPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 // AUTH
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
   {
     path: '/event-details/:id',
     element: <DetailsPage />,
+  },
+  {
+    path: '/event-seats/:id',
+    element: <SeatSelectionPage />,
   },
   {
     path: '/login',

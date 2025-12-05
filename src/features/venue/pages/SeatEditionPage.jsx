@@ -1,6 +1,6 @@
 // REACT HOOKS
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
@@ -41,6 +41,7 @@ export default function SeatEditionPage() {
   const SNAP_THRESHOLD = 10;
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [venue, setVenue] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -490,6 +491,8 @@ export default function SeatEditionPage() {
             +
           </button>
         </div>
+
+        <button onClick={() => navigate(-1)}>Cancel</button>
 
         <button
           onClick={handleSaveChanges}

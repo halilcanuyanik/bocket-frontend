@@ -48,7 +48,7 @@ export default function SeatInspectionPage({ venue }) {
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
-      <div className="absolute right-4 top-6 z-20">
+      <div className="absolute left-[calc(50%)] z-20">
         <ZoomControl scale={scale} onZoom={handleZoom} />
       </div>
 
