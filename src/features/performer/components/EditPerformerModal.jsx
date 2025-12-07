@@ -28,6 +28,21 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
     if (loading) return;
     setLoading(true);
 
+    if (!name.trim() || !avatar.trim()) {
+      showSnackbar('Please fill in all fields before saving.', 'error');
+      setLoading(false);
+      return;
+    }
+
+    if (name === performer.name && avatar === performer.avatarImage) {
+      showSnackbar(
+        'No changes detected. Please modify at least one field before saving.',
+        'warning'
+      );
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data } = await api.patch(`/performers/${performer._id}`, {
         name,
@@ -39,12 +54,18 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
       setTimeout(() => {
         onUpdated(data);
         onClose();
+        setLoading(false);
       }, 500);
     } catch (err) {
       console.error(err);
       showSnackbar('An unexpected error occurred.', 'error');
-    } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSave();
     }
   };
 
@@ -66,11 +87,9 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
 
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-              <div>
-                <p className="text-blue-700 font-medium">
-                  Editing "{performer.name}"
-                </p>
-              </div>
+              <p className="text-blue-700 font-medium">
+                Editing "{performer.name}"
+              </p>
             </div>
 
             <div className="flex flex-col gap-1">
@@ -80,6 +99,7 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onKeyDown={handleKeyPress}
                 className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter performer name"
               />
@@ -92,6 +112,7 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
               <input
                 value={avatar}
                 onChange={(e) => setAvatar(e.target.value)}
+                onKeyDown={handleKeyPress}
                 className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="https://example.com/avatar.jpg"
               />
