@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Search from '@/components/common/Search';
 import EditPerformerModal from '@/features/performer/components/EditPerformerModal';
 import DeletePerformerModal from '@/features/performer/components/DeletePerformerModal';
+import AddPerformerModal from '@/features/performer/components/AddPerformerModal';
 
 export default function PerformersPage() {
   const [performers, setPerformers] = useState([]);
@@ -12,13 +13,14 @@ export default function PerformersPage() {
   const [selectedPerformer, setSelectedPerformer] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   const ranges = [
-    { min: 1, max: 2, class: 'text-red-500' },
-    { min: 2, max: 3, class: 'text-orange-500' },
-    { min: 3, max: 4, class: 'text-yellow-500' },
+    { min: 1, max: 2, class: 'text-coral-red' },
+    { min: 2, max: 3, class: 'text-lively-orange' },
+    { min: 3, max: 4, class: 'text-pastel-gold' },
     { min: 4, max: 5, class: 'text-green-500' },
-    { min: 5, max: Infinity, class: 'text-blue-500' },
+    { min: 5, max: Infinity, class: 'text-indigo' },
   ];
 
   function getColorClass(value) {
@@ -50,11 +52,19 @@ export default function PerformersPage() {
     <section className="w-screen min-h-screen bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex justify-between items-center px-4">
         <h1 className="text-black font-bold text-4xl">Performers</h1>
+
         <Search
           endpoint="/performers"
           onSuggestionsChange={setPerformers}
           placeholder="Search performers..."
         />
+
+        <button
+          onClick={() => setAddModalOpen(true)}
+          className="bg-black text-white hover:bg-black/80 px-4 py-2 rounded-md cursor-pointer"
+        >
+          Add Performer
+        </button>
       </div>
 
       <div className="flex flex-wrap gap-8 px-4">
@@ -74,6 +84,7 @@ export default function PerformersPage() {
               >
                 ⭐ {p.averageRating}
               </span>
+              <span className="text-gray-600 text-xs">({p.ratingCount})</span>
             </div>
 
             <button
@@ -114,6 +125,15 @@ export default function PerformersPage() {
           performer={selectedPerformer}
           onClose={() => setDeleteModalOpen(false)}
           onDeleted={handleDeleted}
+        />
+      )}
+
+      {addModalOpen && (
+        <AddPerformerModal
+          onClose={() => setAddModalOpen(false)}
+          onAdded={(newPerformer) =>
+            setPerformers((prev) => [newPerformer, ...prev])
+          }
         />
       )}
     </section>
