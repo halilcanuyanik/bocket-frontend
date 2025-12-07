@@ -66,7 +66,7 @@ export default function EventPage() {
         </button>
       </div>
       <div className="grow">
-        <SeatInspectionPage seatMap={event.eventSeatMap} />
+        <SeatInspectionPage event={event} />
         <div
           className={`${
             isModalOpen ? 'hidden' : ''

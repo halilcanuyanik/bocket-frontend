@@ -5,28 +5,60 @@ import { useState, useEffect, useRef } from 'react';
 import Loading from '@/components/common/Loading';
 import ZoomControl from '@/components/ui/ZoomControl';
 
-export default function SeatInspectionPage({ venue }) {
+// UTILS
+import { formatCurrency } from '@/utils/CurrencyFormatter';
+
+export default function SeatInspectionPage({ venue, event }) {
   const containerRef = useRef(null);
 
   const [mapData, setMapData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [scale, setScale] = useState(1);
 
+  const source = event?.eventSeatMap ? 'event' : 'venue';
+
   useEffect(() => {
     setLoading(true);
 
-    if (!venue?.seatMap) {
-      setMapData(null);
-      setLoading(false);
-      return;
+    let rawMap = null;
+
+    if (source === 'event') {
+      if (!event?.eventSeatMap) {
+        setMapData(null);
+        setLoading(false);
+        return;
+      }
+
+      const currencySymbol = formatCurrency(event?.pricing?.currency);
+
+      rawMap = JSON.parse(JSON.stringify(event.eventSeatMap));
+
+      rawMap.groups = rawMap.groups.map((g) => {
+        const finalPrice = g.price ?? event?.pricing?.base ?? null;
+        return {
+          ...g,
+          price: finalPrice ? `${finalPrice}${currencySymbol}` : null,
+        };
+      });
+
+      setMapData(rawMap);
+      setScale(rawMap.meta?.scale || 1);
     }
 
-    const parsed = JSON.parse(JSON.stringify(venue.seatMap));
-    setMapData(parsed);
-    setScale(parsed.meta?.scale || 1);
+    if (source === 'venue') {
+      if (!venue?.seatMap) {
+        setMapData(null);
+        setLoading(false);
+        return;
+      }
+
+      rawMap = JSON.parse(JSON.stringify(venue.seatMap));
+      setMapData(rawMap);
+      setScale(rawMap.meta?.scale || 1);
+    }
 
     setLoading(false);
-  }, [venue]);
+  }, [venue, event, source]);
 
   const handleZoom = (delta) => {
     setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
@@ -48,10 +80,7 @@ export default function SeatInspectionPage({ venue }) {
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
-      <div className="absolute left-[calc(50%)] z-20">
-        <ZoomControl scale={scale} onZoom={handleZoom} />
-      </div>
-
+      {/* <ZoomControl scale={scale} onZoom={handleZoom} /> */}
       <div
         ref={containerRef}
         className="flex-1 overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-100"
@@ -82,8 +111,14 @@ export default function SeatInspectionPage({ venue }) {
               className="absolute"
               style={{ left: group.x, top: group.y }}
             >
-              <div className="absolute -top-6 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
+              <div className="absolute -top-10 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
                 {group.id}
+
+                {group.price && (
+                  <div className="font-bold text-md text-lively-orange">
+                    {group.price}
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col gap-2">
