@@ -8,8 +8,9 @@ import { useParams } from 'react-router-dom';
 // COMPONENTS
 import Loading from '@/components/common/Loading';
 import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
-import EventTimeBar from '@/features/event/components/EventTimeBar';
+import EventInfoBox from '@/features/event/components/EventInfoBox';
 import Button from '@/components/ui/Button';
+import SeatInspectionPage from '@/features/venue/pages/SeatInspectionPage';
 
 // API
 import api from '@/lib/axiosClient';
@@ -33,7 +34,6 @@ export default function EventPage() {
       try {
         const response = await api.get(`/shows/events/${id}`);
         setEvent(response.data.data);
-        console.log(response.data.data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -53,37 +53,27 @@ export default function EventPage() {
 
   return (
     <div className="w-screen flex-1 bg-gray-100 flex flex-col custom-selection">
-      <div className="flex items-center">
-        <span className="font-semibold px-4">{event.show.title}</span>
-        <span className="font-bold">@{event.show.performers[0].name}</span>
+      <div className="flex items-center relative">
         <VenueInfoBar venue={event.venue} />
-        <EventTimeBar className="mr-4" time={event.startTime} />
+        <EventInfoBox
+          title={event.show.title}
+          performer={event.show.performers[0].name}
+          time={event.startTime}
+        />
         <Button size="sm" wrapperClass="mr-4" children="Edit" />
         <button className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer">
           Delete
         </button>
       </div>
       <div className="grow">
-        {event.eventSeatMap ? (
-          <>
-            <SeatInspectionPage venue={event.eventSeatMap} />
-            <div
-              className={`${
-                isModalOpen ? 'hidden' : ''
-              }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
-            ></div>
-          </>
-        ) : (
-          <div className="mt-44 flex flex-col items-center justify-center h-full text-gray-400">
-            <p>No seat map defined yet.</p>
-            <p className="text-sm">
-              Click "Create Seat Map" to start designing.
-            </p>
-            <Button size="sm" wrapperClass="mt-4">
-              Create Seat Map
-            </Button>
-          </div>
-        )}
+        <SeatInspectionPage seatMap={event.eventSeatMap} />
+        <div
+          className={`${
+            isModalOpen ? 'hidden' : ''
+          }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
+        >
+          <Button size="sm" children="Edit Seat Prices" />
+        </div>
       </div>
     </div>
   );

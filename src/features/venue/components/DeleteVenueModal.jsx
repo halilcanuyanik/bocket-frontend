@@ -111,7 +111,7 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
               onClick={handleDelete}
               loading={loading}
               disabled={loading}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
+              className="px-4 py-2"
             >
               Delete
             </Button>
