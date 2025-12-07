@@ -49,7 +49,7 @@ export default function PerformersPage() {
   };
 
   return (
-    <section className="w-screen min-h-screen bg-gray-100 flex flex-col p-6">
+    <section className="w-screen flex-1 bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex justify-between items-center px-4">
         <h1 className="text-black font-bold text-4xl">Performers</h1>
 
