@@ -1,5 +1,8 @@
+// REACT ROUTER HOOKS
 import { Outlet } from 'react-router-dom';
-import UserNavbar from '@/components/ui/UserNavbar';
+
+// COMPONENTS
+import UserNavbar from '@/features/auth/user/components/UserNavbar';
 
 function UserLayout() {
   return (

@@ -1,10 +1,15 @@
+// REACT HOOKS
 import { useState } from 'react';
+
+// COMPONENTS
+import Menu from '@/features/auth/user/components/Menu';
+
+// LOGO & ICONS
 import logo from '@/assets/images/logo-bw-tr-lit.png';
 import menuIcon from '@/assets/icons/menu.svg';
 import closeIcon from '@/assets/icons/close.svg';
-import Menu from '@/components/ui/Menu';
 
-function NavBar() {
+export default function UserNavbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -23,5 +28,3 @@ function NavBar() {
     </div>
   );
 }
-
-export default NavBar;

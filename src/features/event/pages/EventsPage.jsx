@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Search from '@/components/common/Search';
+import AddEventModal from '@/features/event/components/AddEventModal';
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -11,10 +13,16 @@ export default function EventsPage() {
       <div className="w-full h-24 flex justify-between items-center px-4">
         <h1 className="text-black font-bold text-4xl">Events</h1>
         <Search
-          endpoint={`/shows`}
+          endpoint={`/shows/events`}
           onSuggestionsChange={setEvents}
           placeholder="Events..."
         />
+        <button
+          className="bg-black text-white hover:bg-black/80 px-4 py-2 rounded-md cursor-pointer"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Event
+        </button>
       </div>
 
       <ul className="w-6/12 bg-white mt-2 rounded-md shadow overflow-y-auto">
@@ -42,6 +50,12 @@ export default function EventsPage() {
           </li>
         ))}
       </ul>
+      {addModalOpen && (
+        <AddEventModal
+          onClose={() => setAddModalOpen(false)}
+          onAdded={(newEvent) => setEvents([...events, newEvent])}
+        />
+      )}
     </section>
   );
 }

@@ -11,7 +11,7 @@ export default function SearchSection() {
       <p className="text-md font-semibold text-gray-300">SEARCH</p>
 
       <Search
-        endpoint={`/shows`}
+        endpoint={`/shows/events`}
         onSuggestionsChange={setEvents}
         placeholder="Event, Venue or Performer..."
       />

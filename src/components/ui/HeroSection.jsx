@@ -1,8 +1,11 @@
-import img from '@/assets/images/splash.png';
-import logo from '@/assets/images/logo-tr-lit.png';
+// COMPONENTS
 import Button from '@/components/ui/Button';
 
-function HeroSection() {
+// LOGO & ICONS
+import img from '@/assets/images/splash.png';
+import logo from '@/assets/images/logo-tr-lit.png';
+
+export default function HeroSection() {
   return (
     <div className="relative w-full max-w-screen bg-black flex justify-center items-center overflow-hidden">
       <div className="w-full overflow-hidden lg:h-[600px] relative">
@@ -39,5 +42,3 @@ function HeroSection() {
     </div>
   );
 }
-
-export default HeroSection;
