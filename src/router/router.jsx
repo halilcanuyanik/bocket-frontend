@@ -20,6 +20,7 @@ import HomePage from '@/features/auth/user/pages/HomePage';
 // ADMIN
 import AdminLayout from '@/components/layout/AdminLayout';
 import AdminPanel from '@/features/auth/admin/pages/AdminPanel';
+import ShowsPage from '@/features/show/pages/ShowsPage';
 import EventsPage from '@/features/event/pages/EventsPage';
 import EventPage from '@/features/event/pages/EventPage';
 import VenuesPage from '@/features/venue/pages/VenuesPage';
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <AdminPanel />,
+      },
+      {
+        path: '/admin/shows',
+        element: <ShowsPage />,
       },
       {
         path: '/admin/events',

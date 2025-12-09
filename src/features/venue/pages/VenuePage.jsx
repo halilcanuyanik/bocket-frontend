@@ -45,14 +45,14 @@ function VenuePage() {
 
   if (isLoading)
     return (
-      <div className="w-screen h-screen flex justify-center items-center">
+      <div className="flex-1 h-screen bg-gray-100 flex justify-center items-center">
         <Loading size="sm" color="bg-black" />
       </div>
     );
 
   return (
-    <section className="w-screen flex-1 bg-gray-100">
-      <div className="w-screen flex flex-col">
+    <section className="flex-1 min-h-screen bg-gray-100">
+      <div className="flex-1 flex flex-col">
         <div className="flex items-center">
           <VenueInfoBar venue={venue} />
 

@@ -11,23 +11,25 @@ function VenuesPage() {
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex flex-col p-6">
-      <div className="w-full h-24 flex justify-between items-center px-4">
+    <section className="flex-1 min-h-screen bg-gray-100 flex flex-col p-6">
+      <div className="w-full h-24 flex flex-col gap-4 justify-between">
         <h1 className="text-black font-bold text-4xl">Venues</h1>
-        <Search
-          endpoint={`/venues`}
-          onSuggestionsChange={setVenues}
-          placeholder="Venue name, address, city or country..."
-        />
-        <button
-          onClick={() => setAddModalOpen(true)}
-          className="bg-black text-white hover:bg-black/80 px-4 py-2 rounded-md cursor-pointer"
-        >
-          Add Venue
-        </button>
+        <div className="flex items-center gap-4">
+          <Search
+            endpoint={`/venues`}
+            onSuggestionsChange={setVenues}
+            placeholder="Venue name, address, city or country..."
+          />
+          <button
+            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80  transition cursor-pointer"
+            onClick={() => setAddModalOpen(true)}
+          >
+            Add Venue
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="mt-8 flex flex-wrap gap-4">
         {venues.map((v) => (
           <Grid
             key={v._id}

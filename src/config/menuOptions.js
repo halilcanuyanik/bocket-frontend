@@ -1,5 +1,4 @@
 import ticketIcon from '@/assets/icons/ticket.svg';
-import accountIcon from '@/assets/icons/account.svg';
 import navigateIcon from '@/assets/icons/navigate.svg';
 import logoutIcon from '@/assets/icons/logout.svg';
 
@@ -16,7 +15,7 @@ export const menuOptions = [
   },
   {
     optionName: 'Account',
-    optionIcon: accountIcon,
+    // optionIcon: accountIcon,
     path: '/account',
   },
   {

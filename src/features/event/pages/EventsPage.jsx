@@ -9,20 +9,22 @@ export default function EventsPage() {
   const navigate = useNavigate();
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 flex flex-col items-center p-6">
-      <div className="w-full h-24 flex justify-between items-center px-4">
+    <section className="flex-1 h-screen bg-gray-100 flex flex-col p-6">
+      <div className="w-full h-24 flex flex-col gap-4 justify-between">
         <h1 className="text-black font-bold text-4xl">Events</h1>
-        <Search
-          endpoint={`/shows/events`}
-          onSuggestionsChange={setEvents}
-          placeholder="Events..."
-        />
-        <button
-          className="bg-black text-white hover:bg-black/80 px-4 py-2 rounded-md cursor-pointer"
-          onClick={() => setAddModalOpen(true)}
-        >
-          Add Event
-        </button>
+        <div className="flex items-center gap-4">
+          <Search
+            endpoint={`/shows/events`}
+            onSuggestionsChange={setEvents}
+            placeholder="Events..."
+          />
+          <button
+            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80  transition cursor-pointer"
+            onClick={() => setAddModalOpen(true)}
+          >
+            Add Event
+          </button>
+        </div>
       </div>
 
       <ul className="w-6/12 bg-white mt-2 rounded-md shadow overflow-y-auto">

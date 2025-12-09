@@ -17,7 +17,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden lg:h-[600px] relative flex justify-center">
+    <div className="flex-1 overflow-hidden lg:h-[600px] relative flex justify-center">
       <img
         src={img}
         alt="splash-image"

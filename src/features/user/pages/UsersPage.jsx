@@ -13,8 +13,8 @@ export default function UsersPage() {
   const [users, setUsers] = useState([]);
 
   return (
-    <section className="w-screen min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <div className="w-full h-24 flex justify-between items-center px-4">
+    <section className="flex-1 h-screen bg-gray-100 flex flex-col p-6">
+      <div className="w-full h-24 flex flex-col space-y-4">
         <h1 className="text-black font-bold text-4xl">Users</h1>
         <Search
           endpoint={`/users`}
@@ -23,7 +23,7 @@ export default function UsersPage() {
         />
       </div>
 
-      <div className="w-full h-16 px-4 grid grid-cols-4 items-center border-b-1 border-gray-300 text-md font-bold">
+      <div className="w-full h-16 mt-2 px-4 grid grid-cols-4 items-center border-b-1 border-gray-300 text-md font-bold">
         <span>Name</span>
         <span>Email</span>
         <span>Role</span>
