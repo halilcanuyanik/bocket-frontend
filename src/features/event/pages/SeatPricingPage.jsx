@@ -1,67 +1,61 @@
 // REACT HOOKS
 import { useState, useEffect, useRef } from 'react';
 
+import { useParams } from 'react-router-dom';
+
 // COMPONENTS
 import Loading from '@/components/common/Loading';
 import ZoomControl from '@/components/ui/ZoomControl';
 
+// API
+import api from '@/lib/axiosClient';
+
 // UTILS
 import { formatCurrency } from '@/utils/CurrencyFormatter';
 
-export default function SeatInspectionPage({ venue, event }) {
+export default function SeatPricingPage() {
+  const { id } = useParams();
+
   const containerRef = useRef(null);
 
   const [mapData, setMapData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [scale, setScale] = useState(1);
-
-  const source = event?.eventSeatMap ? 'event' : 'venue';
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-
     let rawMap = null;
 
-    if (source === 'event') {
-      if (!event?.eventSeatMap) {
-        setMapData(null);
-        setLoading(false);
-        return;
-      }
+    rawMap = JSON.parse(JSON.stringify(event.eventSeatMap));
 
-      const currencySymbol = formatCurrency(event?.pricing?.currency);
+    rawMap.groups = rawMap.groups.map((g) => {
+      const finalPrice = g.price ?? event?.pricing?.base ?? null;
+      return {
+        ...g,
+        price: finalPrice ?? '',
+        basePrice: event?.pricing?.base ?? '',
+        currency: event?.pricing?.currency ?? 'USD',
+      };
+    });
 
-      rawMap = JSON.parse(JSON.stringify(event.eventSeatMap));
-
-      rawMap.groups = rawMap.groups.map((g) => {
-        const finalPrice = g.price ?? event?.pricing?.base ?? null;
-        return {
-          ...g,
-          price: finalPrice ? `${finalPrice}${currencySymbol}` : null,
-        };
-      });
-
-      setMapData(rawMap);
-      setScale(rawMap.meta?.scale || 1);
-    }
-
-    if (source === 'venue') {
-      if (!venue?.seatMap) {
-        setMapData(null);
-        setLoading(false);
-        return;
-      }
-
-      rawMap = JSON.parse(JSON.stringify(venue.seatMap));
-      setMapData(rawMap);
-      setScale(rawMap.meta?.scale || 1);
-    }
+    setMapData(rawMap);
+    setScale(rawMap.meta?.scale || 1);
 
     setLoading(false);
-  }, [venue, event, source]);
+  }, [id]);
 
   const handleZoom = (delta) => {
     setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
+  };
+
+  const handlePriceChange = (groupId, field, value) => {
+    setMapData((prev) => ({
+      ...prev,
+      groups: prev.groups.map((g) =>
+        g.id === groupId ? { ...g, [field]: value } : g
+      ),
+    }));
   };
 
   if (loading) {
@@ -111,14 +105,44 @@ export default function SeatInspectionPage({ venue, event }) {
               className="absolute"
               style={{ left: group.x, top: group.y }}
             >
-              <div className="absolute -top-10 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
+              <div className="absolute -top-28 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
                 {group.id}
 
-                {group.price && (
-                  <div className="font-bold text-md text-lively-orange">
-                    {group.price}
-                  </div>
-                )}
+                <div className="mt-1 flex flex-col gap-1 items-center">
+                  <input
+                    type="number"
+                    value={group.price}
+                    onChange={(e) =>
+                      handlePriceChange(group.id, 'price', e.target.value)
+                    }
+                    className="w-16 text-center border rounded px-1 py-0.5"
+                    placeholder="Price"
+                  />
+                  <input
+                    type="number"
+                    value={group.basePrice}
+                    onChange={(e) =>
+                      handlePriceChange(group.id, 'basePrice', e.target.value)
+                    }
+                    className="w-16 text-center border rounded px-1 py-0.5"
+                    placeholder="Base"
+                  />
+                  <input
+                    type="text"
+                    value={group.currency}
+                    onChange={(e) =>
+                      handlePriceChange(group.id, 'currency', e.target.value)
+                    }
+                    className="w-16 text-center border rounded px-1 py-0.5"
+                    placeholder="Currency"
+                  />
+                  <button
+                    disabled={updating}
+                    className="mt-1 bg-lively-orange text-white px-2 py-1 rounded text-xs"
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
 
               <div className="flex flex-col gap-2">

@@ -1,5 +1,7 @@
-// HOOKS
+// REACT HOOKS
 import { useEffect, useState, useMemo } from 'react';
+
+// REACT ROUTER HOOKS
 import { useNavigate, useParams } from 'react-router-dom';
 
 // COMPONENTS
@@ -11,7 +13,7 @@ import Tile from '@/components/ui/Tile';
 import { formatEventTime } from '@/utils/timeUtils';
 import { formatCurrency } from '../utils/currencyFormatter';
 
-// API
+// APIs
 import api from '@/lib/axiosClient';
 
 // ICONS

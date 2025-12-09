@@ -7,7 +7,7 @@ import SearchSection from '@/components/ui/SearchSection';
 import Carousel from '@/components/ui/Carousel';
 import Footer from '@/components/ui/Footer';
 
-// API
+// APIs
 import api from '@/lib/axiosClient';
 
 export default function LandingPage() {

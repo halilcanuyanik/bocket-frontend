@@ -72,7 +72,11 @@ export default function EventPage() {
             isModalOpen ? 'hidden' : ''
           }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
         >
-          <Button size="sm" children="Edit Seat Prices" />
+          <Button
+            size="sm"
+            children="Edit Seat Prices"
+            to={`/admin/events/update-pricing/${id}`}
+          />
         </div>
       </div>
     </div>

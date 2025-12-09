@@ -27,6 +27,7 @@ import PerformersPage from '@/features/performer/pages/PerformersPage';
 import UsersPage from '@/features/user/pages/UsersPage';
 import VenuePage from '@/features/venue/pages/VenuePage';
 import SeatEditionPage from '@/features/venue/pages/SeatEditionPage';
+import SeatPricingPage from '@/features/event/pages/SeatPricingPage';
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: '/admin/events/:id',
         element: <EventPage />,
+      },
+      {
+        path: '/admin/events/update-pricing/:id',
+        element: <SeatPricingPage />,
       },
       {
         path: '/admin/venues',

@@ -175,7 +175,6 @@ export default function SeatEditionPage() {
     setGroups((prev) => {
       const filtered = prev.filter((g) => g.id !== gid);
       const normalized = normalizeGroupIds(filtered);
-      // Sayacı yeni uzunluğa göre güncelle
       idCounterRef.current = normalized.length;
 
       if (currentGroupId === gid) {
