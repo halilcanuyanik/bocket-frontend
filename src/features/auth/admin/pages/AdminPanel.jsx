@@ -25,7 +25,7 @@ export default function AdminPanel() {
   }, []);
 
   return (
-    <section className="w-screen flex-1 bg-gray-100 p-12">
+    <section className="flex-1 h-screen bg-gray-100 p-6">
       <div className="w-56 h-24 px-4 gap-4 bg-white rounded-lg shadow-md border-1 border-lively-orange flex items-center">
         {isLoading ? (
           <div className="w-full h-full flex items-center justify-center">

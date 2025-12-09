@@ -35,12 +35,12 @@ function AdminNavbar() {
     }`;
 
   return (
-    <section className="w-48 h-screen bg-gray-200 grid grid-rows-[2fr_7.5fr_1.5fr] custom-selection">
-      <div className="w-full h-full flex items-center justify-center cusor-not-allowed">
+    <section className="w-48 h-screen fixed left-0 top-0 bg-gray-200 grid grid-rows-[2fr_7.5fr_1.5fr] custom-selection">
+      <div className="w-full h-full flex items-center justify-center cursor-not-allowed">
         <img src={logo} className="w-16" />
       </div>
 
-      <div className="w-full h-full p-4 flex flex-col space-y-4">
+      <div className="w-full h-full p-4 flex flex-col space-y-4 overflow-y-auto">
         <ul className="space-y-2">
           {navItems.map((item) => (
             <li

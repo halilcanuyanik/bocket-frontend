@@ -51,6 +51,8 @@ export default function SeatInspectionPage({ venue, event }) {
     );
   }
 
+  const { width: mapWidth, height: mapHeight } = calculateSeatMapSize(seatMap);
+
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
       <ZoomControl scale={scale} onZoom={handleZoom} />
@@ -62,8 +64,8 @@ export default function SeatInspectionPage({ venue, event }) {
           className="relative origin-top-left transition-transform duration-200 ease-out"
           style={{
             transform: `scale(${scale})`,
-            minWidth: '1000px',
-            minHeight: '1000px',
+            width: mapWidth,
+            height: mapHeight,
           }}
         >
           <StageDisplay stage={seatMap.stage} />
@@ -97,6 +99,26 @@ function prepareEventSeatMap(event) {
 function prepareVenueSeatMap(venue) {
   if (!venue?.seatMap) return null;
   return JSON.parse(JSON.stringify(venue.seatMap));
+}
+
+function calculateSeatMapSize(seatMap) {
+  if (!seatMap) return { width: 1000, height: 1000 };
+
+  let maxX = seatMap.stage.x + seatMap.stage.width;
+  let maxY = seatMap.stage.y + seatMap.stage.height;
+
+  seatMap.groups.forEach((group) => {
+    group.grid.forEach((row) => {
+      row.forEach((seat) => {
+        const seatRight = seat.x + 32;
+        const seatBottom = seat.y + 32;
+        if (seatRight > maxX) maxX = seatRight;
+        if (seatBottom > maxY) maxY = seatBottom;
+      });
+    });
+  });
+
+  return { width: maxX, height: maxY };
 }
 
 function StageDisplay({ stage }) {

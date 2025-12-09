@@ -5,7 +5,10 @@ function AdminLayout() {
   return (
     <div className="w-screen min-h-screen flex relative">
       <AdminNavbar />
-      <Outlet />
+
+      <main className="flex-1 ml-48">
+        <Outlet />
+      </main>
     </div>
   );
 }
