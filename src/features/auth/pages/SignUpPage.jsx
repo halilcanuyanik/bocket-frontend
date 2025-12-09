@@ -56,7 +56,6 @@ export default function SignUpPage() {
       else if (role === 'user') setTimeout(() => navigate('/home'), 1500);
     } catch (err) {
       showSnackbar(err.message, 'error');
-    } finally {
       setIsLoading(false);
     }
   };

@@ -26,7 +26,10 @@ function HomePage() {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent lg:hidden"></div>
       <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,1)_70%)] pointer-events-none hidden lg:block"></div>
       <p className="absolute top-6 font-semibold text-center text-shadow-xl text-3xl text-purple-100">
-        Hello <span className="warm-text">{user.name}</span>
+        Hello{' '}
+        <span className="warm-text">
+          {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+        </span>
       </p>
     </div>
   );
