@@ -1,29 +1,27 @@
 // REACT HOOKS
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 // REACT ROUTER HOOKS
 import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
-import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
-import EventInfoBox from '@/features/event/components/EventInfoBox';
 import Button from '@/components/ui/Button';
+import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
+import ZoomControl from '@/components/ui/ZoomControl';
+
+// PAGES
 import SeatInspectionPage from '@/features/venue/pages/SeatInspectionPage';
 
-// API
+// APIs
 import api from '@/lib/axiosClient';
-
-// UTILS
-import { formatCurrency } from '@/utils/currencyFormatter';
 
 export default function EventPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [scale, setScale] = useState(1);
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -34,6 +32,9 @@ export default function EventPage() {
       try {
         const response = await api.get(`/shows/events/${id}`);
         setEvent(response.data.data);
+
+        const initialScale = response.data.data?.eventSeatMap?.meta?.scale || 1;
+        setScale(initialScale);
       } catch (err) {
         console.error(err);
       } finally {
@@ -43,6 +44,10 @@ export default function EventPage() {
 
     getEvent();
   }, [id]);
+
+  const handleZoom = (delta) => {
+    setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
+  };
 
   if (isLoading)
     return (
@@ -54,19 +59,23 @@ export default function EventPage() {
   return (
     <div className="flex-1 min-h-screen bg-gray-100">
       <div className="flex-1 flex flex-col">
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <VenueInfoBar venue={event.venue} />
-          {/* <EventInfoBox
-          title={event.show.title}
-          performer={event.show.performers[0].name}
-          time={event.startTime}
-        /> */}
-          <Button size="sm" wrapperClass="mr-4" children="Edit" />
-          <button className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer">
+          <button
+            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-md hover:bg-black/80 transition cursor-pointer"
+            onClick={() => setIsEditOpen(true)}
+          >
+            Edit
+          </button>
+          <button
+            className="px-3 py-1.5 font-semibold text-sm text-coral-red bg-coral-red/20 border-gray-400 rounded-xl shadow-md hover:bg-coral-red/40 transition cursor-pointer"
+            onClick={() => setIsDeleteOpen(true)}
+          >
             Delete
           </button>
+          <ZoomControl scale={scale} onZoom={handleZoom} />
         </div>
-        <SeatInspectionPage event={event} />
+        <SeatInspectionPage event={event} scale={scale} />
       </div>
 
       <div

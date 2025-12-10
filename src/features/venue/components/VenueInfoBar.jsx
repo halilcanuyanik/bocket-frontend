@@ -6,7 +6,7 @@ import locationIcon from '@/assets/icons/location.svg';
 export default function VenueInfoBar({ venue }) {
   return (
     <div className="h-16 flex items-center justify-between">
-      <div className="flex items-center gap-4 pl-4 mr-4">
+      <div className="flex items-center gap-4 pl-4">
         <span className="flex gap-2">
           <img src={venueIcon} alt="venueIcon" />
           {venue.name}

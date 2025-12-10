@@ -29,10 +29,18 @@ function AdminNavbar() {
     { path: '/logout', label: 'Logout', icon: logoutIcon },
   ];
 
-  const getLinkClasses = (path) =>
-    `h-8 px-4 w-full rounded-md flex space-x-4 items-center cursor-pointer ${
-      location.pathname === path ? 'bg-gray-300' : 'hover:bg-gray-300'
-    }`;
+  const getLinkClasses = (path) => {
+    const isPanel = path === '/admin';
+
+    const isActive = isPanel
+      ? location.pathname === '/admin'
+      : location.pathname.startsWith(path);
+
+    return `
+    h-8 px-4 w-full rounded-md flex space-x-4 items-center cursor-pointer
+    ${isActive ? 'bg-gray-300' : 'hover:bg-gray-300'}
+  `;
+  };
 
   return (
     <section className="w-48 h-screen fixed left-0 top-0 bg-gray-200 grid grid-rows-[2fr_7.5fr_1.5fr] custom-selection">

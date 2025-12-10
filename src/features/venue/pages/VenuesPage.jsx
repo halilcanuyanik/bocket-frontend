@@ -21,7 +21,7 @@ function VenuesPage() {
             placeholder="Venue name, address, city or country..."
           />
           <button
-            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80  transition cursor-pointer"
+            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80 transition cursor-pointer"
             onClick={() => setAddModalOpen(true)}
           >
             Add Venue

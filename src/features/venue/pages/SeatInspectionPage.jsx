@@ -3,17 +3,15 @@ import { useState, useEffect, useRef } from 'react';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
-import ZoomControl from '@/components/ui/ZoomControl';
 
 // UTILS
 import { formatCurrency } from '@/utils/CurrencyFormatter';
 
-export default function SeatInspectionPage({ venue, event }) {
+export default function SeatInspectionPage({ venue, event, scale }) {
   const containerRef = useRef(null);
 
   const [seatMap, setSeatMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [scale, setScale] = useState(1);
 
   const seatMapSource = event?.eventSeatMap ? 'event' : 'venue';
 
@@ -23,23 +21,17 @@ export default function SeatInspectionPage({ venue, event }) {
     if (seatMapSource === 'event') {
       const preparedMap = prepareEventSeatMap(event);
       setSeatMap(preparedMap);
-      setScale(preparedMap?.meta?.scale || 1);
     } else if (seatMapSource === 'venue') {
       const preparedMap = prepareVenueSeatMap(venue);
       setSeatMap(preparedMap);
-      setScale(preparedMap?.meta?.scale || 1);
     }
 
     setIsLoading(false);
   }, [event, venue, seatMapSource]);
 
-  const handleZoom = (delta) => {
-    setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
-  };
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="h-full flex items-center justify-center">
         <Loading size="md" color="bg-black" />
       </div>
     );
@@ -55,11 +47,6 @@ export default function SeatInspectionPage({ venue, event }) {
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
-      <ZoomControl
-        wrapperClass="absolute top-0 right-4 z-2"
-        scale={scale}
-        onZoom={handleZoom}
-      />
       <div
         ref={containerRef}
         className="flex-1 min-h-screen overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-100"

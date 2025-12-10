@@ -8,6 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
 import Button from '@/components/ui/Button';
 import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
+import ZoomControl from '@/components/ui/ZoomControl';
 import EditVenueModal from '@/features/venue/components/EditVenueModal';
 import DeleteVenueModal from '@/features/venue/components/DeleteVenueModal';
 
@@ -23,6 +24,7 @@ function VenuePage() {
 
   const [venue, setVenue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [scale, setScale] = useState(1);
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -33,6 +35,9 @@ function VenuePage() {
       try {
         const response = await api.get(`/venues/${id}`);
         setVenue(response.data.data);
+
+        const initialScale = response.data.data?.seatMap?.meta?.scale || 1;
+        setScale(initialScale);
       } catch (err) {
         console.error(err);
       } finally {
@@ -42,6 +47,10 @@ function VenuePage() {
 
     getVenue();
   }, [id]);
+
+  const handleZoom = (delta) => {
+    setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
+  };
 
   if (isLoading)
     return (
@@ -53,22 +62,26 @@ function VenuePage() {
   return (
     <section className="flex-1 min-h-screen bg-gray-100">
       <div className="flex-1 flex flex-col">
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <VenueInfoBar venue={venue} />
-          <Button
-            size="sm"
-            wrapperClass="mr-4"
-            onClick={() => setIsEditOpen(true)}
-            children="Edit"
-          />
-          <button
-            className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            Delete
-          </button>
+          {venue.seatMap && (
+            <>
+              <button
+                className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-md hover:bg-black/80 transition cursor-pointer"
+                onClick={() => setIsEditOpen(true)}
+              >
+                Edit
+              </button>
+              <button
+                className="px-3 py-1.5 font-semibold text-sm text-coral-red bg-coral-red/20 border-gray-400 rounded-xl shadow-md hover:bg-coral-red/40 transition cursor-pointer"
+                onClick={() => setIsDeleteOpen(true)}
+              >
+                Delete
+              </button>
+              <ZoomControl scale={scale} onZoom={handleZoom} />
+            </>
+          )}
         </div>
-
         {isEditOpen && (
           <EditVenueModal
             venue={venue}
@@ -89,7 +102,7 @@ function VenuePage() {
 
         {venue.seatMap ? (
           <>
-            <SeatInspectionPage venue={venue} />
+            <SeatInspectionPage venue={venue} scale={scale} />
             <div
               className={`${
                 isModalOpen ? 'hidden' : ''
