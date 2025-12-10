@@ -4,15 +4,15 @@ import { useState } from 'react';
 // CUSTOM HOOKS
 import useSnackbar from '@/hooks/useSnackbar';
 
-// COMPONENTS
-import Button from '@/components/ui/Button';
+// COMPONENTS<
+import Loading from '@/components/common/Loading';
 import Snackbar from '@/components/common/Snackbar';
 
 // API
 import api from '@/lib/axiosClient';
 
 export default function AddPerformerModal({ onClose, onAdded }) {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [avatarImage, setAvatarImage] = useState('');
 
@@ -25,14 +25,14 @@ export default function AddPerformerModal({ onClose, onAdded }) {
   } = useSnackbar();
 
   const handleAdd = async () => {
-    if (loading) return;
+    if (isLoading) return;
 
     if (!name.trim()) {
       showSnackbar('Name is required.', 'warning');
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       const response = await api.post('/performers', {
@@ -48,13 +48,13 @@ export default function AddPerformerModal({ onClose, onAdded }) {
         setTimeout(() => {
           onAdded(response.data);
           onClose();
-          setLoading(false);
+          setIsLoading(false);
         }, 500);
       }, 800);
     } catch (err) {
       console.error(err);
       showSnackbar('An unexpected error occurred.', 'error');
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -80,7 +80,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
                 placeholder="Enter performer name"
               />
             </div>
@@ -92,7 +92,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               <input
                 value={avatarImage}
                 onChange={(e) => setAvatarImage(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
                 placeholder="Enter image URL"
               />
             </div>
@@ -106,14 +106,13 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               Cancel
             </button>
 
-            <Button
+            <button
               onClick={handleAdd}
-              loading={loading}
-              disabled={loading}
-              className="px-4 py-2"
+              disabled={isLoading}
+              className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
             >
-              Add
-            </Button>
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Add'}
+            </button>
           </div>
         </div>
       </div>

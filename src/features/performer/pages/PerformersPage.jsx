@@ -91,8 +91,8 @@ export default function PerformersPage() {
             <button
               onClick={() => openEdit(p)}
               className="
-                absolute bottom-2 right-2 px-3 py-1 rounded-md 
-                text-white bg-black text-[10px]
+                absolute bottom-2 right-16 px-3 py-1 rounded-md 
+                text-white bg-blue-700 hover:bg-blue-800 text-[10px]
                 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer
               "
             >
@@ -102,8 +102,8 @@ export default function PerformersPage() {
             <button
               onClick={() => openDelete(p)}
               className="
-                absolute bottom-2 right-16 px-3 py-1 rounded-md 
-                text-white bg-red-600 text-[10px]
+                absolute bottom-2 right-2 px-3 py-1 rounded-md 
+                text-white bg-red-700 hover:bg-red-800 text-[10px]
                 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer
               "
             >

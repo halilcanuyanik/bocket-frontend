@@ -5,7 +5,7 @@ import { useState } from 'react';
 import useSnackbar from '@/hooks/useSnackbar';
 
 // COMPONENTS
-import Button from '@/components/ui/Button';
+import Loading from '@/components/common/Loading';
 import Snackbar from '@/components/common/Snackbar';
 
 // API
@@ -16,7 +16,7 @@ export default function DeletePerformerModal({
   onClose,
   onDeleted,
 }) {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [confirmation, setConfirmation] = useState('');
 
   const {
@@ -28,12 +28,12 @@ export default function DeletePerformerModal({
   } = useSnackbar();
 
   const handleDelete = async () => {
-    if (loading) return;
-    setLoading(true);
+    if (isLoading) return;
+    setIsLoading(true);
 
     if (confirmation !== 'DELETE') {
       showSnackbar('Please type DELETE to confirm.', 'warning');
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
@@ -46,13 +46,13 @@ export default function DeletePerformerModal({
         setTimeout(() => {
           onDeleted(performer._id);
           onClose();
-          setLoading(false);
+          setIsLoading(false);
         }, 500);
       }, 800);
     } catch (err) {
       console.error(err);
       showSnackbar('An unexpected error occurred.', 'error');
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -102,19 +102,18 @@ export default function DeletePerformerModal({
           <div className="flex justify-end mt-6 gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition cursor-pointer"
+              className="px-4 py-2  bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg  cursor-pointertransition "
             >
               Cancel
             </button>
 
-            <Button
+            <button
               onClick={handleDelete}
-              loading={loading}
-              disabled={loading}
+              disabled={isLoading}
               className="px-4 py-2"
             >
-              Delete
-            </Button>
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Delete'}
+            </button>
           </div>
         </div>
       </div>

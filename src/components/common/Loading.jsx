@@ -1,13 +1,13 @@
 export default function Loading({
   size = 'md',
-  color = 'bg-royal-blue',
+  color = 'bg-sky-blue',
   className = '',
 }) {
   const sizes = {
-    sm: { container: 'h-8 w-10 space-x-1.5', bar: 'w-1.5 h-6' },
-    md: { container: 'h-12 w-14 space-x-2', bar: 'w-2 h-10' },
-    lg: { container: 'h-16 w-16 space-x-2.5', bar: 'w-2.5 h-12' },
-    xl: { container: 'h-20 w-20 space-x-3', bar: 'w-3 h-16' },
+    sm: { container: 'h-7 w-8 space-x-1', bar: 'w-1 h-5' },
+    md: { container: 'h-10 w-12 space-x-1.5', bar: 'w-1.5 h-8' },
+    lg: { container: 'h-14 w-14 space-x-2', bar: 'w-2 h-10' },
+    xl: { container: 'h-18 w-18 space-x-2.5', bar: 'w-2.5 h-14' },
   };
 
   const barAnimations = [
