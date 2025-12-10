@@ -55,7 +55,11 @@ export default function SeatInspectionPage({ venue, event }) {
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
-      <ZoomControl scale={scale} onZoom={handleZoom} />
+      <ZoomControl
+        wrapperClass="absolute top-0 right-4 z-2"
+        scale={scale}
+        onZoom={handleZoom}
+      />
       <div
         ref={containerRef}
         className="flex-1 min-h-screen overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-100"

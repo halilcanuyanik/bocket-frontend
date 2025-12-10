@@ -36,7 +36,7 @@ function AdminNavbar() {
 
   return (
     <section className="w-48 h-screen fixed left-0 top-0 bg-gray-200 grid grid-rows-[2fr_7.5fr_1.5fr] custom-selection">
-      <div className="w-full h-full flex items-center justify-center cursor-not-allowed">
+      <div className="w-full h-full flex items-center justify-center">
         <img src={logo} className="w-16" />
       </div>
 

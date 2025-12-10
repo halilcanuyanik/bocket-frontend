@@ -46,38 +46,39 @@ export default function EventPage() {
 
   if (isLoading)
     return (
-      <div className="w-screen flex-1 flex justify-center items-center bg-gray-100">
+      <div className="flex-1 h-screen bg-gray-100 flex justify-center items-center">
         <Loading size="sm" color="bg-black" />
       </div>
     );
 
   return (
-    <div className="w-screen flex-1 bg-gray-100 flex flex-col custom-selection">
-      <div className="flex items-center relative">
-        <VenueInfoBar venue={event.venue} />
-        <EventInfoBox
+    <div className="flex-1 min-h-screen bg-gray-100">
+      <div className="flex-1 flex flex-col">
+        <div className="flex items-center">
+          <VenueInfoBar venue={event.venue} />
+          {/* <EventInfoBox
           title={event.show.title}
           performer={event.show.performers[0].name}
           time={event.startTime}
-        />
-        <Button size="sm" wrapperClass="mr-4" children="Edit" />
-        <button className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer">
-          Delete
-        </button>
-      </div>
-      <div className="grow">
-        <SeatInspectionPage event={event} />
-        <div
-          className={`${
-            isModalOpen ? 'hidden' : ''
-          }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
-        >
-          <Button
-            size="sm"
-            children="Edit Seat Prices"
-            to={`/admin/events/update-pricing/${id}`}
-          />
+        /> */}
+          <Button size="sm" wrapperClass="mr-4" children="Edit" />
+          <button className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer">
+            Delete
+          </button>
         </div>
+        <SeatInspectionPage event={event} />
+      </div>
+
+      <div
+        className={`${
+          isModalOpen ? 'hidden' : ''
+        }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
+      >
+        <Button
+          size="sm"
+          children="Edit Seat Prices"
+          to={`/admin/events/update-pricing/${id}`}
+        />
       </div>
     </div>
   );

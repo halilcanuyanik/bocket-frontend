@@ -55,15 +55,12 @@ function VenuePage() {
       <div className="flex-1 flex flex-col">
         <div className="flex items-center">
           <VenueInfoBar venue={venue} />
-
           <Button
             size="sm"
             wrapperClass="mr-4"
             onClick={() => setIsEditOpen(true)}
-          >
-            Edit
-          </Button>
-
+            children="Edit"
+          />
           <button
             className="text-coral-red bg-coral-red/20 py-1 px-3 rounded-md hover:bg-coral-red/40 cursor-pointer"
             onClick={() => setIsDeleteOpen(true)}
