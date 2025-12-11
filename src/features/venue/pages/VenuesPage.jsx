@@ -20,24 +20,24 @@ export default function VenuesPage() {
     <section className="flex-1 min-h-screen bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex flex-col gap-4 justify-between">
         <h1 className="text-black font-bold text-4xl">Venues</h1>
-
-        <div className="flex items-center gap-4">
-          <Search
-            endpoint={`/venues`}
-            onSuggestionsChange={setVenues}
-            placeholder="Venue name, address, city or country..."
-          />
-
-          <button
-            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80 transition cursor-pointer"
-            onClick={() => setAddModalOpen(true)}
-          >
-            Add Venue
-          </button>
-        </div>
+        <Search
+          endpoint={`/venues`}
+          onSuggestionsChange={setVenues}
+          placeholder="Venue name, address, city or country..."
+        />
       </div>
 
       <div className="mt-8 flex flex-wrap gap-4">
+        <div
+          onClick={() => setAddModalOpen(true)}
+          className="
+        h-48 w-48 bg-gray-200 hover:bg-gray-300 border border-gray-300 rounded-lg shadow-md 
+        flex flex-col justify-center items-center gap-2 text-gray-400 transition cursor-pointer
+      "
+        >
+          <span className="font-bold text-2xl">+</span>
+          <span className=" font-semibold text-md">Add Venue</span>
+        </div>
         {venues.map((v) => (
           <Grid
             key={v._id}
@@ -73,7 +73,6 @@ function Grid({ id, name, address, city, country, capacity }) {
 
   return (
     <div
-      tabIndex={0}
       className="
         h-48 w-48 p-3 bg-white rounded-lg shadow-sm 
         flex flex-col justify-between text-xs

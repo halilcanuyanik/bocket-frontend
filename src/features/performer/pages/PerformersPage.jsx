@@ -63,7 +63,7 @@ export default function PerformersPage() {
       <div className="mt-8 flex flex-wrap gap-8 ">
         <div
           onClick={() => setAddModalOpen(true)}
-          className="group relative w-72 h-24 bg-gray-200 hover:bg-gray-300 shadow-md rounded-sm flex flex-col justify-center items-center gap-2 text-gray-400 cursor-pointer"
+          className="group relative w-72 h-24 bg-gray-200 hover:bg-gray-300 border border-gray-300 shadow-md rounded-sm flex flex-col justify-center items-center gap-2 text-gray-400 cursor-pointer"
         >
           <span className="text-2xl font-bold">+</span>
           <span className=" font-semibold text-md">Add Performer</span>
