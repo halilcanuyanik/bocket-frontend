@@ -52,27 +52,27 @@ export default function PerformersPage() {
     <section className="flex-1 h-screen bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex flex-col gap-4 justify-between">
         <h1 className="text-black font-bold text-4xl">Performers</h1>
-        <div className="flex items-center gap-4">
-          <Search
-            endpoint="/performers"
-            onSuggestionsChange={setPerformers}
-            placeholder="Search performers..."
-          />
 
-          <button
-            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80  transition cursor-pointer"
-            onClick={() => setAddModalOpen(true)}
-          >
-            Add Performer
-          </button>
-        </div>
+        <Search
+          endpoint="/performers"
+          onSuggestionsChange={setPerformers}
+          placeholder="Search performers..."
+        />
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-8 px-4">
+      <div className="mt-8 flex flex-wrap gap-8 ">
+        <div
+          onClick={() => setAddModalOpen(true)}
+          className="group relative w-72 h-24 bg-gray-200 hover:bg-gray-300 shadow-md rounded-sm flex flex-col justify-center items-center gap-2 text-gray-400 cursor-pointer"
+        >
+          <span className="text-2xl font-bold">+</span>
+          <span className=" font-semibold text-md">Add Performer</span>
+        </div>
+
         {performers.map((p) => (
           <div
             key={p._id}
-            className="group relative w-72 h-24 bg-white shadow-md rounded-md flex items-center gap-4 overflow-hidden truncate"
+            className="group relative w-72 h-24 bg-white shadow-md rounded-sm flex items-center gap-4 overflow-hidden truncate"
           >
             <img src={p.avatarImage} className="h-full object-cover" />
 

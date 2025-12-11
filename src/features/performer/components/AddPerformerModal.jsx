@@ -24,7 +24,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
     closeSnackbar,
   } = useSnackbar();
 
-  const handleAdd = async () => {
+  const handleSubmit = async () => {
     if (isLoading) return;
 
     if (!name.trim()) {
@@ -107,11 +107,11 @@ export default function AddPerformerModal({ onClose, onAdded }) {
             </button>
 
             <button
-              onClick={handleAdd}
+              onClick={handleSubmit}
               disabled={isLoading}
               className="px-4 py-2 rounded-lg bg-green-700 text-white hover:bg-green-800 transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Add'}
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Create'}
             </button>
           </div>
         </div>

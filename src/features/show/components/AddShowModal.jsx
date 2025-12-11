@@ -218,7 +218,7 @@ export default function AddShowModal({ onClose, onAdded }) {
               disabled={isLoading}
               className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Add'}
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Create'}
             </button>
           </div>
         </div>
