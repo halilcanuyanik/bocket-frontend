@@ -67,13 +67,13 @@ function VenuePage() {
           {venue.seatMap && (
             <>
               <button
-                className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-md hover:bg-black/80 transition cursor-pointer"
+                className="px-3 py-2 text-white rounded-lg text-sm bg-blue-700 hover:bg-blue-800 transition cursor-pointer"
                 onClick={() => setIsEditOpen(true)}
               >
                 Edit
               </button>
               <button
-                className="px-3 py-1.5 font-semibold text-sm text-coral-red bg-coral-red/20 border-gray-400 rounded-xl shadow-md hover:bg-coral-red/40 transition cursor-pointer"
+                className="px-3 py-2 text-white rounded-lg text-sm bg-red-700 hover:bg-red-800 transition cursor-pointer"
                 onClick={() => setIsDeleteOpen(true)}
               >
                 Delete

@@ -15,7 +15,7 @@ import api from '@/lib/axiosClient';
 import venueIcon from '@/assets/icons/venue.svg';
 
 export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [confirmation, setConfirmation] = useState('');
 
   const {
@@ -27,12 +27,12 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
   } = useSnackbar();
 
   const handleDelete = async () => {
-    if (loading) return;
-    setLoading(true);
+    if (isLoading) return;
+    setIsLoading(true);
 
     if (confirmation !== 'DELETE') {
       showSnackbar('Please type DELETE to confirm.', 'warning');
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
@@ -45,13 +45,13 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
         setTimeout(() => {
           onDeleted(venue._id);
           onClose();
-          setLoading(false);
+          setIsLoading(false);
         }, 500);
       }, 800);
     } catch (err) {
       console.error(err);
       showSnackbar('An unexpected error occurred.', 'error');
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -93,7 +93,7 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
               <input
                 value={confirmation}
                 onChange={(e) => setConfirmation(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-red-400"
+                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="DELETE"
               />
             </div>
@@ -102,19 +102,18 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
           <div className="flex justify-end mt-6 gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition cursor-pointer"
+              className="px-4 py-2 text-gray-700 rounded-lg bg-gray-200 hover:bg-gray-300 transition cursor-pointer"
             >
               Cancel
             </button>
 
-            <Button
+            <button
               onClick={handleDelete}
-              loading={loading}
-              disabled={loading}
-              className="px-4 py-2"
+              disabled={isLoading}
+              className="px-4 py-2 text-white rounded-lg bg-red-700 hover:bg-red-800 transition cursor-pointer"
             >
-              Delete
-            </Button>
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Delete'}
+            </button>
           </div>
         </div>
       </div>
