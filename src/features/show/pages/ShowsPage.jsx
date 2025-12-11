@@ -13,22 +13,30 @@ function ShowsPage() {
     <section className="flex-1 min-h-screen bg-gray-100 flex flex-col p-6">
       <div className="w-full h-24 flex flex-col gap-4 justify-between">
         <h1 className="text-black font-bold text-4xl">Shows</h1>
-        <div className="flex items-center gap-4">
-          <Search
-            endpoint={`/shows`}
-            onSuggestionsChange={setShows}
-            placeholder="Show title, performers..."
-          />
-          <button
-            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-xl hover:bg-black/80  transition cursor-pointer"
-            onClick={() => setAddModalOpen(true)}
-          >
-            Add Show
-          </button>
-        </div>
+        <Search
+          endpoint={`/shows`}
+          onSuggestionsChange={setShows}
+          placeholder="Show title, performers..."
+        />
       </div>
 
       <div className="mt-8 w-full flex-1 flex flex-wrap space-x-4 space-y-4">
+        <div
+          onClick={() => setAddModalOpen(true)}
+          className="
+      group w-64 h-72 rounded-sm shadow-md overflow-hidden relative cursor-pointer 
+      border border-gray-300 bg-gray-200 flex flex-col items-center justify-center
+      hover:bg-gray-300 transition
+    "
+        >
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-4xl font-bold text-gray-400">+</span>
+            <span className="text-gray-400 font-semibold text-lg">
+              Add Show
+            </span>
+          </div>
+        </div>
+
         {shows.map((s) => {
           return (
             <div className="group w-64 h-72 rounded-sm shadow-md overflow-hidden relative cursor-pointer border border-gray-400">
