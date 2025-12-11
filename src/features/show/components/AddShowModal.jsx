@@ -14,6 +14,7 @@ import api from '@/lib/axiosClient';
 
 export default function AddShowModal({ onClose, onAdded }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -153,30 +154,50 @@ export default function AddShowModal({ onClose, onAdded }) {
               />
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 relative">
               <label className="text-sm font-medium text-gray-700">
                 Search Performers
               </label>
 
-              <Search
-                endpoint={`/performers`}
-                onSuggestionsChange={setCurrentPerformers}
-                onSelect={handleSelectPerformer}
-                placeholder="Performers..."
-              />
+              <div
+                className="relative"
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 150)}
+              >
+                <Search
+                  endpoint="/performers"
+                  onSuggestionsChange={setCurrentPerformers}
+                  onSelect={handleSelectPerformer}
+                  placeholder="Performers..."
+                />
 
-              <div className="flex flex-wrap gap-2 mt-2">
+                {isFocused && currentPerformers.length > 0 && (
+                  <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-60 overflow-auto">
+                    {currentPerformers.map((s) => (
+                      <div
+                        key={s._id}
+                        onClick={() => handleSelectPerformer(s)}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {s.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-3">
                 {performers.map((p) => (
                   <div
                     key={p._id}
                     className="flex items-center bg-gray-200 px-3 py-1 rounded-full text-sm"
                   >
-                    {p.name}
+                    <span className="mr-2">{p.name}</span>
                     <button
                       onClick={() => removePerformer(p._id)}
-                      className="ml-2 text-red-500 font-bold"
+                      className="text-red-700 font-bold hover:text-red-800 cursor-pointer"
                     >
-                      -
+                      &times;
                     </button>
                   </div>
                 ))}
@@ -184,7 +205,6 @@ export default function AddShowModal({ onClose, onAdded }) {
             </div>
           </div>
 
-          {/* BUTTONS */}
           <div className="flex justify-end mt-6 gap-3">
             <button
               onClick={onClose}
