@@ -39,7 +39,7 @@ export default function AddShowModal({ onClose, onAdded }) {
     closeSnackbar,
   } = useSnackbar();
 
-  const handleAdd = async () => {
+  const handleSubmit = async () => {
     if (isLoading) return;
 
     if (!title.trim()) {
@@ -55,7 +55,7 @@ export default function AddShowModal({ onClose, onAdded }) {
         description,
         category,
         coverImage,
-        performers,
+        performers: performers.map((p) => p._id),
         averageRating: 0,
         ratingCount: 0,
       });
@@ -214,7 +214,7 @@ export default function AddShowModal({ onClose, onAdded }) {
             </button>
 
             <button
-              onClick={handleAdd}
+              onClick={handleSubmit}
               disabled={isLoading}
               className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
             >
