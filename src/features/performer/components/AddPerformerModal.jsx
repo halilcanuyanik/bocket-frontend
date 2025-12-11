@@ -80,7 +80,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 border rounded-lg border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="Enter performer name"
               />
             </div>
@@ -92,7 +92,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               <input
                 value={avatarImage}
                 onChange={(e) => setAvatarImage(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 border rounded-lg border-gray-200 outline-none focus:ring-1 focus:ring-gray-400"
                 placeholder="Enter image URL"
               />
             </div>
@@ -109,7 +109,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
             <button
               onClick={handleAdd}
               disabled={isLoading}
-              className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-green-700 text-white hover:bg-green-800 transition cursor-pointer"
             >
               {isLoading ? <Loading size="sm" color="bg-white" /> : 'Add'}
             </button>

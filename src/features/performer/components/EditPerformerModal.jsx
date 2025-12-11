@@ -100,7 +100,7 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 onKeyDown={handleKeyPress}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus:ring-gray-400"
                 placeholder="Enter performer name"
               />
             </div>
@@ -113,7 +113,7 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
                 value={avatar}
                 onChange={(e) => setAvatar(e.target.value)}
                 onKeyDown={handleKeyPress}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="https://example.com/avatar.jpg"
               />
             </div>
@@ -132,7 +132,7 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
               onClick={handleSave}
               className="px-4 py-2 text-white bg-blue-700 hover:bg-blue-800 transition rounded-lg cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Save'}
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Edit'}
             </button>
           </div>
         </div>

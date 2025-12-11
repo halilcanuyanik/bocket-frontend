@@ -93,7 +93,7 @@ export default function DeletePerformerModal({
               <input
                 value={confirmation}
                 onChange={(e) => setConfirmation(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-red-400"
+                className="px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="DELETE"
               />
             </div>
@@ -102,7 +102,7 @@ export default function DeletePerformerModal({
           <div className="flex justify-end mt-6 gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2  bg-gray-200 text-gray-700 hover:bg-gray-300 rounded-lg  cursor-pointertransition "
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition cursor-pointer"
             >
               Cancel
             </button>
@@ -110,7 +110,7 @@ export default function DeletePerformerModal({
             <button
               onClick={handleDelete}
               disabled={isLoading}
-              className="px-4 py-2"
+              className="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition cursor-pointer"
             >
               {isLoading ? <Loading size="sm" color="bg-white" /> : 'Delete'}
             </button>
