@@ -105,7 +105,7 @@ export default function AddShowModal({ onClose, onAdded }) {
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="Enter show's title"
               />
             </div>
@@ -117,7 +117,7 @@ export default function AddShowModal({ onClose, onAdded }) {
               <input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="Enter show's description"
               />
             </div>
@@ -130,7 +130,7 @@ export default function AddShowModal({ onClose, onAdded }) {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
               >
                 <option value="">Select...</option>
                 {categories.map((c) => (
@@ -148,7 +148,7 @@ export default function AddShowModal({ onClose, onAdded }) {
               <input
                 value={coverImage}
                 onChange={(e) => setCoverImage(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
                 placeholder="Enter image URL"
               />
             </div>

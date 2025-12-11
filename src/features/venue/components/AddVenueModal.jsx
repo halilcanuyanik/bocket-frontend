@@ -5,7 +5,7 @@ import { useState } from 'react';
 import useSnackbar from '@/hooks/useSnackbar';
 
 // COMPONENTS
-import Button from '@/components/ui/Button';
+import Loading from '@/components/common/Loading';
 import Snackbar from '@/components/common/Snackbar';
 
 // API
@@ -17,8 +17,7 @@ import addressIcon from '@/assets/icons/address.svg';
 import locationIcon from '@/assets/icons/location.svg';
 
 export default function AddVenueModal({ onClose, onAdded }) {
-  const [loading, setLoading] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
     name: '',
     address: '',
@@ -38,15 +37,15 @@ export default function AddVenueModal({ onClose, onAdded }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    if (loading) return;
-    setLoading(true);
+  const handleAdd = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
 
     const emptyFields = Object.values(form).some((v) => !v.trim());
 
     if (emptyFields) {
       showSnackbar('Please fill in all fields before saving.', 'error');
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
@@ -58,13 +57,13 @@ export default function AddVenueModal({ onClose, onAdded }) {
         setTimeout(() => {
           onAdded(response.data.data);
           onClose();
-          setLoading(false);
+          setIsLoading(false);
         }, 500);
       }, 1000);
     } catch (err) {
       console.error(err);
       showSnackbar('An unexpected error occurred.', 'error');
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -128,14 +127,13 @@ export default function AddVenueModal({ onClose, onAdded }) {
               Cancel
             </button>
 
-            <Button
-              onClick={handleSubmit}
-              loading={loading}
-              disabled={loading}
-              className="px-4 py-2"
+            <button
+              onClick={handleAdd}
+              disabled={isLoading}
+              className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
             >
-              Add
-            </Button>
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Add'}
+            </button>
           </div>
         </div>
       </div>
@@ -155,7 +153,7 @@ function Field({ icon, label, placeholder, ...props }) {
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium text-gray-700">{label}</label>
 
-      <div className="flex items-center gap-3 bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 focus-within:ring-1 focus-within:ring-black">
+      <div className="px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400 flex items-center gap-3">
         <img src={icon} alt="" className="w-5 opacity-60" />
         <input
           {...props}

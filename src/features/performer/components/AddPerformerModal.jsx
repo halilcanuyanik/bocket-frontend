@@ -80,7 +80,7 @@ export default function AddPerformerModal({ onClose, onAdded }) {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-400"
+                className="bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-green-400"
                 placeholder="Enter performer name"
               />
             </div>
