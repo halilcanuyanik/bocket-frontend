@@ -1,5 +1,6 @@
 // REACT HOOKS
 import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
@@ -7,22 +8,33 @@ import Loading from '@/components/common/Loading';
 // UTILS
 import { formatCurrency } from '@/utils/CurrencyFormatter';
 
-export default function SeatInspectionPage({ venue, event, scale }) {
+// APIs
+import api from '@/lib/axiosClient';
+
+export default function SeatInspectionPage() {
+  const { id } = useParams();
+
   const containerRef = useRef(null);
-  const [seatMap, setSeatMap] = useState(null);
+  const [event, setEvent] = useState(null);
+  const [scale, setScale] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const seatMapSource = event?.eventSeatMap ? 'event' : 'venue';
 
   useEffect(() => {
     setIsLoading(true);
-    if (seatMapSource === 'event') {
-      setSeatMap(event.eventSeatMap);
-    } else if (seatMapSource === 'venue') {
-      setSeatMap(venue.seatMap);
-    }
+    const getEvent = async () => {
+      try {
+        const response = await api.get(`/shows/events/${id}`);
+        setEvent(response.data.data);
+        setScale(response.data.data?.meta?.scale);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    setIsLoading(false);
-  }, [event, venue, seatMapSource]);
+    getEvent();
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -32,13 +44,15 @@ export default function SeatInspectionPage({ venue, event, scale }) {
     );
   }
 
-  if (!seatMap) {
+  if (!event.eventSeatMap) {
     return (
       <div className="p-6 text-center text-gray-500">Seat Map Not Found.</div>
     );
   }
 
-  const { width: mapWidth, height: mapHeight } = calculateSeatMapSize(seatMap);
+  const { width: mapWidth, height: mapHeight } = calculateSeatMapSize(
+    event.eventSeatMap
+  );
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
@@ -54,9 +68,9 @@ export default function SeatInspectionPage({ venue, event, scale }) {
             height: mapHeight,
           }}
         >
-          <StageDisplay stage={seatMap.stage} />
+          <StageDisplay stage={event.eventSeatMap.stage} />
 
-          {seatMap.groups.map((group) => (
+          {event.eventSeatMap.groups.map((group) => (
             <SeatGroup key={group.id} group={group} />
           ))}
         </div>

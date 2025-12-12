@@ -127,7 +127,7 @@ export default function DetailsPage() {
           <Button
             wrapperClass="self-center"
             size="md"
-            to={`/seats/${event.id}`}
+            to={`/event-seats/${event.id}`}
           >
             Buy {formatCurrency(pricing.currency)}
             {pricing.base}

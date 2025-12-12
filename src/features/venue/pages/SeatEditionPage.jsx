@@ -447,7 +447,7 @@ export default function SeatEditionPage() {
   return (
     <div
       ref={containerRef}
-      className="w-screen h-screen flex flex-col overflow-hidden bg-gray-100 select-none"
+      className="flex-1 h-screen flex flex-col overflow-hidden bg-gray-100 select-none"
     >
       <div
         className="flex items-center gap-3 px-4 shadow-sm bg-white z-50"
