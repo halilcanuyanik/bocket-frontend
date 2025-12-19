@@ -1,77 +1,165 @@
-// REACT HOOKS
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-
-// COMPONENTS
 import Loading from '@/components/common/Loading';
-
-// UTILS
 import { formatCurrency } from '@/utils/CurrencyFormatter';
-
-// APIs
 import api from '@/lib/axiosClient';
+import socket from '@/lib/socket';
 
-export default function SeatInspectionPage() {
-  const { id } = useParams();
-
+export default function SeatSelectionPage() {
+  const { id: eventId } = useParams();
   const containerRef = useRef(null);
-  const [event, setEvent] = useState(null);
-  const [scale, setScale] = useState(1);
+
+  const [eventData, setEventData] = useState(null);
+  const [zoomScale, setZoomScale] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [lockedSeatsMap, setLockedSeatsMap] = useState({});
+
+  const [mySelectedSeatIds, setMySelectedSeatIds] = useState([]);
+
+  const mySelectedSeatIdsRef = useRef([]);
+
   useEffect(() => {
-    setIsLoading(true);
-    const getEvent = async () => {
+    mySelectedSeatIdsRef.current = mySelectedSeatIds;
+  }, [mySelectedSeatIds]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchEvent = async () => {
       try {
-        const response = await api.get(`/shows/events/${id}`);
-        setEvent(response.data.data);
-        setScale(response.data.data?.meta?.scale);
+        setIsLoading(true);
+        const response = await api.get(`/shows/events/${eventId}`);
+        if (isMounted) {
+          setEventData(response.data.data);
+          setZoomScale(response.data.data?.meta?.scale || 1);
+        }
       } catch (err) {
-        console.error(err);
+        console.error('Event data fetch error:', err);
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
     };
+    if (eventId) fetchEvent();
+    return () => {
+      isMounted = false;
+    };
+  }, [eventId]);
 
-    getEvent();
-  }, [id]);
+  useEffect(() => {
+    if (!eventId) return;
 
-  if (isLoading) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Loading size="md" color="bg-black" />
-      </div>
-    );
-  }
+    const handleInitialLocks = ({ locks }) => {
+      const initialMap = {};
+      locks.forEach((lock) => {
+        initialMap[lock.seatId] = {
+          lockedBy: lock.lockedBy,
+          expiresAt: lock.expiresAt,
+        };
+      });
+      setLockedSeatsMap(initialMap);
+    };
 
-  if (!event.eventSeatMap) {
-    return (
-      <div className="p-6 text-center text-gray-500">Seat Map Not Found.</div>
-    );
-  }
+    const handleSeatLocked = ({ seatId, lockedBy, expiresAt }) => {
+      setLockedSeatsMap((prev) => ({
+        ...prev,
+        [seatId]: { lockedBy, expiresAt },
+      }));
+    };
 
-  const { width: mapWidth, height: mapHeight } = calculateSeatMapSize(
-    event.eventSeatMap
+    const handleSeatUnlocked = ({ seatId }) => {
+      setLockedSeatsMap((prev) => {
+        const updated = { ...prev };
+        delete updated[seatId];
+        return updated;
+      });
+    };
+
+    const handleLockFailed = ({ seatId }) => {
+      setMySelectedSeatIds((prev) => prev.filter((id) => id !== seatId));
+      alert('This seat is currently unavailable.');
+    };
+
+    if (!socket.connected) socket.connect();
+
+    socket.emit('join_event_room', eventId);
+
+    socket.emit('request_initial_locks', { eventId });
+
+    socket.on('initial_locks', handleInitialLocks);
+    socket.on('seat_locked', handleSeatLocked);
+    socket.on('seat_unlocked', handleSeatUnlocked);
+    socket.on('seat_lock_failed', handleLockFailed);
+
+    return () => {
+      socket.emit('leave_event_room', eventId);
+
+      if (mySelectedSeatIdsRef.current.length > 0) {
+        mySelectedSeatIdsRef.current.forEach((seatId) => {
+          socket.emit('unlock_seat', { eventId, seatId });
+        });
+      }
+
+      socket.off('initial_locks', handleInitialLocks);
+      socket.off('seat_locked', handleSeatLocked);
+      socket.off('seat_unlocked', handleSeatUnlocked);
+      socket.off('seat_lock_failed', handleLockFailed);
+    };
+  }, [eventId]);
+
+  const handleSeatInteraction = useCallback(
+    (seatId) => {
+      const isAlreadySelected = mySelectedSeatIds.includes(seatId);
+
+      console.log(lockedSeatsMap);
+
+      const isLockedBySomeoneElse =
+        lockedSeatsMap[seatId] && !isAlreadySelected;
+
+      if (isLockedBySomeoneElse) return;
+
+      if (isAlreadySelected) {
+        socket.emit('unlock_seat', { eventId, seatId });
+        setMySelectedSeatIds((prev) => prev.filter((id) => id !== seatId));
+      } else {
+        socket.emit('lock_seat', { eventId, seatId });
+        setMySelectedSeatIds((prev) => [...prev, seatId]);
+      }
+    },
+    [eventId, lockedSeatsMap, mySelectedSeatIds]
   );
+
+  const mapDimensions = useMemo(() => {
+    return calculateSeatMapSize(eventData?.eventSeatMap);
+  }, [eventData]);
+
+  if (isLoading) return <Loading />;
+  if (!eventData?.eventSeatMap) return <div>Seat Map Not Found.</div>;
 
   return (
     <div className="relative flex flex-col flex-1 overflow-hidden">
       <div
         ref={containerRef}
-        className="flex-1 min-h-screen overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-100"
+        className="flex-1 min-h-screen overflow-auto relative cursor-grab active:cursor-grabbing bg-gray-50"
       >
         <div
-          className="relative origin-top-left transition-transform duration-200 ease-out"
+          className="relative origin-top-left transition-transform duration-300 ease-out"
           style={{
-            transform: `scale(${scale})`,
-            width: mapWidth,
-            height: mapHeight,
+            transform: `scale(${zoomScale})`,
+            width: mapDimensions.width,
+            height: mapDimensions.height,
           }}
         >
-          <StageDisplay stage={event.eventSeatMap.stage} />
+          <Stage stage={eventData.eventSeatMap.stage} />
 
-          {event.eventSeatMap.groups.map((group) => (
-            <SeatGroup key={group.id} group={group} />
+          {eventData.eventSeatMap.groups.map((group) => (
+            <SeatSection
+              key={group.id}
+              group={group}
+              currency={eventData.pricing.currency}
+              lockedSeatsMap={lockedSeatsMap}
+              mySelectedSeatIds={mySelectedSeatIds}
+              onSeatClick={handleSeatInteraction}
+            />
           ))}
         </div>
       </div>
@@ -79,91 +167,123 @@ export default function SeatInspectionPage() {
   );
 }
 
+const SeatSection = ({
+  group,
+  currency,
+  lockedSeatsMap,
+  mySelectedSeatIds,
+  onSeatClick,
+}) => {
+  return (
+    <div className="absolute" style={{ left: group.x, top: group.y }}>
+      <div className="mb-2 text-center text-xs font-bold text-gray-500">
+        {group.price && (
+          <span className="text-orange-600">
+            {formatCurrency(currency)}
+            {group.price}
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {group.grid.map((row, rowIndex) => (
+          <div key={`row-${rowIndex}`} className="flex gap-2">
+            <RowLabel label={row[0]?.id?.charAt(0)} />
+            {row.map((seat) => {
+              const uniqueSeatId = `${group.id}${seat.id}`;
+
+              const isMySelection = mySelectedSeatIds.includes(uniqueSeatId);
+              const isLocked = !!lockedSeatsMap[uniqueSeatId];
+
+              const isLockedByOther = isLocked && !isMySelection;
+
+              return (
+                <SeatItem
+                  key={uniqueSeatId}
+                  seatLabel={seat.id.replace(/[A-Z]/, '')}
+                  status={
+                    isMySelection
+                      ? 'selected'
+                      : isLockedByOther
+                      ? 'locked'
+                      : 'available'
+                  }
+                  onClick={() => onSeatClick(uniqueSeatId)}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Stage = ({ stage }) => (
+  <div
+    className="absolute bg-gray-300 rounded-b-[40px] flex items-center justify-center text-gray-600 font-bold tracking-[0.5em] shadow-lg border-b-4 border-gray-400"
+    style={{
+      left: stage.x,
+      top: stage.y,
+      width: stage.width,
+      height: stage.height,
+    }}
+  >
+    STAGE
+  </div>
+);
+
+const RowLabel = ({ label }) => (
+  <div className="w-4 flex items-center justify-center text-gray-400 text-[10px] font-bold">
+    {label}
+  </div>
+);
+
+const SeatItem = ({ seatLabel, status, onClick }) => {
+  const getStatusStyles = () => {
+    switch (status) {
+      case 'locked':
+        return 'bg-gray-300 text-gray-500 cursor-not-allowed';
+      case 'selected':
+        return 'bg-green-500 text-white shadow-md scale-110 ring-2 ring-green-300 cursor-pointer';
+      case 'available':
+      default:
+        return 'bg-indigo-600 text-white hover:bg-indigo-500 cursor-pointer hover:scale-110 shadow-sm';
+    }
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={status === 'locked'}
+      className={`
+        w-8 h-8 rounded-t-lg text-[10px] font-medium
+        flex items-center justify-center
+        transition-all duration-200
+        ${getStatusStyles()}
+      `}
+    >
+      {seatLabel}
+    </button>
+  );
+};
+
 function calculateSeatMapSize(seatMap) {
   if (!seatMap) return { width: 1000, height: 1000 };
 
-  let maxX = seatMap.stage.x + seatMap.stage.width;
-  let maxY = seatMap.stage.y + seatMap.stage.height;
+  let maxX = (seatMap.stage.x || 0) + (seatMap.stage.width || 0);
+  let maxY = (seatMap.stage.y || 0) + (seatMap.stage.height || 0);
 
   seatMap.groups.forEach((group) => {
     group.grid.forEach((row) => {
       row.forEach((seat) => {
-        const seatRight = seat.x + 32;
-        const seatBottom = seat.y + 32;
+        const seatRight = (seat.x || 0) + 40;
+        const seatBottom = (seat.y || 0) + 40;
         if (seatRight > maxX) maxX = seatRight;
         if (seatBottom > maxY) maxY = seatBottom;
       });
     });
   });
 
-  return { width: maxX, height: maxY };
-}
-
-function StageDisplay({ stage }) {
-  return (
-    <div
-      className="absolute bg-gray-300 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
-      style={{
-        left: stage.x,
-        top: stage.y,
-        width: stage.width,
-        height: stage.height,
-      }}
-    >
-      STAGE
-    </div>
-  );
-}
-
-function SeatGroup({ group }) {
-  return (
-    <div className="absolute" style={{ left: group.x, top: group.y }}>
-      <GroupLabel groupId={group.id} price={group?.price} />
-
-      <div className="flex flex-col gap-2">
-        {group.grid.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex gap-2">
-            <RowLabel firstSeatId={row[0]?.id} />
-
-            {row.map((seat) => (
-              <Seat key={seat.id} seat={seat} />
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function GroupLabel({ groupId, price }) {
-  return (
-    <div className="absolute -top-10 w-full text-center text-gray-500 text-xs font-bold uppercase tracking-wider">
-      {groupId}
-      {price && (
-        <div className="font-bold text-md text-lively-orange">
-          {price}
-          {formatCurrency(event.pricing?.base)}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function RowLabel({ firstSeatId }) {
-  return (
-    <div className="w-4 flex items-center justify-center text-gray-600 text-xs font-bold">
-      {firstSeatId?.charAt(0)}
-    </div>
-  );
-}
-
-function Seat({ seat }) {
-  return (
-    <div
-      className="w-8 h-8 m-1 rounded-t-lg text-[10px] flex items-center justify-center font-medium shadow-sm transition-all bg-indigo text-white cursor-pointer hover:bg-royal-blue hover:scale-110"
-      title={`Seat: ${seat.id}`}
-    >
-      <span className="text-[9px]">{seat.id.replace(/[A-Z]/, '')}</span>
-    </div>
-  );
+  return { width: maxX + 100, height: maxY + 100 };
 }
