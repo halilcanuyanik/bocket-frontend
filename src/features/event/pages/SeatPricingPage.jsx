@@ -11,7 +11,7 @@ import ZoomControl from '@/components/ui/ZoomControl';
 import api from '@/lib/axiosClient';
 
 // UTILS
-import { formatCurrency } from '@/utils/CurrencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 
 export default function SeatPricingPage() {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from '@/components/common/Loading';
-import { formatCurrency } from '@/utils/CurrencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 import api from '@/lib/axiosClient';
 import socket from '@/lib/socket';
 

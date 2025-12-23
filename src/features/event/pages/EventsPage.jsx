@@ -10,7 +10,7 @@ import AddEventModal from '@/features/event/components/AddEventModal';
 // import DeleteEventModal from '@/features/event/components/DeleteEventModal';
 
 // UTILS
-import { formatCurrency } from '@/utils/CurrencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 
 function EventsPage() {
   const [events, setEvents] = useState([]);

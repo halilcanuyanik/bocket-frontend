@@ -33,10 +33,10 @@ export default function Search({
   }, [query]);
 
   return (
-    <div className="relative w-full lg:w-9/12 xl:w-6/12 font-semibold">
-      <div className="flex items-center gap-2 px-3 h-12 bg-gray-200 rounded-md">
+    <div className="relative w-full">
+      <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400">
         <input
-          className="flex-1 bg-transparent outline-none"
+          className="flex-1 outline-none text-gray-700"
           placeholder={placeholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}

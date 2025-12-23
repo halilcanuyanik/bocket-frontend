@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import Loading from '@/components/common/Loading';
 
 // UTILS
-import { formatCurrency } from '@/utils/CurrencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 
 export default function SeatInspectionPage({ venue, event, scale }) {
   const containerRef = useRef(null);

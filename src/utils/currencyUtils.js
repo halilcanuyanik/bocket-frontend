@@ -1,4 +1,4 @@
-const currencySymbolMap = {
+export const currencySymbolMap = {
   USD: '$',
   EUR: '€',
   GBP: '£',
