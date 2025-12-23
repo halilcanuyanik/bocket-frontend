@@ -11,7 +11,7 @@ import Tile from '@/components/ui/Tile';
 
 // UTILS
 import { formatEventTime } from '@/utils/timeUtils';
-import { formatCurrency } from '../utils/currencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 
 // APIs
 import api from '@/lib/axiosClient';

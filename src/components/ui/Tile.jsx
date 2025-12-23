@@ -1,4 +1,4 @@
-import { formatCurrency } from '../../utils/currencyFormatter';
+import { formatCurrency } from '@/utils/currencyUtils';
 import Button from '@/components/ui/Button';
 
 function Tile({ day, hour, venueName, address, price, currency, onClick }) {

@@ -11,13 +11,15 @@ import Snackbar from '@/components/common/Snackbar';
 // API
 import api from '@/lib/axiosClient';
 
+// ICON
+import ratingIcon from '@/assets/icons/rating.svg';
+
 export default function DeletePerformerModal({
   performer,
   onClose,
   onDeleted,
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [confirmation, setConfirmation] = useState('');
 
   const {
     snackbarOpen,
@@ -30,12 +32,6 @@ export default function DeletePerformerModal({
   const handleDelete = async () => {
     if (isLoading) return;
     setIsLoading(true);
-
-    if (confirmation !== 'DELETE') {
-      showSnackbar('Please type DELETE to confirm.', 'warning');
-      setIsLoading(false);
-      return;
-    }
 
     try {
       await api.delete(`/performers/${performer._id}`);
@@ -73,30 +69,24 @@ export default function DeletePerformerModal({
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-              <div>
-                <p className="text-red-700 font-medium">
-                  Are you sure you want to delete "{performer.name}"?
-                </p>
-                <p className="text-red-500 text-sm">
-                  This action cannot be undone.
-                </p>
+            <p className="text-gray-700 text-sm">
+              Are you sure you want to delete the following performer?
+            </p>
+            <div className="bg-gray-100 border border-gray-200 rounded-lg p-4">
+              <p className="font-medium text-gray-800">{performer.name}</p>
+              <div className="flex items-start gap-1 ">
+                <img src={ratingIcon} className="block w-4 h-4" />
+                <span className="block text-sm text-yellow-500">
+                  {performer.averageRating}
+                </span>
+                <span className="block text-xs text-gray-700">
+                  ({performer.ratingCount})
+                </span>
               </div>
             </div>
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700">
-                Type <span className="text-red-600 font-semibold">DELETE</span>{' '}
-                to confirm
-              </label>
-
-              <input
-                value={confirmation}
-                onChange={(e) => setConfirmation(e.target.value)}
-                className="px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
-                placeholder="DELETE"
-              />
-            </div>
+            <p className="text-sm text-red-700 font-medium">
+              This action cannot be undone.
+            </p>
           </div>
 
           <div className="flex justify-end mt-6 gap-3">

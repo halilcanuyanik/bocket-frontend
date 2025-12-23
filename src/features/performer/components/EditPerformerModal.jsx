@@ -86,12 +86,6 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-              <p className="text-blue-700 font-medium">
-                Editing "{performer.name}"
-              </p>
-            </div>
-
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-gray-700">
                 Performer Name
