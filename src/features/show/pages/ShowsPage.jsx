@@ -4,10 +4,16 @@ import { useState } from 'react';
 // COMPONENTS
 import Search from '@/components/common/Search';
 import AddShowModal from '@/features/show/components/AddShowModal';
+import EditShowModal from '@/features/show/components/EditShowModal';
+import DeleteShowModal from '@/features/show/components/DeleteShowModal';
 
 function ShowsPage() {
   const [shows, setShows] = useState([]);
-  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [selectedShow, setSelectedShow] = useState(null);
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   return (
     <section className="flex-1 min-h-screen bg-gray-100 flex flex-col p-6">
@@ -16,13 +22,13 @@ function ShowsPage() {
         <Search
           endpoint={`/shows`}
           onSuggestionsChange={setShows}
-          placeholder="Show title, performers..."
+          placeholder="Shows..."
         />
       </div>
 
       <div className="mt-8 w-full flex-1 flex flex-wrap space-x-4 space-y-4">
         <div
-          onClick={() => setAddModalOpen(true)}
+          onClick={() => setIsAddModalOpen(true)}
           className="
       group w-64 h-72 rounded-sm shadow-md overflow-hidden relative cursor-pointer 
       border border-gray-300 bg-gray-200 flex flex-col items-center justify-center
@@ -89,10 +95,22 @@ function ShowsPage() {
       group-hover:opacity-100 group-hover:pointer-events-auto
     "
                   >
-                    <button className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded hover:bg-blue-800 shadow-md cursor-pointer">
+                    <button
+                      className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded hover:bg-blue-800 shadow-md cursor-pointer"
+                      onClick={() => {
+                        setSelectedShow(s);
+                        setIsEditModalOpen(true);
+                      }}
+                    >
                       Edit
                     </button>
-                    <button className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded hover:bg-red-800 shadow-md cursor-pointer">
+                    <button
+                      className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded hover:bg-red-800 shadow-md cursor-pointer"
+                      onClick={() => {
+                        setSelectedShow(s);
+                        setIsDeleteModalOpen(true);
+                      }}
+                    >
                       Delete
                     </button>
                   </div>
@@ -103,10 +121,38 @@ function ShowsPage() {
         })}
       </div>
 
-      {addModalOpen && (
+      {isAddModalOpen && (
         <AddShowModal
-          onClose={() => setAddModalOpen(false)}
-          onAdded={(newShow) => setShows([...shows, newShow])}
+          onClose={() => setIsAddModalOpen(false)}
+          onAdded={(newShow) => setShows((prev) => [...prev, newShow])}
+        />
+      )}
+
+      {isEditModalOpen && selectedShow && (
+        <EditShowModal
+          show={selectedShow}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedShow(null);
+          }}
+          onUpdated={(updatedShow) =>
+            setShows((prev) =>
+              prev.map((s) => (s._id === updatedShow._id ? updatedShow : s))
+            )
+          }
+        />
+      )}
+
+      {isDeleteModalOpen && selectedShow && (
+        <DeleteShowModal
+          show={selectedShow}
+          onClose={() => {
+            setIsDeleteModalOpen(false);
+            setSelectedShow(null);
+          }}
+          onDeleted={(deletedId) =>
+            setShows((prev) => prev.filter((s) => s._id !== deletedId))
+          }
         />
       )}
     </section>

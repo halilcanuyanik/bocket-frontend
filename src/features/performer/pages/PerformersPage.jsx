@@ -3,9 +3,12 @@ import { useState } from 'react';
 
 // COMPONENTS
 import Search from '@/components/common/Search';
+import AddPerformerModal from '@/features/performer/components/AddPerformerModal';
 import EditPerformerModal from '@/features/performer/components/EditPerformerModal';
 import DeletePerformerModal from '@/features/performer/components/DeletePerformerModal';
-import AddPerformerModal from '@/features/performer/components/AddPerformerModal';
+
+// ICON
+import ratingIcon from '@/assets/icons/rating.svg';
 
 export default function PerformersPage() {
   const [performers, setPerformers] = useState([]);
@@ -14,19 +17,6 @@ export default function PerformersPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-
-  const ranges = [
-    { min: 1, max: 2, class: 'text-coral-red' },
-    { min: 2, max: 3, class: 'text-lively-orange' },
-    { min: 3, max: 4, class: 'text-pastel-gold' },
-    { min: 4, max: 5, class: 'text-green-500' },
-    { min: 5, max: Infinity, class: 'text-indigo' },
-  ];
-
-  function getColorClass(value) {
-    const range = ranges.find((r) => value >= r.min && value < r.max);
-    return range ? range.class : 'text-gray-500';
-  }
 
   const openEdit = (p) => {
     setSelectedPerformer(p);
@@ -79,11 +69,9 @@ export default function PerformersPage() {
             <div className="h-full mt-8 flex flex-col">
               <span className="text-sm font-semibold">{p.name}</span>
               <span
-                className={`text-md font-bold ${getColorClass(
-                  p.averageRating
-                )}`}
+                className={`text-sm font-bold flex gap-1 items-center} text-yellow-500`}
               >
-                ⭐ {p.averageRating}
+                <img src={ratingIcon} className="w-4 h-4" /> {p.averageRating}
               </span>
               <span className="text-gray-600 text-xs">({p.ratingCount})</span>
             </div>
@@ -113,6 +101,15 @@ export default function PerformersPage() {
         ))}
       </div>
 
+      {addModalOpen && (
+        <AddPerformerModal
+          onClose={() => setAddModalOpen(false)}
+          onAdded={(newPerformer) =>
+            setPerformers((prev) => [newPerformer, ...prev])
+          }
+        />
+      )}
+
       {editModalOpen && selectedPerformer && (
         <EditPerformerModal
           performer={selectedPerformer}
@@ -126,15 +123,6 @@ export default function PerformersPage() {
           performer={selectedPerformer}
           onClose={() => setDeleteModalOpen(false)}
           onDeleted={handleDeleted}
-        />
-      )}
-
-      {addModalOpen && (
-        <AddPerformerModal
-          onClose={() => setAddModalOpen(false)}
-          onAdded={(newPerformer) =>
-            setPerformers((prev) => [newPerformer, ...prev])
-          }
         />
       )}
     </section>

@@ -7,12 +7,31 @@ import useSnackbar from '@/hooks/useSnackbar';
 // COMPONENTS
 import Loading from '@/components/common/Loading';
 import Snackbar from '@/components/common/Snackbar';
+import Search from '@/components/common/Search';
 
 // APIs
 import api from '@/lib/axiosClient';
 
 export default function EditShowModal({ show, onClose, onUpdated }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const [title, setTitle] = useState(show.title || '');
+  const [description, setDescription] = useState(show.description || '');
+  const [category, setCategory] = useState(show.category || '');
+  const [coverImage, setCoverImage] = useState(show.coverImage || '');
+
+  const [currentPerformers, setCurrentPerformers] = useState([]);
+  const [performers, setPerformers] = useState(show.performers || []);
+
+  const categories = [
+    'concert',
+    'theatre',
+    'festival',
+    'stand up',
+    'gala',
+    'other',
+  ];
 
   const {
     snackbarOpen,
@@ -21,6 +40,49 @@ export default function EditShowModal({ show, onClose, onUpdated }) {
     showSnackbar,
     closeSnackbar,
   } = useSnackbar();
+
+  const handleUpdate = async () => {
+    if (isLoading) return;
+
+    if (!title.trim()) {
+      showSnackbar('Title is required.', 'warning');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await api.patch(`/shows/${show._id}`, {
+        title,
+        description,
+        category,
+        coverImage,
+        performers: performers.map((p) => p._id),
+      });
+
+      showSnackbar('Show updated successfully!', 'success');
+
+      setTimeout(() => {
+        onUpdated(res.data);
+        onClose();
+        setIsLoading(false);
+      }, 500);
+    } catch (err) {
+      console.error(err);
+      showSnackbar('Update failed.', 'error');
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectPerformer = (p) => {
+    if (!performers.some((x) => x._id === p._id)) {
+      setPerformers((prev) => [...prev, p]);
+    }
+  };
+
+  const removePerformer = (id) => {
+    setPerformers((prev) => prev.filter((p) => p._id !== id));
+  };
 
   return (
     <>
@@ -63,7 +125,6 @@ export default function EditShowModal({ show, onClose, onUpdated }) {
               <label className="text-sm font-medium text-gray-700">
                 Category
               </label>
-
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -94,6 +155,50 @@ export default function EditShowModal({ show, onClose, onUpdated }) {
               <label className="text-sm font-medium text-gray-700">
                 Search Performers
               </label>
+
+              <div
+                className="relative"
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 150)}
+              >
+                <Search
+                  endpoint="/performers"
+                  onSuggestionsChange={setCurrentPerformers}
+                  onSelect={handleSelectPerformer}
+                  placeholder="Performers..."
+                />
+
+                {isFocused && currentPerformers.length > 0 && (
+                  <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-60 overflow-auto">
+                    {currentPerformers.map((p) => (
+                      <div
+                        key={p._id}
+                        onClick={() => handleSelectPerformer(p)}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {p.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {performers.map((p) => (
+                  <div
+                    key={p._id}
+                    className="flex items-center bg-gray-200 px-3 py-1 rounded-full text-sm"
+                  >
+                    <span className="mr-2">{p.name}</span>
+                    <button
+                      onClick={() => removePerformer(p._id)}
+                      className="text-red-700 font-bold hover:text-red-800 cursor-pointer"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -106,11 +211,11 @@ export default function EditShowModal({ show, onClose, onUpdated }) {
             </button>
 
             <button
-              onClick={handleSubmit}
+              onClick={handleUpdate}
               disabled={isLoading}
-              className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
+              className="px-4 py-2 bg-blue-700 text-white hover:bg-blue-800 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Create'}
+              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Save'}
             </button>
           </div>
         </div>
