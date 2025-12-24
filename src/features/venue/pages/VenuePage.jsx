@@ -66,6 +66,7 @@ function VenuePage() {
           <VenueInfoBar venue={venue} />
           {venue.seatMap && (
             <>
+              <ZoomControl scale={scale} onZoom={handleZoom} />
               <button
                 className="px-3 py-2 text-white rounded-lg text-sm bg-blue-700 hover:bg-blue-800 transition cursor-pointer"
                 onClick={() => setIsEditOpen(true)}
@@ -78,7 +79,6 @@ function VenuePage() {
               >
                 Delete
               </button>
-              <ZoomControl scale={scale} onZoom={handleZoom} />
             </>
           )}
         </div>

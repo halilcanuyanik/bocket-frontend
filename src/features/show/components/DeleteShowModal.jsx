@@ -60,7 +60,7 @@ export default function DeleteShowModal({ show, onClose, onDeleted }) {
 
           <div className="flex flex-col gap-4">
             <p className="text-gray-700 text-sm">
-              Are you sure you want to delete the following show?
+              Are you sure you want to delete the following <b>show</b>?
             </p>
 
             <div className="bg-gray-100 border border-gray-200 rounded-lg p-4">

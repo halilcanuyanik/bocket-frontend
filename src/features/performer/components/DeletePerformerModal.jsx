@@ -70,7 +70,7 @@ export default function DeletePerformerModal({
 
           <div className="flex flex-col gap-4">
             <p className="text-gray-700 text-sm">
-              Are you sure you want to delete the following performer?
+              Are you sure you want to delete the following <b>performer</b>?
             </p>
             <div className="bg-gray-100 border border-gray-200 rounded-lg p-4">
               <p className="font-medium text-gray-800">{performer.name}</p>
