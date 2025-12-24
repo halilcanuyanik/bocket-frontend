@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 // COMPONENTS
 import Search from '@/components/common/Search';
 import AddEventModal from '@/features/event/components/AddEventModal';
-// import EditEventModal from '@/features/event/components/EditEventModal';
-// import DeleteEventModal from '@/features/event/components/DeleteEventModal';
+import EditEventModal from '@/features/event/components/EditEventModal';
+import DeleteEventModal from '@/features/event/components/DeleteEventModal';
 
 // UTILS
 import { formatCurrency } from '@/utils/currencyUtils';
@@ -35,12 +35,12 @@ function EventsPage() {
 
       <div className="mt-8 w-full flex-1 flex flex-wrap space-x-4 space-y-4">
         <div
-          onClick={() => setIsAddModalOpen(true)}
           className="
             group w-72 h-80 rounded-sm shadow-md overflow-hidden relative cursor-pointer
             border border-gray-300 bg-gray-200 flex flex-col items-center justify-center
             hover:bg-gray-300 transition
           "
+          onClick={() => setIsAddModalOpen(true)}
         >
           <div className="flex flex-col items-center gap-2">
             <span className="text-4xl font-bold text-gray-400">+</span>
@@ -127,7 +127,8 @@ function EventsPage() {
                   >
                     <button
                       className="px-2 py-1 text-xs bg-blue-700 rounded hover:bg-blue-800 shadow-md cursor-pointer"
-                      onClick={() => {
+                      onClick={(eClick) => {
+                        eClick.stopPropagation();
                         setSelectedEvent(e);
                         setIsEditModalOpen(true);
                       }}
@@ -136,7 +137,8 @@ function EventsPage() {
                     </button>
                     <button
                       className="px-2 py-1 text-xs bg-red-700 rounded hover:bg-red-800 shadow-md cursor-pointer"
-                      onClick={() => {
+                      onClick={(eClick) => {
+                        eClick.stopPropagation();
                         setSelectedEvent(e);
                         setIsDeleteModalOpen(true);
                       }}
@@ -157,7 +159,6 @@ function EventsPage() {
           onAdded={(newEvent) => setEvents((prev) => [...prev, newEvent])}
         />
       )}
-      {/* 
       {isEditModalOpen && selectedEvent && (
         <EditEventModal
           event={selectedEvent}
@@ -184,7 +185,7 @@ function EventsPage() {
             setEvents((prev) => prev.filter((e) => e._id !== deletedId))
           }
         />
-      )} */}
+      )}
     </section>
   );
 }

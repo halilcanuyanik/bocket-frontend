@@ -56,8 +56,6 @@ export default function AddShowModal({ onClose, onAdded }) {
         category,
         coverImage,
         performers: performers.map((p) => p._id),
-        averageRating: 0,
-        ratingCount: 0,
       });
 
       setTimeout(() => {

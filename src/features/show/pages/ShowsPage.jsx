@@ -96,20 +96,20 @@ function ShowsPage() {
     "
                   >
                     <button
-                      className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded hover:bg-blue-800 shadow-md cursor-pointer"
                       onClick={() => {
                         setSelectedShow(s);
                         setIsEditModalOpen(true);
                       }}
+                      className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded hover:bg-blue-800 shadow-md cursor-pointer"
                     >
                       Edit
                     </button>
                     <button
-                      className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded hover:bg-red-800 shadow-md cursor-pointer"
                       onClick={() => {
                         setSelectedShow(s);
                         setIsDeleteModalOpen(true);
                       }}
+                      className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded hover:bg-red-800 shadow-md cursor-pointer"
                     >
                       Delete
                     </button>
