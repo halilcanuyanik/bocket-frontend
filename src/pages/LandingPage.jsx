@@ -18,13 +18,13 @@ export default function LandingPage() {
   useEffect(() => {
     const getEvents = async () => {
       try {
-        const topRatedRes = await api.get('/shows/topRated');
+        const topRatedRes = await api.get('/shows/top-rated');
         setTopRated(topRatedRes.data.data);
 
         const upcomingRes = await api.get('/shows/upcoming');
         setUpcoming(upcomingRes.data.data);
 
-        const almostSoldOutRes = await api.get('/shows/almostSoldOut');
+        const almostSoldOutRes = await api.get('/shows/almost-sold-out');
         setAlmostSoldOut(almostSoldOutRes.data.data);
       } catch (err) {
         console.error(err);
