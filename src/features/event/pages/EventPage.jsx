@@ -61,6 +61,7 @@ export default function EventPage() {
       <div className="flex-1 flex flex-col">
         <div className="flex items-center gap-4">
           <VenueInfoBar venue={event.venue} />
+          <ZoomControl scale={scale} onZoom={handleZoom} />
           <button
             className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-md hover:bg-black/80 transition cursor-pointer"
             onClick={() => setIsEditOpen(true)}
@@ -73,7 +74,6 @@ export default function EventPage() {
           >
             Delete
           </button>
-          <ZoomControl scale={scale} onZoom={handleZoom} />
         </div>
         <SeatInspectionPage event={event} scale={scale} />
       </div>

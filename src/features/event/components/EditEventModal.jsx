@@ -1,9 +1,18 @@
+// REACT HOOKS
 import { useState } from 'react';
+
+// CUSTOM HOOKS
 import useSnackbar from '@/hooks/useSnackbar';
+
+// COMPONENTS
 import Loading from '@/components/common/Loading';
 import Snackbar from '@/components/common/Snackbar';
+
+// APIs
 import api from '@/lib/axiosClient';
-import { currencySymbolMap } from '@/utils/currencyUtils';
+
+// UTILS
+import { formatCurrency } from '@/utils/currencyUtils';
 
 export default function EditEventModal({ event, onClose, onUpdated }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +20,6 @@ export default function EditEventModal({ event, onClose, onUpdated }) {
   const [startTime, setStartTime] = useState(
     event.startTime ? event.startTime.slice(0, 16) : ''
   );
-  const [currency, setCurrency] = useState(event.pricing?.currency || 'USD');
   const [basePrice, setBasePrice] = useState(
     event.pricing?.base?.toString() || ''
   );
@@ -29,10 +37,9 @@ export default function EditEventModal({ event, onClose, onUpdated }) {
 
     setIsLoading(true);
     try {
-      const response = await api.put(`/shows/events/${event._id}`, {
+      const response = await api.patch(`/shows/events/${event._id}`, {
         startTime,
         pricing: {
-          currency,
           base: parseFloat(basePrice),
         },
       });
@@ -88,21 +95,9 @@ export default function EditEventModal({ event, onClose, onUpdated }) {
 
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-gray-700">
-                Base Pricing
+                Base Pricing ({formatCurrency(event.pricing.currency)})
               </label>
               <div className="flex gap-2">
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="px-2 py-2 bg-gray-100 rounded-lg border border-gray-200 outline-none focus-within:ring-1 focus-within:ring-gray-400"
-                >
-                  {Object.keys(currencySymbolMap).map((cur) => (
-                    <option key={cur} value={cur}>
-                      {cur} ({currencySymbolMap[cur]})
-                    </option>
-                  ))}
-                </select>
-
                 <input
                   type="number"
                   value={basePrice}
