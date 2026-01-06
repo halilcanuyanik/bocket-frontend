@@ -1,16 +1,11 @@
-// REACT ROUTER HOOKS
-import { useNavigate } from 'react-router-dom';
-
 export default function Card({
-  id,
   order,
   coverImage,
   title,
   performer,
   textStyle,
+  onClick,
 }) {
-  const navigate = useNavigate();
-
   return (
     <div className="flex justify-center items-center relative">
       <p
@@ -27,7 +22,7 @@ export default function Card({
         transition-transform duration-300
         bg-neutral-900
       "
-        onClick={() => navigate(`/event-details/${id}`)}
+        onClick={onClick}
       >
         <div
           className="
