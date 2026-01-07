@@ -28,7 +28,6 @@ function VenuePage() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const isModalOpen = isEditOpen || isDeleteOpen;
 
   useEffect(() => {
     const getVenue = async () => {
@@ -79,6 +78,16 @@ function VenuePage() {
               >
                 Delete
               </button>
+              {venue.seatMap && (
+                <button
+                  className="px-3 py-2 text-white bg-black hover:bg-black/90 rounded-lg transition cursor-pointer"
+                  onClick={() =>
+                    navigate(`/admin/venues/edit-seats/${venue._id}`)
+                  }
+                >
+                  Edit Seatmap
+                </button>
+              )}
             </>
           )}
         </div>
@@ -101,31 +110,14 @@ function VenuePage() {
         )}
 
         {venue.seatMap ? (
-          <>
-            <SeatInspectionPage venue={venue} scale={scale} />
-            <div
-              className={`${
-                isModalOpen ? 'hidden' : ''
-              }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
-            >
-              <Button
-                size="sm"
-                children="Edit Seatmap"
-                to={`/admin/venues/edit-seats/${venue._id}`}
-              />
-            </div>
-          </>
+          <SeatInspectionPage venue={venue} scale={scale} />
         ) : (
           <div className="mt-44 flex flex-col items-center justify-center h-full text-gray-400">
             <p>No seat map defined yet.</p>
             <p className="text-sm">
               Click "Create Seat Map" to start designing.
             </p>
-            <Button
-              size="sm"
-              wrapperClass="mt-4"
-              to={`/admin/venues/edit-seats/${venue._id}`}
-            >
+            <Button size="sm" wrapperClass="mt-4">
               Create Seat Map
             </Button>
           </div>
