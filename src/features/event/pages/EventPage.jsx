@@ -61,7 +61,7 @@ export default function EventPage() {
           <VenueInfoBar venue={event.venue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
           <button
-            className="px-4 py-2 text-xs text-white bg-gray-700 hover:bg-gray-800 border"
+            className="px-4 py-2 text-xs text-white bg-black hover:bg-gray-900 rounded-lg transition cursor-pointer"
             onClick={() => navigate(`/admin/events/update-pricing/${id}`)}
           >
             Edit Seat Prices
