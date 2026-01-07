@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 // REACT ROUTER HOOKS
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
@@ -17,15 +17,13 @@ import SeatInspectionPage from '@/features/venue/pages/SeatInspectionPage';
 import api from '@/lib/axiosClient';
 
 export default function EventPage() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [scale, setScale] = useState(1);
-
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const isModalOpen = isEditOpen || isDeleteOpen;
 
   useEffect(() => {
     const getEvent = async () => {
@@ -63,31 +61,13 @@ export default function EventPage() {
           <VenueInfoBar venue={event.venue} />
           <ZoomControl scale={scale} onZoom={handleZoom} />
           <button
-            className="px-3 py-1.5 font-semibold text-sm text-white bg-black border border-gray-400 rounded-xl shadow-md hover:bg-black/80 transition cursor-pointer"
-            onClick={() => setIsEditOpen(true)}
+            className="px-4 py-2 text-xs text-white bg-gray-700 hover:bg-gray-800 border"
+            onClick={() => navigate(`/admin/events/update-pricing/${id}`)}
           >
-            Edit
-          </button>
-          <button
-            className="px-3 py-1.5 font-semibold text-sm text-coral-red bg-coral-red/20 border-gray-400 rounded-xl shadow-md hover:bg-coral-red/40 transition cursor-pointer"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            Delete
+            Edit Seat Prices
           </button>
         </div>
         <SeatInspectionPage event={event} scale={scale} />
-      </div>
-
-      <div
-        className={`${
-          isModalOpen ? 'hidden' : ''
-        }fixed bottom-6 left-1/2 -translate-x-1/2 z-50`}
-      >
-        <Button
-          size="sm"
-          children="Edit Seat Prices"
-          to={`/admin/events/update-pricing/${id}`}
-        />
       </div>
     </div>
   );
