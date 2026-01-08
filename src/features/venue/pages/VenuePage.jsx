@@ -60,8 +60,8 @@ function VenuePage() {
 
   return (
     <section className="flex-1 min-h-screen bg-gray-100">
-      <div className="flex-1 flex flex-col">
-        <div className="flex items-center gap-4">
+      <div className="flex-1 flex flex-col relative">
+        <div className="flex items-center gap-4 fixed top-0 z-50 bg-inherit">
           <VenueInfoBar venue={venue} />
           {venue.seatMap && (
             <>
@@ -78,16 +78,14 @@ function VenuePage() {
               >
                 Delete
               </button>
-              {venue.seatMap && (
-                <button
-                  className="px-3 py-2 text-white bg-black hover:bg-black/90 rounded-lg transition cursor-pointer"
-                  onClick={() =>
-                    navigate(`/admin/venues/edit-seats/${venue._id}`)
-                  }
-                >
-                  Edit Seatmap
-                </button>
-              )}
+              <button
+                className="px-3 py-2 text-white bg-black hover:bg-black/90 rounded-lg transition cursor-pointer"
+                onClick={() =>
+                  navigate(`/admin/venues/edit-seats/${venue._id}`)
+                }
+              >
+                Edit Seatmap
+              </button>
             </>
           )}
         </div>
