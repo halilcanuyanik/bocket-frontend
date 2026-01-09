@@ -60,7 +60,7 @@ function VenuePage() {
 
   return (
     <section className="flex-1 min-h-screen bg-gray-100">
-      <div className="flex-1 flex flex-col relative">
+      <div className="flex flex-1 flex-col relative">
         <div className="flex items-center gap-4 fixed top-0 z-50 bg-inherit">
           <VenueInfoBar venue={venue} />
           {venue.seatMap && (

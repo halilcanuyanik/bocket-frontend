@@ -450,7 +450,7 @@ export default function SeatEditionPage() {
       className="flex-1 h-screen flex flex-col overflow-hidden bg-gray-100 select-none"
     >
       <div
-        className="flex items-center gap-3 px-4 shadow-sm bg-white z-50"
+        className="flex items-center gap-4 px-4 z-50"
         style={{ height: TOOLBAR_HEIGHT }}
       >
         <VenueInfoBar venue={venue} />
@@ -491,7 +491,12 @@ export default function SeatEditionPage() {
           </button>
         </div>
 
-        <button onClick={() => navigate(-1)}>Cancel</button>
+        <button
+          className="text-gray-400 hover:text-gray-600 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          Cancel
+        </button>
 
         <button
           onClick={handleSaveChanges}
@@ -499,7 +504,7 @@ export default function SeatEditionPage() {
           className={`ml-4 text-white px-4 py-1 rounded text-sm cursor-pointer transition-colors ${
             isSaving
               ? 'bg-green-400 cursor-not-allowed'
-              : 'bg-green-600 hover:bg-green-700'
+              : 'bg-green-700 hover:bg-green-800'
           }`}
         >
           {isSaving ? 'Saving...' : 'Save Changes'}

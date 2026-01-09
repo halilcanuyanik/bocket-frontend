@@ -100,7 +100,7 @@ function ShowsPage() {
                         setSelectedShow(s);
                         setIsEditModalOpen(true);
                       }}
-                      className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded-lg hover:bg-blue-800 shadow-md cursor-pointer"
+                      className="px-2 py-1 text-xs bg-blue-700 text-white border-gray-400 rounded-sm hover:bg-blue-800 shadow-md cursor-pointer"
                     >
                       Edit
                     </button>
@@ -109,7 +109,7 @@ function ShowsPage() {
                         setSelectedShow(s);
                         setIsDeleteModalOpen(true);
                       }}
-                      className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded-lg hover:bg-red-800 shadow-md cursor-pointer"
+                      className="px-2 py-1 text-xs bg-red-700 text-white border-gray-400 rounded-sm hover:bg-red-800 shadow-md cursor-pointer"
                     >
                       Delete
                     </button>

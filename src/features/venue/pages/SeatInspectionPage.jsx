@@ -88,7 +88,7 @@ function calculateSeatMapSize(seatMap) {
 function StageDisplay({ stage }) {
   return (
     <div
-      className="absolute bg-gray-300 rounded-b-[40px] flex items-center justify-center text-gray-500 font-bold tracking-[0.5em] shadow-2xl border-b-4 border-gray-700"
+      className="absolute flex items-center justify-center bg-gray-800 text-white rounded-b-lg shadow-lg"
       style={{
         left: stage.x,
         top: stage.y,
