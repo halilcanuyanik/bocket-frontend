@@ -11,7 +11,7 @@ export default function EventScheduleCard({ time = new Date() }) {
         w-full max-w-md 
         h-32 md:h-40 
         bg-white rounded-sm overflow-hidden 
-        grid grid-cols-2 font-[Lexend] 
+        grid grid-cols-2
         relative
       "
     >
