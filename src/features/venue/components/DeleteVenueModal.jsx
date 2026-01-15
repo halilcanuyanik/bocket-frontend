@@ -76,7 +76,7 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
           <div className="flex justify-end mt-6 gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 rounded-lg bg-gray-200 hover:bg-gray-300 transition cursor-pointer"
+              className="px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg transition cursor-pointer"
             >
               Cancel
             </button>
@@ -84,9 +84,13 @@ export default function DeleteVenueModal({ venue, onClose, onDeleted }) {
             <button
               onClick={handleDelete}
               disabled={isLoading}
-              className="px-4 py-2 text-white rounded-lg bg-red-700 hover:bg-red-800 transition cursor-pointer"
+              className="px-4 py-2 text-coral-red bg-coral-red/30 hover:bg-coral-red/40 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Delete'}
+              {isLoading ? (
+                <Loading size="sm" color="bg-coral-red" />
+              ) : (
+                'Delete'
+              )}
             </button>
           </div>
         </div>

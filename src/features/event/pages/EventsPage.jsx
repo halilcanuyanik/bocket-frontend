@@ -126,7 +126,7 @@ function EventsPage() {
                     "
                   >
                     <button
-                      className="px-2 py-1 text-xs bg-blue-700 rounded hover:bg-blue-800 shadow-md cursor-pointer"
+                      className="px-2 py-1 text-xs text-royal-blue bg-royal-blue/30  hover:bg-royal-blue/40 rounded-sm transition cursor-pointer"
                       onClick={(eClick) => {
                         eClick.stopPropagation();
                         setSelectedEvent(e);
@@ -136,7 +136,7 @@ function EventsPage() {
                       Edit
                     </button>
                     <button
-                      className="px-2 py-1 text-xs bg-red-700 rounded hover:bg-red-800 shadow-md cursor-pointer"
+                      className="px-2 py-1 text-xs text-coral-red bg-coral-red/30  hover:bg-coral-red/40 rounded-sm transition cursor-pointer"
                       onClick={(eClick) => {
                         eClick.stopPropagation();
                         setSelectedEvent(e);

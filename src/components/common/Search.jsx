@@ -41,7 +41,7 @@ export default function Search({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        {loading && <Loading size="sm" color="bg-black" />}
+        {loading && <Loading size="sm" color="bg-gray-400" />}
       </div>
     </div>
   );

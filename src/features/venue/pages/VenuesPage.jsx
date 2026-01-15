@@ -133,7 +133,7 @@ function Grid({ venue, onEdit, onDelete }) {
             e.stopPropagation();
             onEdit(venue);
           }}
-          className="px-3 py-1 rounded-md text-white bg-blue-700 hover:bg-blue-800 text-[10px] cursor-pointer"
+          className="px-3 py-1 text-[10px] text-royal-blue bg-royal-blue/30 hover:bg-royal-blue/40 border border-royal-blue rounded-sm transition cursor-pointer"
         >
           Edit
         </button>
@@ -143,7 +143,7 @@ function Grid({ venue, onEdit, onDelete }) {
             e.stopPropagation();
             onDelete(venue);
           }}
-          className="px-3 py-1 rounded-md text-white bg-red-700 hover:bg-red-800 text-[10px] cursor-pointer"
+          className="px-3 py-1 text-[10px] text-coral-red bg-coral-red/30 hover:bg-coral-red/40 border border-coral-red rounded-sm transition cursor-pointer"
         >
           Delete
         </button>

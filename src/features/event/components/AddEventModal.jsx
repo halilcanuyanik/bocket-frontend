@@ -203,9 +203,13 @@ export default function AddEventModal({ onClose, onAdded }) {
             <button
               onClick={handleSubmit}
               disabled={isLoading}
-              className="px-4 py-2 bg-green-700 text-white hover:bg-green-800 rounded-lg transition cursor-pointer"
+              className="px-4 py-2 text-green-700 bg-green-700/30 hover:bg-green-700/40 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Create'}
+              {isLoading ? (
+                <Loading size="sm" color="bg-green-700" />
+              ) : (
+                'Create'
+              )}
             </button>
           </div>
         </div>

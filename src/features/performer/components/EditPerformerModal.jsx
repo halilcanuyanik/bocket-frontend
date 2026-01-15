@@ -124,9 +124,9 @@ export default function EditPerformerModal({ performer, onClose, onUpdated }) {
             <button
               disabled={isLoading}
               onClick={handleSave}
-              className="px-4 py-2 text-white bg-blue-700 hover:bg-blue-800 rounded-lg transition cursor-pointer"
+              className="px-4 py-2 text-royal-blue bg-royal-blue/30 hover:bg-royal-blue/40 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Save'}
+              {isLoading ? <Loading size="sm" color="bg-royal-blue" /> : 'Save'}
             </button>
           </div>
         </div>

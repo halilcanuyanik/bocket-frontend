@@ -107,6 +107,13 @@ input:-webkit-autofill:focus {
   .animate-loud-wave {
     animation: loud-wave 1.2s ease-in-out infinite;
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @theme {

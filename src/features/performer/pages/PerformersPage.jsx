@@ -76,27 +76,24 @@ export default function PerformersPage() {
               <span className="text-gray-600 text-xs">({p.ratingCount})</span>
             </div>
 
-            <button
-              onClick={() => openEdit(p)}
-              className="
-                absolute bottom-2 right-16 px-3 py-1 rounded-md 
-                text-white bg-blue-700 hover:bg-blue-800 text-[10px]
-                opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer
+            <div className="flex gap-2 absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => openEdit(p)}
+                className=" px-3 py-1 text-[10px] text-royal-blue bg-royal-blue/30 hover:bg-royal-blue/40 border border-royal-blue rounded-sm transition cursor-pointer
               "
-            >
-              Edit
-            </button>
+              >
+                Edit
+              </button>
 
-            <button
-              onClick={() => openDelete(p)}
-              className="
-                absolute bottom-2 right-2 px-3 py-1 rounded-md 
-                text-white bg-red-700 hover:bg-red-800 text-[10px]
-                opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer
+              <button
+                onClick={() => openDelete(p)}
+                className="px-3 py-1 text-[10px] text-coral-red bg-coral-red/30 
+                  hover:bg-coral-red/40 border border-coral-red rounded-sm transition cursor-pointer
               "
-            >
-              Delete
-            </button>
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>

@@ -100,9 +100,13 @@ export default function DeletePerformerModal({
             <button
               onClick={handleDelete}
               disabled={isLoading}
-              className="px-4 py-2 text-white bg-red-700 hover:bg-red-800 rounded-lg transition cursor-pointer"
+              className="px-4 py-2 text-coral-red bg-coral-red/30 hover:bg-coral-red/40 rounded-lg transition cursor-pointer"
             >
-              {isLoading ? <Loading size="sm" color="bg-white" /> : 'Delete'}
+              {isLoading ? (
+                <Loading size="sm" color="bg-coral-red" />
+              ) : (
+                'Delete'
+              )}
             </button>
           </div>
         </div>

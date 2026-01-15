@@ -7,7 +7,7 @@ import Loading from '@/components/common/Loading';
 // UTILS
 import { formatCurrency } from '@/utils/currencyUtils';
 
-export default function SeatInspectionPage({ venue, event, scale }) {
+export default function SeatInspection({ venue, event, scale }) {
   const containerRef = useRef(null);
   const [seatMap, setSeatMap] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
