@@ -79,30 +79,31 @@ export default function EventPage() {
         />
         <SeatInspection event={event} scale={scale} />
       </div>
-      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-200 grid grid-rows-3">
+      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-200">
         <div className="w-full h-full p-2 border-b border-gray-400/30 flex flex-col gap-2">
           <span className="text-sm text-black text-center font-semibold">
             {event.show.title}
           </span>
+
           <div className="flex gap-2 items-center">
             <img src={dateIcon} className="w-6 h-6" />
             <span className="text-xs">
               {formattedTime.day} {formattedTime.month} {formattedTime.year}
             </span>
           </div>
+
           <div className="flex gap-2 items-center">
             <img src={timeIcon} className="w-6 h-6" />
             <span className="text-xs">
               {formattedTime.hour}:{formattedTime.minute} {formattedTime.ampm}
             </span>
           </div>
+
           <div className="flex gap-2 items-center">
             <img src={performerIcon} className="w-6 h-6" />
             <span className="text-xs">{event.show.performers[0].name}</span>
           </div>
-        </div>
 
-        <div className="w-full h-full p-2 flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <img src={venueIcon} className="w-6 h-6" />
             <span className="text-xs">{event.venue.name}</span>
@@ -119,21 +120,21 @@ export default function EventPage() {
               {event.venue.city}, {event.venue.country}
             </span>
           </div>
-        </div>
 
-        <div className="w-full h-full p-2 flex flex-col justify-end gap-2">
           <button
             className="py-2 text-xs text-royal-blue bg-royal-blue/30 hover:bg-royal-blue/40 border border-royal-blue rounded-sm transition cursor-pointer"
             onClick={() => setIsEditOpen(true)}
           >
             Edit
           </button>
+
           <button
             className="py-2 text-xs text-coral-red bg-coral-red/30 hover:bg-coral-red/40 border border-coral-red rounded-sm transition cursor-pointer"
             onClick={() => setIsDeleteOpen(true)}
           >
             Delete
           </button>
+
           <button
             className="py-2 text-xs text-white bg-black hover:bg-black/80 border border-black rounded-sm transition cursor-pointer"
             onClick={() => navigate(`/admin/events/update-pricing/${id}`)}
