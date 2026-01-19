@@ -63,7 +63,7 @@ export default function DeleteShowModal({ show, onClose, onDeleted }) {
               Are you sure you want to delete the following <b>show</b>?
             </p>
 
-            <div className="bg-gray-100 border border-gray-200 rounded-lg p-4">
+            <div className="p-4 bg-gray-100 border border-gray-200 rounded-lg ">
               <p className="font-medium text-gray-800">{show.title}</p>
               {show.category && (
                 <p className="text-sm text-gray-500 mt-1 capitalize">
