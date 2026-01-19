@@ -4,10 +4,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
-import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
+import ZoomControl from '@/components/ui/ZoomControl';
 
 // API
 import api from '@/lib/axiosClient';
+
+// LOGO & ICONS
+import venueIcon from '@/assets/icons/venue.svg';
+import addressIcon from '@/assets/icons/address.svg';
+import locationIcon from '@/assets/icons/location.svg';
 
 const seatColor = (seat) => {
   if (seat.isSelected) return '#E04B57';
@@ -33,7 +38,7 @@ const getBounds = (group, seatSize = 40, gap = 8, padding = 16) => {
   };
 };
 
-export default function SeatEditionPage() {
+export default function SeatEdition() {
   const TOOLBAR_HEIGHT = 64;
   const SEAT_SIZE = 40;
   const SEAT_GAP = 8;
@@ -106,7 +111,9 @@ export default function SeatEditionPage() {
     );
   }
 
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const handleZoom = (delta) => {
+    setScale((prev) => Math.max(0.2, Math.min(3, prev + delta)));
+  };
 
   const generateSeatMapData = () => {
     const data = {
@@ -134,8 +141,6 @@ export default function SeatEditionPage() {
     try {
       setIsSaving(true);
       const seatMapData = generateSeatMapData();
-
-      const token = localStorage.getItem('accessToken');
 
       const response = await api.patch(`/venues/update-seatmap/${id}`, {
         seatMap: seatMapData,
@@ -445,54 +450,54 @@ export default function SeatEditionPage() {
   };
 
   return (
-    <div
+    <section
       ref={containerRef}
-      className="flex-1 h-screen flex flex-col overflow-hidden bg-gray-100 select-none"
+      className="flex-1 h-screen bg-gray-100 flex flex-col overflow-hidden select-none"
     >
       <div
-        className="flex items-center gap-4 px-4 z-50"
+        className="flex items-center gap-4 px-4 z-1"
         style={{ height: TOOLBAR_HEIGHT }}
       >
-        <VenueInfoBar venue={venue} />
+        <div className="flex gap-2">
+          <img className="w-6 h-6" src={venueIcon} alt="venueIcon" />
+          <span className="text-sm">{venue.name}</span>
+        </div>
+
+        <div className="flex gap-2">
+          <img className="w-6 h-6" src={addressIcon} alt="addressIcon" />
+          <span className="text-sm">{venue.address}</span>
+        </div>
+
+        <div className="flex gap-2">
+          <img className="w-6 h-6" src={locationIcon} alt="locationIcon" />
+          <span className="text-sm">
+            {venue.city}, {venue.country}
+          </span>
+        </div>
+
         <button
           onClick={addGroup}
-          className="bg-royal-blue text-white px-3 py-1 rounded text-sm hover:bg-indigo-700 cursor-pointer"
+          className="px-3 py-1 text-sm text-royal-blue bg-royal-blue/30 hover:bg-royal-blue/40 border border-royal-blue rounded-sm transiton cursor-pointer "
         >
           Add Group
         </button>
         <button
           onClick={() => deleteGroup(currentGroupId)}
-          className="bg-coral-red/20 text-coral-red border border-coral-red/40 px-3 py-1 rounded text-sm hover:bg-coral-red/40 cursor-pointer"
+          className="px-3 py-1 text-sm text-coral-red bg-coral-red/30 hover:bg-coral-red/40 border border-coral-red rounded-sm transition cursor-pointer"
         >
           Delete Group
         </button>
         <button
           onClick={deleteSeats}
-          className="bg-white text-gray-700 border border-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-50 cursor-pointer"
+          className="px-3 py-1 text-sm text-white bg-black hover:bg-black/80 border border-black rounded-sm transition cursor-pointer"
         >
           Delete Seats
         </button>
         <div className="flex-1" />
-        <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
-          <button
-            onClick={() => setScale((s) => clamp(s - 0.1, 0.2, 3))}
-            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded cursor-pointer"
-          >
-            -
-          </button>
-          <span className="text-xs w-12 text-center">
-            {Math.round(scale * 100)}%
-          </span>
-          <button
-            onClick={() => setScale((s) => clamp(s + 0.1, 0.2, 3))}
-            className="w-8 h-8 flex items-center justify-center font-bold hover:bg-white rounded cursor-pointer"
-          >
-            +
-          </button>
-        </div>
+        <ZoomControl scale={scale} onZoom={handleZoom} />
 
         <button
-          className="text-gray-400 hover:text-gray-600 cursor-pointer"
+          className="px-3 py-1 text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-sm transition cursor-pointer"
           onClick={() => navigate(-1)}
         >
           Cancel
@@ -501,17 +506,19 @@ export default function SeatEditionPage() {
         <button
           onClick={handleSaveChanges}
           disabled={isSaving}
-          className={`ml-4 text-white px-4 py-1 rounded text-sm cursor-pointer transition-colors ${
-            isSaving
-              ? 'bg-green-400 cursor-not-allowed'
-              : 'bg-green-700 hover:bg-green-800'
+          className={`px-3 py-1 text-sm text-green-700 bg-green-700/30 hover:bg-green-700/40 border border-green-700 rounded-sm transition cursor-pointer ${
+            isSaving && 'cursor-not-allowed'
           }`}
         >
-          {isSaving ? 'Saving...' : 'Save Changes'}
+          {isSaving ? (
+            <Loading size="sm" color="bg-green-700" />
+          ) : (
+            'Save Changes'
+          )}
         </button>
       </div>
 
-      <div className="flex-1 relative overflow-hidden bg-[#f0f2f5] cursor-grab active:cursor-grabbing">
+      <div className="flex-1 relative overflow-hidden cursor-grab active:cursor-grabbing">
         <div
           style={{
             transform: `scale(${scale})`,
@@ -623,6 +630,6 @@ export default function SeatEditionPage() {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

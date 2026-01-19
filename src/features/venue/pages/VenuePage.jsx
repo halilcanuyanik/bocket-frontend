@@ -6,8 +6,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import Loading from '@/components/common/Loading';
-import Button from '@/components/ui/Button';
-import VenueInfoBar from '@/features/venue/components/VenueInfoBar';
 import ZoomControl from '@/components/ui/ZoomControl';
 import EditVenueModal from '@/features/venue/components/EditVenueModal';
 import DeleteVenueModal from '@/features/venue/components/DeleteVenueModal';
@@ -88,7 +86,7 @@ export default function VenuePage() {
         </div>
       )}
 
-      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-300 grid grid-rows-3">
+      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-200 grid grid-rows-3">
         <div className="w-full h-full p-2 flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <img src={venueIcon} className="w-6 h-6" />

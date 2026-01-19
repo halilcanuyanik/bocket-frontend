@@ -79,7 +79,7 @@ export default function EventPage() {
         />
         <SeatInspection event={event} scale={scale} />
       </div>
-      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-300 grid grid-rows-3">
+      <div className="fixed right-0 top-0 w-48 h-screen bg-gray-200 grid grid-rows-3">
         <div className="w-full h-full p-2 border-b border-gray-400/30 flex flex-col gap-2">
           <span className="text-sm text-black text-center font-semibold">
             {event.show.title}
