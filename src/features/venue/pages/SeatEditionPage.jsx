@@ -38,7 +38,7 @@ const getBounds = (group, seatSize = 40, gap = 8, padding = 16) => {
   };
 };
 
-export default function SeatEdition() {
+export default function SeatEditionPage() {
   const TOOLBAR_HEIGHT = 64;
   const SEAT_SIZE = 40;
   const SEAT_GAP = 8;

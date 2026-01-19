@@ -25,7 +25,7 @@ import api from '@/lib/axiosClient';
 // UTILS
 import { formatEventTime } from '@/utils/timeUtils';
 
-export default function SeatPricing() {
+export default function SeatPricingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
