@@ -1,5 +1,7 @@
+// CUSTOM HOOKS
 import { useLandingEvents } from '@/hooks/useLandingEvents';
 
+// COMPONENTS
 import HeroSection from '@/components/ui/HeroSection';
 import SearchSection from '@/components/ui/SearchSection';
 import Carousel from '@/components/ui/Carousel';

@@ -1,4 +1,7 @@
+// REACT ROUTER HOOKS
 import { useNavigate } from 'react-router-dom';
+
+// COMPONENTS
 import Button from '@/components/ui/Button';
 
 export default function NotFoundPage() {

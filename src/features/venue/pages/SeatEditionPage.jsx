@@ -455,7 +455,7 @@ export default function SeatEditionPage() {
       className="flex-1 h-screen bg-gray-100 flex flex-col overflow-hidden select-none"
     >
       <div
-        className="flex items-center gap-4 px-4 z-1"
+        className="px-4 z-1 flex items-center gap-4 "
         style={{ height: TOOLBAR_HEIGHT }}
       >
         <div className="flex gap-2">
